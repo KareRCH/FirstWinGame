@@ -91,7 +91,7 @@ void CMainGame::Render()
 		m_hDC,				// 복사 받을 DC(최종적으로 그림을 그릴 DC공간)
 		0, 0, rcClient.right, rcClient.bottom,
 		hMemDC,				// 비트맵 이미지를 담고 있는 DC
-		0, 0, ROCKMAN_EXECX, ROCKMAN_EXECY,
+		0, 0, WINCX, WINCY,
 		SRCCOPY);
 }
 

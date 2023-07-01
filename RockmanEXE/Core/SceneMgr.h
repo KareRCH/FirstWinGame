@@ -6,6 +6,7 @@
 //#include "MyMenu.h"
 //
 //#include "Stage.h"
+#include "Scene/Scene_NetBattle.h"
 
 /*
 * 게임이 실행되는 씬을 실행시키는 매니저

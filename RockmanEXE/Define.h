@@ -120,5 +120,17 @@ typedef struct tagFrame
 
 }FRAME;
 
+// 딜레이 용도로 만든 구조체
+template<typename T = float>
+struct _DELAY
+{
+	T Max;
+	T Cur;
+
+	_DELAY(T _Max) : Max(_Max), Cur(T()) {}
+};
+template <typename T = float>
+using DELAY = _DELAY<T>;
+
 extern HWND g_hWnd;
 

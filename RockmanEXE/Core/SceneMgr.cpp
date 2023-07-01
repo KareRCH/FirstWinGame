@@ -1,5 +1,7 @@
 #include "SceneMgr.h"
 
+
+
 CSceneMgr*	CSceneMgr::m_pInstance = nullptr;
 
 CSceneMgr::CSceneMgr()
@@ -14,7 +16,6 @@ CSceneMgr::~CSceneMgr()
 
 void CSceneMgr::Scene_Change(SCENEID eScene)
 {
-	return;
 	m_eCurScene = eScene;
 
 	if (m_ePreScene != m_eCurScene)
@@ -35,6 +36,7 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 			break;
 
 		case SC_STAGE:
+			m_pScene = new CScene_NetBattle;
 			//m_pScene = new CStage;
 			break;
 		}
