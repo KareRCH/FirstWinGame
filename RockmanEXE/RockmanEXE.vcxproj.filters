@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\00. Core">
+      <UniqueIdentifier>{87aaf218-fe6a-4da8-bfab-aa3c535ca3c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE">
+      <UniqueIdentifier>{5d2f778b-4c3b-4c4b-ac75-81137ca4ba00}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanX\Character\Character_SideView.h">
+      <Filter>소스 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\AbstractFactory.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BitMap.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\BmpMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Character.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CollisionMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\KeyMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\MainGame.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CustomMath.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Mouse.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Obj.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ObjMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Scene.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SceneMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ScrollMgr.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Vector2.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Vector3.h">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Character\Character_NetBattle.h">
+      <Filter>소스 파일\01. RockmanEXE</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Character\Character_QuaterView.h">
+      <Filter>소스 파일\01. RockmanEXE</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RockmanX\Character\Character_SideView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\BitMap.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\BmpMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Character.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CollisionMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\KeyMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\MainGame.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Mouse.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Obj.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ObjMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scene.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SceneMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ScrollMgr.cpp">
+      <Filter>소스 파일\00. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Character\Character_NetBattle.cpp">
+      <Filter>소스 파일\01. RockmanEXE</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Character\Character_QuaterView.cpp">
+      <Filter>소스 파일\01. RockmanEXE</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="RockmanEXE.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="RockmanEXE.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

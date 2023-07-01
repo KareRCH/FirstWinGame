@@ -1,0 +1,19 @@
+#pragma once
+
+#include "Define.h"
+
+
+template<typename T>
+//typename std::enable_if<std::is_floating_point<T>::value, bool>::type
+inline bool Equals(T a, T b, T epsilon)
+{
+	return abs(a - b) <= epsilon;
+}
+
+// 정수 타입도 범위를 지정하여 가능한 함수
+template<typename T>
+//typename std::enable_if<std::is_arithmetic<T>::value, bool>::type
+inline bool Equals_Ranged(T a, T b, T epsilon)
+{
+	return abs(a - b) <= epsilon;
+}
