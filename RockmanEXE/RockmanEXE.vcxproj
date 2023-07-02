@@ -157,7 +157,11 @@
     <ClInclude Include="Main.h" />
     <ClInclude Include="RockmanEXE\Character\Character_NetBattle.h" />
     <ClInclude Include="RockmanEXE\Character\Character_QuaterView.h" />
+    <ClInclude Include="RockmanEXE\Data\ChipData.h" />
+    <ClInclude Include="RockmanEXE\Manager\AttributeMng.h" />
     <ClInclude Include="RockmanEXE\Manager\BattleMng.h" />
+    <ClInclude Include="RockmanEXE\Manager\ChipDataTable.h" />
+    <ClInclude Include="RockmanEXE\Manager\DamageMng.h" />
     <ClInclude Include="RockmanEXE\Navi\Navi.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_NetBattle.h" />
     <ClInclude Include="RockmanX\Character\Character_SideView.h" />
@@ -179,7 +183,9 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_NetBattle.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_QuaterView.cpp" />
+    <ClCompile Include="RockmanEXE\Manager\AttributeMng.cpp" />
     <ClCompile Include="RockmanEXE\Manager\BattleMng.cpp" />
+    <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp" />
     <ClCompile Include="RockmanX\Character\Character_SideView.cpp" />

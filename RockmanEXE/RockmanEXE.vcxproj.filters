@@ -124,6 +124,21 @@
     <Filter Include="소스 파일\00. Core\05. Interface\01. TeamAgent">
       <UniqueIdentifier>{0c82621f-71a0-4cff-816d-154dd4d3cc5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\04. Data">
+      <UniqueIdentifier>{b03e76ac-ec37-435f-b255-2591ece78ef3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\04. Data\Chip">
+      <UniqueIdentifier>{504e1a1f-60eb-4af6-aefc-cd0fb94d9f35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\02. DamageMng">
+      <UniqueIdentifier>{8def6e39-9ef4-459b-a042-44f643d95e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable">
+      <UniqueIdentifier>{98562943-257f-44bb-b39a-4d27c49d9226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable">
+      <UniqueIdentifier>{64d3e93b-6dc2-4b77-b6ab-cd6b38c9a506}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -210,6 +225,18 @@
     <ClInclude Include="Core\ITeamAgent.h">
       <Filter>소스 파일\00. Core\05. Interface\01. TeamAgent</Filter>
     </ClInclude>
+    <ClInclude Include="RockmanEXE\Data\ChipData.h">
+      <Filter>소스 파일\01. RockmanEXE\04. Data\Chip</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Manager\AttributeMng.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\02. DamageMng</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Manager\DamageMng.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\02. DamageMng</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Manager\ChipDataTable.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -268,6 +295,12 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Manager\AttributeMng.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\02. DamageMng</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
