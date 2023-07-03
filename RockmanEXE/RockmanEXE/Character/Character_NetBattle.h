@@ -2,10 +2,9 @@
 
 #include "Character.h"
 
-#include "Vector3.h"
-#include "Vector2.h"
+#include "ObjMgr.h"
 
-#define GRAVITY_NETBATTLE 9.8f
+#define GRAVITY_NETBATTLE 9.8f * 1.3f;
 
 /*
 * 넷 배틀에 쓰이는 캐릭터에 대한 추상클래스
@@ -24,6 +23,7 @@ public:
 	virtual void Initialize(void) override
 	{
 		m_vecAccel.z = (-1.f) * GRAVITY_NETBATTLE;
+		CObjMgr::Get_Instance()->Add_Object(UNIT, this);
 	}
 	virtual int	 Update(float fDeltaTime)			PURE;
 	virtual void Late_Update(float fDeltaTime)		PURE;
@@ -38,10 +38,12 @@ protected: // 범용 내부 변수
 #pragma region 물리관련 
 
 protected: // 물리 관련
-	CVector3<float>			m_vecPosition;				// z축의 존재로 3차원 벡터를 사용합니다.
+	CVector3<float>				m_vecPosition;			// z축의 존재로 3차원 벡터를 사용합니다.
 	list<list<CVector3<float>>>	m_vecSavedPos_List2D;	// 좌표 저장하는데 쓰이는 리스트, 정해진 좌표 이동이나 이전 좌표 이동과 같은 곳에 사용이 가능합니다.
 														// 첫번째리스트는 목표 이동 좌표로 쓰입니다.
-														
+	CVector2<float>				m_vecFootPos;			// 패널을 밟기 위해 존재하는 벡터, Position에 더해씁니다.
+
+
 	CVector3<float>			m_vecSpeed;					// 이동속도, 타일 범위로 이동하기 때문에 밀리는 효과에 사용합니다. z는 중력 적용
 	CVector3<float>			m_vecAccel;					// 가속, 잘 안쓰이지만 z는 중력을 적용합니다.
 	CVector3<float>			m_vecDamping;				// 감쇗값
@@ -57,6 +59,9 @@ public:
 
 	void			Set_Box(CVector3<float>& value) { m_vecBox = value; }
 	CVector3<float> Get_Box() { return m_vecBox; }
+
+	void			Set_FootPos(CVector2<float>& value) { m_vecFootPos = value; }
+	CVector2<float> Get_FootPos() { return m_vecFootPos; }
 
 	void			Set_BoxPos(CVector3<float>& value) { m_vecBoxPos = value; }
 	CVector3<float> Get_BoxPos() { return m_vecBoxPos; }
@@ -103,14 +108,25 @@ public:
 
 protected:	// 상태 관련
 	CVector2<int>		m_vecDirection;			// 주로 좌우 방향에 사용됩니다. y의 용도는 아직 없음.
-	
+	CVector2<int>		m_vecMoveDirection;		// 움직이는 방향을 설정할 때 사용됩니다.
 
 public:
 	CVector2<int> Get_Direction() { return m_vecDirection; }
 	void Set_Direction(CVector2<int> value) { m_vecDirection = value; }
 	void Set_Direction(int x, int y) { m_vecDirection.x = x; m_vecDirection.y = y; }
+
+	CVector2<int> Get_MoveDirection() { return m_vecDirection; }
+	void Set_MoveDirection(CVector2<int> value) { m_vecDirection = value; }
+	void Set_MoveDirection(int x, int y) { m_vecDirection.x = x; m_vecDirection.y = y; }
 #pragma endregion
 
+#pragma region 네비용 인벤토리(칩 저장용)
+protected:
+	
+
+public:
+
+#pragma endregion
 
 };
 

@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{580ac765-e3a6-4e48-8952-2c6fc9a342ff}</ProjectGuid>
     <RootNamespace>RockmanEXE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -71,9 +71,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)/;$(ProjectDir)/RockmanEXE/;$(ProjectDir)/Core/;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/api/core/inc/;$(ProjectDir)/;$(ProjectDir)/RockmanEXE/;$(ProjectDir)/Core/;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>$(ProjectDir)/api/core/lib/x64/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)/api/core/lib/x86/;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>$(ProjectDir)/RockmanEXE/;$(ExternalIncludePath)</ExternalIncludePath>
     <SourcePath>$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -115,6 +115,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)/api/core/lib/x86/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -139,6 +140,7 @@
     <ClInclude Include="Core\BmpMgr.h" />
     <ClInclude Include="Core\Character.h" />
     <ClInclude Include="Core\CollisionMgr.h" />
+    <ClInclude Include="Core\GameProcess.h" />
     <ClInclude Include="Core\ITeamAgent.h" />
     <ClInclude Include="Core\KeyMgr.h" />
     <ClInclude Include="Core\MainGame.h" />
@@ -149,29 +151,38 @@
     <ClInclude Include="Core\Scene.h" />
     <ClInclude Include="Core\SceneMgr.h" />
     <ClInclude Include="Core\ScrollMgr.h" />
+    <ClInclude Include="Core\SoundMgr.h" />
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="RockmanEXE\Battle\BattleUnit_Factory.h" />
+    <ClInclude Include="RockmanEXE\Battle\Panel.h" />
     <ClInclude Include="RockmanEXE\Character\Character_NetBattle.h" />
     <ClInclude Include="RockmanEXE\Character\Character_QuaterView.h" />
     <ClInclude Include="RockmanEXE\Data\ChipData.h" />
+    <ClInclude Include="RockmanEXE\GameProc_RockmanEXE.h" />
+    <ClInclude Include="RockmanEXE\Manager\AnimationTable.h" />
     <ClInclude Include="RockmanEXE\Manager\AttributeMng.h" />
     <ClInclude Include="RockmanEXE\Manager\BattleMng.h" />
     <ClInclude Include="RockmanEXE\Manager\ChipDataTable.h" />
     <ClInclude Include="RockmanEXE\Manager\DamageMng.h" />
     <ClInclude Include="RockmanEXE\Navi\Navi.h" />
+    <ClInclude Include="RockmanEXE\Navi\Navi_Rockman.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_NetBattle.h" />
+    <ClInclude Include="RockmanEXE\Virus\Virus.h" />
     <ClInclude Include="RockmanX\Character\Character_SideView.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationTable.cpp" />
     <ClCompile Include="Core\BitMap.cpp" />
     <ClCompile Include="Core\BmpMgr.cpp" />
     <ClCompile Include="Core\Character.cpp" />
     <ClCompile Include="Core\CollisionMgr.cpp" />
+    <ClCompile Include="Core\GameProcess.cpp" />
     <ClCompile Include="Core\KeyMgr.cpp" />
     <ClCompile Include="Core\MainGame.cpp" />
     <ClCompile Include="Core\Mouse.cpp" />
@@ -180,14 +191,19 @@
     <ClCompile Include="Core\Scene.cpp" />
     <ClCompile Include="Core\SceneMgr.cpp" />
     <ClCompile Include="Core\ScrollMgr.cpp" />
+    <ClCompile Include="Core\SoundMgr.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RockmanEXE\Battle\Panel.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_NetBattle.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_QuaterView.cpp" />
+    <ClCompile Include="RockmanEXE\GameProc_RockmanEXE.cpp" />
     <ClCompile Include="RockmanEXE\Manager\AttributeMng.cpp" />
     <ClCompile Include="RockmanEXE\Manager\BattleMng.cpp" />
     <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp" />
+    <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp" />
+    <ClCompile Include="RockmanEXE\Virus\Virus.cpp" />
     <ClCompile Include="RockmanX\Character\Character_SideView.cpp" />
   </ItemGroup>
   <ItemGroup>

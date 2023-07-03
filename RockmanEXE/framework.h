@@ -36,14 +36,21 @@
 //- 라이브러리의 대다수의 함수들은 함수의 선언 및 정의들을 필요로 하기 때문에 링크되기 전인 전처리기 시점에 해당 헤더파일을 원시 프로그램에서 포함시켜야 한다.
 //- 라이브러리들은 사용자의 프로그램과 링크되어 실행이 가능한 완전한 프로그램을 이루게 된다.
 
-
-//#include "fmod.h"
-//#include "fmod.hpp"
-//#pragma comment(lib, "fmodL_vc.lib")
+// 사운드 라이브러리
+#include "fmod.h"
+#include "fmod.hpp"
+#pragma comment(lib, "fmodL_vc.lib")
 
 #include <io.h>
 
+// gdiplus 그래픽 라이브러리
+#include <ole2.h>
+#pragma comment(lib, "gdiplus.lib") //gdiplus라이브러리
+#include <gdiplus.h> //gdiplus사용을 위한 헤더
 
+namespace Gdp = Gdiplus;
+
+// 디버그
 #ifdef _DEBUG
 
 #define _CRTDBG_MAP_ALLOC

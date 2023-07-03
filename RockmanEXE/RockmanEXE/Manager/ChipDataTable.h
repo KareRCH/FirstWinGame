@@ -8,10 +8,10 @@ class CChipDataTable final
 {
 private:
 	CChipDataTable() {}
-	~CChipDataTable() { Release(); }
+	~CChipDataTable() {}
 	CChipDataTable(const CChipDataTable& _rhs) = delete;
 
-public:
+private:
 	void Initialize();
 	void Release();
 
@@ -34,6 +34,7 @@ public:
 	{
 		if (g_pInstance)
 		{
+			g_pInstance->Release();
 			delete g_pInstance;
 			g_pInstance = nullptr;
 		}
@@ -41,17 +42,32 @@ public:
 	}
 
 private:
-	map<const TCHAR*, FChipData_ForTable*> m_Table_Map;
+	map<const TCHAR*, FChipData_ForTable*> m_StandardTable_Map;
+	map<const TCHAR*, FChipData_ForTable*> m_MegaTable_Map;
+	map<const TCHAR*, FChipData_ForTable*> m_GigaTable_Map;
 
 	void Create_ChipData(const TCHAR* sName, const TCHAR* sDescription,
-						int iDamage, EATTRIBUTE eAttribute, array<ECHIP_CODE, 5> arrAppearingCode,
+						int iDamage, EATTRIBUTE eAttribute, 
+						array<ECHIP_CODE, 5> arrAppearingCode,
 						ECHIP_RARITY eRarity, ECHIP_CLASS eClass)
 	{
-		FChipData_ForTable* pNewData = new FChipData_ForTable;
+		FChipData_ForTable* pNewData = new FChipData_ForTable();
 
 		if (pNewData)
 		{
-			m_Table_Map.emplace(pNewData);
+			switch (eClass)
+			{
+			case ECHIP_CLASS::STANDARD:
+				m_StandardTable_Map.emplace(sName, pNewData);
+				break;
+			case ECHIP_CLASS::MEGA:
+				m_MegaTable_Map.emplace(sName, pNewData);
+				break;
+			case ECHIP_CLASS::GIGA:
+				m_GigaTable_Map.emplace(sName, pNewData);
+				break;
+			}
+			
 			pNewData->iID = iID_Count++;
 			pNewData->sName = sName;
 			pNewData->sDescription = sDescription;

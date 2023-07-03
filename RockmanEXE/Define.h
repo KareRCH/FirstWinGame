@@ -2,6 +2,8 @@
 
 #include "framework.h"
 
+#include "CustomMath.h"
+
 #define		WINCX		800
 #define		WINCY		600
 
@@ -18,6 +20,8 @@
 
 #define		_TEST_CONSOLE	0
 
+#define		FRAME_DELAY		10
+
 typedef struct tagInfo
 {
 	float	fX;		// 중점 X
@@ -29,9 +33,11 @@ typedef struct tagInfo
 
 enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
-enum OBJID { PLAYER, BULLET, MONSTER, MOUSE, SHIELD, BUTTON, OBJID_END };
+enum OBJID { SYSTEM, PLAYER, BULLET, MONSTER, UNIT, MOUSE, SHIELD, BUTTON, OBJID_END };
 
 enum SCENEID { SC_LOGO, SC_MENU, SC_EDIT, SC_STAGE, SC_END };
+
+enum CHANNELID { SOUND_EFFECT, SOUND_BGM, MAXCHANNEL };
 
 template<typename T>
 void Safe_Delete(T& Temp)
@@ -86,7 +92,6 @@ private:
 };
 
 
-
 typedef	struct tagLinePoint
 {
 	tagLinePoint() { ZeroMemory(this, sizeof(tagLinePoint)); }
@@ -96,6 +101,7 @@ typedef	struct tagLinePoint
 	float	fY;
 
 }LINEPOINT;
+
 
 typedef struct tagLine
 {
@@ -109,16 +115,82 @@ typedef struct tagLine
 }LINE;
 
 
+// 이미지를 표시하기 위해 업그레이드 된 FRAME 구조체
 typedef struct tagFrame
 {
-	int				iFrameStart;
-	int				iFrameEnd;
-	int				iMotion;
+	int				iFrameStart;	// 시작 프레임
+	int				iFrameEnd;		// 끝 프레임
+	int				iFrameCur;		// 현재 프레임
+	int				iMotion;		// 애니메이션 종류(스프라이트 시트용)
 
-	ULONGLONG		ulSpeed;
-	ULONGLONG		ulTime;
+	int				iFrameWidth;	// 이미지 너비
+	int				iFrameHeight;	// 이미지 높이
+	int				iOffsetX;		// 이미지 원점 X
+	int				iOffsetY;		// 이미지 원점 Y
+
+	ULONGLONG		ulSpeed;		// 딜레이
+	ULONGLONG		ulTime;			// 시간 체크
 
 }FRAME;
+
+// 대충 아무때나 쓸 수 있는 상태머신 구조체
+template <typename T>
+struct tagState
+{
+	tagState() : eState(T()), ePrevState(T()) 
+	{
+		bIsEnter = false;
+		bIsExit = false;
+	}
+	~tagState() {}
+
+	bool	bIsEnter;
+	bool	bIsExit;
+	T		eState;
+	T		ePrevState;
+
+#pragma region 상태머신 함수
+	void Set_State(T _eState)
+	{
+		ePrevState = eState;
+		eState = _eState;
+		bIsExit = true;
+		bIsEnter = true;
+	}
+
+	bool IsState_Entered()
+	{
+		// 탈출 변수 자동 비활성화
+		if (bIsExit)
+			bIsExit = !bIsExit;
+
+		if (bIsEnter)
+		{
+			bIsEnter = !bIsEnter;
+			return true;
+		}
+		return false;
+	}
+
+	bool IsState_Exit()
+	{
+		// bIsEnter가 true가 아니면
+		// 탈출 조건을 충족하지 못함.
+		if (!bIsEnter)
+			bIsExit = !bIsExit;
+
+		if (bIsExit)
+		{
+			bIsExit = !bIsExit;
+			return true;
+		}
+		return false;
+	}
+#pragma endregion
+};
+
+template <typename T>
+using STATE_INFO = tagState<T>;
 
 // 딜레이 용도로 만든 구조체
 template<typename T = float>
@@ -133,4 +205,4 @@ template <typename T = float>
 using DELAY = _DELAY<T>;
 
 extern HWND g_hWnd;
-
+extern bool g_bWinActivate;

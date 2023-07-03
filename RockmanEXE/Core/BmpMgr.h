@@ -6,14 +6,19 @@
 class CBmpMgr
 {
 private:
-	CBmpMgr();
-	~CBmpMgr();
+	CBmpMgr() {}
+	~CBmpMgr() { Release(); }
 
 public:
-	void		Insert_Bmp(const TCHAR* pFilePath, const TCHAR* pImgKey);
-	HDC			Find_Img(const TCHAR* pImgKey);
 	void		Release();
+	void		Insert_Bmp(const TCHAR* pFilePath, const TCHAR* pImgKey);
+	void		Insert_PNG(const TCHAR* pFilePath, const TCHAR* pImgKey);
 
+	HDC			Find_Img(const TCHAR* pImgKey);
+	CBitMap*	Find_CBitMap(const TCHAR* pImgKey);
+	
+private: // ΩÃ±€≈œ
+	static CBmpMgr* m_pInstance;
 public:
 	static CBmpMgr*		Get_Instance()
 	{
@@ -33,8 +38,7 @@ public:
 		}
 	}
 
-private:
-	static CBmpMgr*		m_pInstance;
+private: // ∫Ò∆Æ∏  ¿˙¿Â
 	map<const TCHAR*, CBitMap*>			m_mapBit;
 
 };

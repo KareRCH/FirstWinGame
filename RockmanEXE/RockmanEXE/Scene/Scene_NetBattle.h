@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Scene.h"
+
 class CScene_NetBattle : public CScene
 {
 public:

@@ -13,6 +13,7 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND	g_hWnd;
+bool    g_bWinActivate;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -33,6 +34,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: 여기에 코드를 입력합니다.
+    g_bWinActivate = true;
 
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -78,7 +80,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         else
         {
             ULONGLONG ulCurTime;
-            if (ulTime + 10 < (ulCurTime = GetTickCount64()))
+            ulCurTime = GetTickCount64();
+            if (ulTime + FRAME_DELAY < ulCurTime)
             {
                 // 1초를 기준으로 현재 시간에 과거 시간을 뺀 값을 
                 float fDeltaTime = 1.f / (static_cast<float>(ulCurTime) - static_cast<float>(ulTime));
@@ -200,7 +203,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
+
+            RECT rect;
+            GetClientRect(hWnd, &rect);
+
+            HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0)); // 검은색 브러시 생성
+            FillRect(hdc, &rect, hBrush); // 영역을 검은색으로 채우기
+
+            DeleteObject(hBrush); // 브러시 삭제
+
             EndPaint(hWnd, &ps);
         }
         break;
@@ -215,6 +226,55 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
+    case WM_SIZE:
+    {
+        int iNewWidth = LOWORD(lParam);
+        int iNewHeight = LOWORD(lParam);
+
+        float fAspectRatio = (float)WINCX / (float)WINCY;
+
+        int iTargetWidth, iTargetHeight;
+        if ((float)iNewWidth / (float)iNewHeight > fAspectRatio)
+        {
+            iTargetWidth = static_cast<int>(iNewHeight * fAspectRatio);
+            iTargetHeight = iNewHeight;
+        }
+        else
+        {
+            iTargetHeight = static_cast<int>(iNewWidth / fAspectRatio);
+            iTargetWidth = iNewWidth;
+        }
+
+        RECT rect = { 0, 0, iTargetWidth, iTargetHeight };
+        AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, FALSE);
+        SetWindowPos(g_hWnd, NULL, 0, 0, rect.right - rect.left, rect.bottom - rect.top, SWP_NOMOVE | SWP_NOZORDER);
+
+        // 깜빡거리는거 거슬려
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+
+        RECT rcClient;
+        GetClientRect(hWnd, &rcClient);
+
+        HBRUSH hBrush = CreateSolidBrush(RGB(0, 0, 0)); // 검은색 브러시 생성
+        FillRect(hdc, &rcClient, hBrush); // 영역을 검은색으로 채우기
+
+        DeleteObject(hBrush); // 브러시 삭제
+
+        EndPaint(hWnd, &ps);
+        break;
+    }
+    case WM_ACTIVATE:
+    {
+        int iActivate = LOWORD(wParam);
+
+        if (iActivate == WA_INACTIVE)
+            g_bWinActivate = false;
+        else 
+            g_bWinActivate = true;
+
+        break;
+    }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

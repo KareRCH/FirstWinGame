@@ -2,6 +2,8 @@
 
 #include "Define.h"
 
+#include "Battle/Panel.h"
+
 /*
 * 배틀에 관해 여러가지를 관리하는 클래스
 * 플레이어의 정보를 받아오고 턴 진행과 실시간 전투 진행, 및 결과를 전달한다.
@@ -37,6 +39,7 @@ public:
 	void Initialize();
 	void Update(float fDeltaTime);
 	void Late_Update(float fDeltaTime);
+	void Render(HDC hDC);
 	void Release();
 
 private:
@@ -62,20 +65,12 @@ public:
 	}
 
 private: // 전역적으로 쓰이는 변수
-	map<STATE, function<void(CBattleMng&, float)>>		m_fnState_Map;
+	map<STATE, function<void(CBattleMng*, float)>>		m_fnState_Map;
 
-	bool							m_bIsEnterdState = false;
-	STATE							m_eState = STATE::READY_FOR_GAME;
-
-public:
-	void Set_State(STATE _eState)
-	{
-		m_eState = _eState;
-		m_bIsEnterdState = true;
-	}
+	STATE_INFO<STATE>		m_tState = STATE_INFO<STATE>();
 
 private: // 게임 준비 관련
-	
+	vector<vector<CPanel*>>		m_vvPanel_List;
 
 private: // 턴 관련
 	int				m_iTurn = 1;								// 턴은 1부터 시작한다.

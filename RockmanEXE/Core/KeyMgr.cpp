@@ -32,6 +32,9 @@ void CKeyMgr::Initialzie()
 
 void CKeyMgr::Late_Update()
 {
+	if (!g_bWinActivate)
+		return;
+
 	for (int i = 0; i < m_vInputKeys.size(); ++i)
 	{
 		if (nullptr == m_vInputKeys[i])
@@ -83,6 +86,9 @@ void CKeyMgr::Release()
 
 bool CKeyMgr::Key_Pressing(int _iKey)
 {
+	if (!g_bWinActivate)
+		return false;
+
 	if (GetAsyncKeyState(_iKey) & 0x8000)
 		return true;
 
@@ -91,10 +97,12 @@ bool CKeyMgr::Key_Pressing(int _iKey)
 
 bool CKeyMgr::Key_Down(int _iKey)
 {
+	if (!g_bWinActivate)
+		return false;
+
 	// 이전에는 눌린 적이 없고 현재 눌렸을 경우
 	if (!m_bKeyState[_iKey] && (GetAsyncKeyState(_iKey) & 0x8000))
 	{
-		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
 		return true;
 	}
 
@@ -103,10 +111,12 @@ bool CKeyMgr::Key_Down(int _iKey)
 
 bool CKeyMgr::Key_Up(int _iKey)
 {
+	if (!g_bWinActivate)
+		return false;
+
 	// 이전에는 눌린 적이 있고 현재 눌리지 않았을 경우
 	if (m_bKeyState[_iKey] && !(GetAsyncKeyState(_iKey) & 0x8000))
 	{
-		m_bKeyState[_iKey] = !m_bKeyState[_iKey];
 		return true;
 	}
 

@@ -5,20 +5,27 @@
 class CBitMap
 {
 public:
-	CBitMap();
-	~CBitMap();
+	CBitMap() : m_hMemDC(), m_hBitMap(), m_hOldBmp() {}
+	~CBitMap() { Release(); }
 
 public:
-	HDC			Get_MemDC() { return m_hMemDC; }
-
-	void		Load_Bmp(const TCHAR* pFilePath);
 	void		Release();
+
+	HDC			Get_MemDC() { return m_hMemDC; }
+	
+	void		Load_BMP(const TCHAR* pFilePath);	// 비트맵 전용
+	void		Load_PNG(const TCHAR* pFilePath);	// PNG 전용(다른 포맷도 되지만 PNG만을 쓰려고 함).
 
 private:
 	HDC			m_hMemDC;
 	HBITMAP		m_hBitMap;
 	HBITMAP		m_hOldBmp;
 
+	Gdp::Bitmap* m_pBitMap = nullptr;
+	Gdp::Bitmap* m_pOld_BMP = nullptr;
+
+public:
+	Gdp::Bitmap* Get_Image() { return m_pBitMap; }
 };
 
 // DDB(Device Dependent Bitmap) : 장치에 의존적인 비트맵 포맷 형태, 이미지의 크기, 색상 등 기본적인 정보와 이미지 데이터로 구성되어 있어 다양한 해상도의 장치에 광범위하게 사용되지 못한다. 

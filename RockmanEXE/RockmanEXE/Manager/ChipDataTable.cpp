@@ -51,22 +51,23 @@ void CChipDataTable::Initialize()
 #pragma endregion
 #endif
 
+#pragma region 스탠다드 칩
 #pragma region No.1~50
 #pragma region 캐논
 	Create_ChipData(
-		L"캐논1", L"전방 하나의 적을 포격!", 
+		L"캐논", L"전방 하나의 적을 포격!", 
 		40, EATTRIBUTE::NONE,
 		array<ECHIP_CODE, 5>() = {ECHIP_CODE::A, ECHIP_CODE::B, ECHIP_CODE::C, ECHIP_CODE::WILD_CARD}, 
 		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
-		L"캐논2", L"전방 하나의 적을 포격!",
+		L"하이 캐논", L"전방 하나의 적을 포격!",
 		80, EATTRIBUTE::NONE,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::D, ECHIP_CODE::E, ECHIP_CODE::F, ECHIP_CODE::WILD_CARD },
 		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
-		L"캐논3", L"전방 하나의 적을 포격!",
+		L"메가 캐논", L"전방 하나의 적을 포격!",
 		120, EATTRIBUTE::NONE,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::R, ECHIP_CODE::S, ECHIP_CODE::T, ECHIP_CODE::WILD_CARD },
 		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
@@ -807,6 +808,723 @@ void CChipDataTable::Initialize()
 #pragma endregion
 
 #pragma region No.103~150
+#pragma region 스네이크, 넘버볼
+	Create_ChipData(
+		L"스네이크", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::H, ECHIP_CODE::L, ECHIP_CODE::M },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"넘버볼", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::N},
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 파이어 펀치
+
+	Create_ChipData(
+		L"파이어 펀치1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"파이어 펀치2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"파이어 펀치3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 번 스퀘어
+
+	Create_ChipData(
+		L"번 스퀘어1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"번 스퀘어2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"번 스퀘어3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 유성군
+
+	Create_ChipData(
+		L"유성군", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 아쿠아 니들
+
+	Create_ChipData(
+		L"아쿠아 니들1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"아쿠아 니들2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"아쿠아 니들3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 블리자드 볼
+
+	Create_ChipData(
+		L"블리자드 볼", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 킬러 센서
+
+	Create_ChipData(
+		L"킬러 센서1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"킬러 센서2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"킬러 센서3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 부메랑
+
+	Create_ChipData(
+		L"부메랑", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"하이 부메랑", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"메가 부메랑", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 랜스
+
+	Create_ChipData(
+		L"랜스", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 엘레멘트 드래곤
+
+	Create_ChipData(
+		L"히트 드래곤", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"일렉 드래곤", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"아쿠아 드래곤", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"우드 드래곤", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 골렘 펀치
+
+	Create_ChipData(
+		L"골렘 펀치 1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"골렘 펀치 2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"골렘 펀치 3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 저스티스 원
+
+	Create_ChipData(
+		L"저스티스 원", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 에어 휠
+
+	Create_ChipData(
+		L"에어 휠 1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"에어 휠 2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"에어 휠 3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 선풍기
+
+	Create_ChipData(
+		L"돌풍발생기", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"흡입기", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 매그넘, 서클 건, 스톤큐브
+
+	Create_ChipData(
+		L"매그넘", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"서클 건", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"스톤큐브", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 리틀 보일러
+
+	Create_ChipData(
+		L"리틀 보일러 1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리틀 보일러 2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리틀 보일러 3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 에어레이드
+
+	Create_ChipData(
+		L"에어레이드 1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"에어레이드 2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"에어레이드 3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 카운트 봄, 스텔스 마인
+
+	Create_ChipData(
+		L"카운트 봄 1", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"카운트 봄 2", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"카운트 봄 3", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"스텔스 마인", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 응원가, 디스코드, 팀파니, 사일런스, 설치 버프, 디버프류
+
+	Create_ChipData(
+		L"응원가", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"디스코드", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"팀파니", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"사일런스", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+#pragma endregion
+
+#pragma region No.153~200
+#pragma region 짚인형, 지장보살, 포이즌 아누비스
+
+	Create_ChipData(
+		L"짚인형", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"지장보살", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"포이즌 아누비스", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 리커버리류
+
+	Create_ChipData(
+		L"리커버리 10", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 30", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 50", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 80", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 120", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 150", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 200", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"리커버리 300", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 에리어 스틸류
+
+	Create_ChipData(
+		L"패널 스틸", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"에리어 스틸", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"스틸 퍼니시", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"스틸 리벤지", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 패널 조작류
+
+	Create_ChipData(
+		L"패널 리턴", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"데스매치", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"홀리 패널", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"생츄어리", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"커밍로드", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"고잉로드", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 커스텀 게이지 조작류
+
+	Create_ChipData(
+		L"헤비게이지", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"퀵게이지", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"풀커스텀", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 유틸류
+
+	Create_ChipData(
+		L"버스터업", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"버그수정", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"인비지블", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 배리어류
+
+	Create_ChipData(
+		L"배리어", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"배리어 100", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"배리어 200", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"버블랩", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"드림오라", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 마그넷 코일, 커넬아미
+
+	Create_ChipData(
+		L"마그넷코일", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"커넬아미", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 카운터류
+
+	Create_ChipData(
+		L"엘리먼트트랩", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"네비 스카우트", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"바꿔치기", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"칼날잡기", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"배드메디슨", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"화이트캡슐", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"언인스톨", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 싱크로류
+
+	Create_ChipData(
+		L"카피데미지", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"라이프싱크로", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+
+#pragma region 데미지 증가류
+
+	Create_ChipData(
+		L"어택 +10", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"어택 +30", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"네비 +20", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"컬러포인트", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+	Create_ChipData(
+		L"더블포인트", L"",
+		0, EATTRIBUTE::NONE,
+		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
+		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
+	);
+#pragma endregion
+#pragma endregion
+#pragma endregion
+
+#pragma region 메가 클래스 칩
+
+#pragma endregion
+
+
+#pragma region 기가 클래스 칩
 
 #pragma endregion
 
@@ -815,7 +1533,21 @@ void CChipDataTable::Initialize()
 
 void CChipDataTable::Release()
 {
-	for_each(m_Table_Map.begin(), m_Table_Map.end(), [](FChipData_ForTable* item) {
-		Safe_Delete(item);
-		});
+	for (auto iter = m_StandardTable_Map.begin(); iter != m_StandardTable_Map.end(); )
+	{
+		Safe_Delete((*iter).second);
+		iter = m_StandardTable_Map.erase(iter);
+	}
+
+	for (auto iter = m_MegaTable_Map.begin(); iter != m_MegaTable_Map.end(); )
+	{
+		Safe_Delete((*iter).second);
+		iter = m_MegaTable_Map.erase(iter);
+	}
+
+	for (auto iter = m_GigaTable_Map.begin(); iter != m_GigaTable_Map.end(); )
+	{
+		Safe_Delete((*iter).second);
+		iter = m_GigaTable_Map.erase(iter);
+	}
 }

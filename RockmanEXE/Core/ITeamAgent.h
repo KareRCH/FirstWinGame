@@ -39,7 +39,7 @@ public:
 	void Set_TeamID(int value) { m_bTeamID = value; }
 
 private:
-	// 
+	// 객체를 초기화 할 때마다 ID를 증가시킴, 복사해서 만들어야 하는 경우, 상관 없음 ULONGLONG은 크니까 ㅋ
 	ULONGLONG InitID() { return ID_COUNT++; }
 
 public:

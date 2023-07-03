@@ -15,13 +15,46 @@ public:
 	void			Set_PosX(float _fX) { m_tInfo.fX += _fX; }
 	void			Set_Pos(float _fX, float _fY) { m_tInfo.fX = _fX; m_tInfo.fY = _fY; }
 
+	void			Set_Size(float _fCX, float _fCY) { m_tInfo.fCX = _fCX; m_tInfo.fCY = _fCY; }
+
 
 	void			Set_Dir(DIRECTION eDir) { m_eDir = eDir; }
 
 	void			Set_Dead() { m_bDead = true; }
 	bool			Get_Dead() { return m_bDead; }
 
-	void			Set_FrameKey(TCHAR* pFrameKey) { m_pFrameKey = pFrameKey; }
+	void			Set_FrameKey(int iIndex, const TCHAR* pFrameKey)
+	{
+		if (m_vFrame.size() > iIndex)
+			m_vFrame[iIndex].first = pFrameKey;
+		else
+		{
+			m_vFrame.resize(iIndex + 1);
+			m_vFrame[iIndex].first = pFrameKey;
+		}
+	}
+
+	const TCHAR*	Get_FrameKey(int iIndex)
+	{
+		if (m_vFrame.size() > iIndex)
+			return m_vFrame[iIndex].first;
+		else
+		{
+			m_vFrame.resize(iIndex + 1);
+			return m_vFrame[iIndex].first;
+		}
+	}
+
+	FRAME	Get_Frame(int iIndex)
+	{
+		if (m_vFrame.size() > iIndex)
+			return m_vFrame[iIndex].second;
+		else
+		{
+			m_vFrame.resize(iIndex + 1);
+			return m_vFrame[iIndex].second;
+		}
+	}
 
 public:
 	virtual void		Initialize(void)					PURE;
@@ -43,10 +76,14 @@ protected:
 	INFO		m_tInfo;
 	RECT		m_tRect;
 	DIRECTION	m_eDir;
-	
-	const TCHAR* m_pFrameKey;		// 이미지를 로드하기 위한 텍스트 포인터
-	FRAME		m_tFrame;			// 이미지의 프레임을 업데이트 하기위한 정보
 
 	bool		m_bDead;			// 오브젝트 삭제용
+
+	// 이미지를 로드하고 프레임을 업데이트 하기 위한 벡터리스트
+	// 한 객체에 대해 여러개의 이미지를 로드할 수 있습니다.
+	vector<pair<const TCHAR*, FRAME>> m_vFrame;	
+
+public:
+	vector<pair<const TCHAR*, FRAME>>& Get_FrameList() { return m_vFrame; }
 };
 

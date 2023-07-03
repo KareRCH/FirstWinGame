@@ -1,10 +1,9 @@
 #include "Obj.h"
 
-CObj::CObj() : m_eDir(DIR_END), m_bDead(false), m_pFrameKey(L"")
+CObj::CObj() : m_eDir(DIR_END), m_bDead(false)
 {
 	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
 	ZeroMemory(&m_tRect, sizeof(m_tRect));
-	ZeroMemory(&m_tFrame, sizeof(m_tFrame));
 }
 
 CObj::~CObj()
@@ -21,13 +20,17 @@ void CObj::Update_Rect()
 
 void CObj::Move_Frame()
 {
-	if (m_tFrame.ulTime + m_tFrame.ulSpeed < GetTickCount64())
+	for (auto iter = m_vFrame.begin(); iter != m_vFrame.end(); ++iter)
 	{
-		++m_tFrame.iFrameStart;
+		auto& tFrame = (*iter).second;
+		if (tFrame.ulTime + tFrame.ulSpeed < GetTickCount64())
+		{
+			++tFrame.iFrameCur;
 
-		if (m_tFrame.iFrameStart > m_tFrame.iFrameEnd)
-			m_tFrame.iFrameStart = 0;
+			if (tFrame.iFrameCur > tFrame.iFrameEnd)
+				tFrame.iFrameCur = tFrame.iFrameStart;
 
-		m_tFrame.ulTime = GetTickCount64();
+			tFrame.ulTime = GetTickCount64();
+		}
 	}
 }

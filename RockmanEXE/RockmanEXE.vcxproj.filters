@@ -139,6 +139,27 @@
     <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable">
       <UniqueIdentifier>{64d3e93b-6dc2-4b77-b6ab-cd6b38c9a506}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\00. MainGame">
+      <UniqueIdentifier>{26301827-1eb5-4fc2-92ba-0066d5e61099}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\00. MainGame\Process">
+      <UniqueIdentifier>{2ff29a9b-98f5-40e4-a28d-fc775c2bf751}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman">
+      <UniqueIdentifier>{471951ba-d741-4661-9d34-d68034e331fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\00. Design">
+      <UniqueIdentifier>{c758b4cf-b7a4-422d-8e79-190b67afe3d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\Panel">
+      <UniqueIdentifier>{6e53b24b-54cf-4349-94a1-0a599835d885}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\01. Manager\07. SndMgr">
+      <UniqueIdentifier>{42c047a4-c18a-4ea7-a656-33700316ad01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\01. Manager\06. BmpMgr\AnimTable">
+      <UniqueIdentifier>{6387d53c-d512-4fd4-bfc4-f9290d8f869f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -216,9 +237,6 @@
     <ClInclude Include="Core\Scene.h">
       <Filter>소스 파일\00. Core\01. Manager\05. SceneMgr\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="RockmanEXE\Scene\Scene_NetBattle.h">
-      <Filter>소스 파일\01. RockmanEXE\03. Scene\01. NetBattle</Filter>
-    </ClInclude>
     <ClInclude Include="RockmanEXE\Navi\Navi.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi</Filter>
     </ClInclude>
@@ -236,6 +254,33 @@
     </ClInclude>
     <ClInclude Include="RockmanEXE\Manager\ChipDataTable.h">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\GameProc_RockmanEXE.h">
+      <Filter>소스 파일\01. RockmanEXE\00. MainGame</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Scene\Scene_NetBattle.h">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\01. NetBattle</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Navi\Navi_Rockman.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\GameProcess.h">
+      <Filter>소스 파일\00. Core\00. MainGame\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Virus\Virus.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Battle\BattleUnit_Factory.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\00. Design</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Battle\Panel.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\Panel</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\SoundMgr.h">
+      <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Manager\AnimationTable.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -290,9 +335,6 @@
     <ClCompile Include="Core\Scene.cpp">
       <Filter>소스 파일\00. Core\01. Manager\05. SceneMgr\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp">
-      <Filter>소스 파일\01. RockmanEXE\03. Scene\01. NetBattle</Filter>
-    </ClCompile>
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi</Filter>
     </ClCompile>
@@ -301,6 +343,30 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\01. ChipDataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\GameProc_RockmanEXE.cpp">
+      <Filter>소스 파일\01. RockmanEXE\00. MainGame</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\01. NetBattle</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameProcess.cpp">
+      <Filter>소스 파일\00. Core\00. MainGame\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Virus\Virus.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Battle\Panel.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\Panel</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SoundMgr.cpp">
+      <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationTable.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

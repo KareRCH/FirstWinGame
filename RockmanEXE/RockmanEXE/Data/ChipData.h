@@ -44,10 +44,12 @@ enum class ECHIP_CODE : int
 class FChipData_ForTable final
 {
 public:
-	FChipData_ForTable();
-	~FChipData_ForTable();
-
-public:
+	FChipData_ForTable()
+		: iID(), sName(), sDescription(),
+		iDamage(), eAttribute(), arrAppearingCode(),
+		eRarity(), eClass()
+	{}
+	~FChipData_ForTable() {}
 
 public:
 	int					iID;

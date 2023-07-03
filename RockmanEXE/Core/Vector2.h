@@ -24,6 +24,13 @@ public:
 	T	x, y;
 
 public:
+	static CVector2<T> Zero() { return CVector2<T>(); }
+	/*static CVector2<T> Right()	{ return CVector2<T>(T(1), T(0)); }
+	static CVector2<T> Left()	{ return CVector2<T>(T(-1), T(0)); }
+	static CVector2<T> Up()		{ return CVector2<T>(T(0), T(1)); }
+	static CVector2<T> Down()	{ return CVector2<T>(T(0), T(-)); }*/
+
+public:
 #pragma region +, -, +=, -= 연산자
 	CVector2<T> operator + (CVector2<T> _Src)
 	{
@@ -81,7 +88,7 @@ public:
 #pragma endregion
 
 #pragma region =, == 연산자
-	CVector2<T> operator = (CVector2<T>& _Src)
+	CVector2<T> operator = (CVector2<T> _Src)
 	{
 		this->x = _Src.x;
 		this->y = _Src.y;

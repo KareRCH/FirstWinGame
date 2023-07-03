@@ -87,7 +87,7 @@ void CObjMgr::Late_Update(float fDeltaTime)
 	}
 
 	//CCollisionMgr::Collision_RectEx(m_ObjList[MONSTER], m_ObjList[BULLET]);
-	CCollisionMgr::Collision_Sphere(m_ObjList[BULLET], m_ObjList[MONSTER]);
+	CCollisionMgr::Collision_Sphere(m_ObjList[BULLET], m_ObjList[UNIT]);
 }
 
 void CObjMgr::Render(HDC hDC)
