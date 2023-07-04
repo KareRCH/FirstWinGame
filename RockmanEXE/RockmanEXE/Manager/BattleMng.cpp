@@ -1,5 +1,8 @@
 #include "BattleMng.h"
 
+#include "Battle/BattleUnit_Factory.h"
+#include "Navi/Navi_Rockman.h"
+
 CBattleMng* CBattleMng::m_pInstance = nullptr;
 
 void CBattleMng::Initialize()
@@ -14,6 +17,22 @@ void CBattleMng::Initialize()
 #pragma endregion
 
 	m_tState.Set_State(STATE::READY_FOR_GAME);
+
+	
+}
+
+void CBattleMng::Release()
+{
+	// 판넬 데이터를 해제한다.
+	for (auto iterVector = m_vvPanel_List.begin(); iterVector != m_vvPanel_List.end();)
+	{
+		for (auto iterPanel = (*iterVector).begin(); iterPanel != (*iterVector).end();)
+		{
+			Safe_Delete(*iterPanel);
+			iterPanel = (*iterVector).erase(iterPanel);
+		}
+		iterVector = m_vvPanel_List.erase(iterVector);
+	}
 }
 
 void CBattleMng::Update(float fDeltaTime)
@@ -48,23 +67,12 @@ void CBattleMng::Render(HDC hDC)
 	}
 }
 
-void CBattleMng::Release()
-{
-	// 판넬 데이터를 해제한다.
-	for (auto iterVector = m_vvPanel_List.begin(); iterVector != m_vvPanel_List.end();)
-	{
-		for (auto iterPanel = (*iterVector).begin(); iterPanel != (*iterVector).end();)
-		{
-			Safe_Delete(*iterPanel);
-			iterPanel = (*iterVector).erase(iterPanel);
-		}
-		iterVector = m_vvPanel_List.erase(iterVector);
-	}
-}
+
 
 void CBattleMng::ReadyForGame(float fDeltaTime)
 {
 	// 배틀 시작시 플레이어의 데이터, 적의 데이터 등을 받아 생성하는 작업을 한다.
+	
 	// 단 한번만 이뤄진다.
 	if (m_tState.IsState_Entered())
 	{
@@ -84,6 +92,12 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 				m_vvPanel_List[row].push_back(CPanelFactory::Create(t));
 			}
 		}
+
+		// 플레이어 생성
+		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(
+			{ m_vvPanel_List[1][1]->Get_Info().fX, m_vvPanel_List[1][1]->Get_Info().fY - 23.f, 30.f, 20.f},
+			CVector2<int>(1, 1)
+		);
 	}
 	
 	m_tState.Set_State(STATE::CHIP_SELECT);

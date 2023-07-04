@@ -25,13 +25,13 @@ void CAnimationTable::Initialize()
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal", L"Move_End",
-		iID++, 1, 67, 55,
-		26, 30, 0.5f
+		iID++, 4, 67, 55,
+		26, 30, 1.f
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal", L"Move_Ready",
-		iID++, 1, 67, 55,
-		26, 30, 0.5f
+		iID++, 4, 67, 55,
+		26, 30, 1.f
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal", L"Sword",

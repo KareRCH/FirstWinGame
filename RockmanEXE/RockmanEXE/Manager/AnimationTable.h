@@ -27,7 +27,7 @@ public:
 public:
 	ULONGLONG Get_Speed_ForFrame()
 	{
-		return static_cast<ULONGLONG>(round((1.f - fSpeed) * 1000.f / 65.f));
+		return static_cast<ULONGLONG>(round((1.f - fSpeed) * 16.f * 1000.f / 65.f));
 	}
 
 	void Parse_Frame(FRAME& tFrame)
@@ -35,6 +35,7 @@ public:
 		tFrame.iMotion = iMotion;
 		tFrame.iFrameEnd = iMotionSize;
 		tFrame.iFrameStart = 0;
+		tFrame.iFrameCur = 0;
 		tFrame.ulSpeed = Get_Speed_ForFrame();
 		tFrame.ulTime = GetTickCount64();
 		

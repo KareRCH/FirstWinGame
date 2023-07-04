@@ -3,6 +3,7 @@
 #include "Define.h"
 
 #include "Battle/Panel.h"
+#include "Battle/BattleUI.h"
 
 /*
 * 배틀에 관해 여러가지를 관리하는 클래스
@@ -13,7 +14,7 @@ class CBattleMng
 {
 private:
 	CBattleMng() {}
-	~CBattleMng() { Release(); }
+	~CBattleMng() {}
 	CBattleMng(const CBattleMng& _rhs) = delete;
 
 public:
@@ -35,12 +36,15 @@ public:
 		STATE_END
 	};
 
-public:
+private:
 	void Initialize();
+	void Release();
+
+public:
 	void Update(float fDeltaTime);
 	void Late_Update(float fDeltaTime);
 	void Render(HDC hDC);
-	void Release();
+	
 
 private:
 	static CBattleMng* m_pInstance;
@@ -51,6 +55,7 @@ public:
 		if (!m_pInstance)
 		{
 			m_pInstance = new CBattleMng;
+			m_pInstance->Initialize();
 		}
 
 		return m_pInstance;
@@ -59,6 +64,7 @@ public:
 	{
 		if (m_pInstance)
 		{
+			m_pInstance->Release();
 			delete m_pInstance;
 			m_pInstance = nullptr;
 		}
@@ -70,6 +76,7 @@ private: // 전역적으로 쓰이는 변수
 	STATE_INFO<STATE>		m_tState = STATE_INFO<STATE>();
 
 private: // 게임 준비 관련
+	// 패널 저장리스트
 	vector<vector<CPanel*>>		m_vvPanel_List;
 
 private: // 턴 관련

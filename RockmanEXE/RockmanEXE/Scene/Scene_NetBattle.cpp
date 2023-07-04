@@ -9,17 +9,16 @@
 #include "Manager/BattleMng.h"
 
 #include "AbstractFactory.h"
-#include "Battle/BattleUnit_Factory.h"
-#include "Navi/Navi_Rockman.h"
+
 
 
 void CScene_NetBattle::Initialize()
 {
-	CBattleMng::Get_Instance()->Initialize();
+	CBattleMng::Get_Instance();
 
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_dog_comp.png", L"BG_Dog_Comp");
 
-	CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create({ 50.f, 50.f, 66.f, 54.f }, CVector2<int>(1, 1));
+	CBattleUI::Get_Instance();
 }
 
 void CScene_NetBattle::Update(float fDeltaTime)
@@ -27,6 +26,8 @@ void CScene_NetBattle::Update(float fDeltaTime)
 	CObjMgr::Get_Instance()->Update(fDeltaTime);
 
 	CBattleMng::Get_Instance()->Update(fDeltaTime);
+
+	CBattleUI::Get_Instance()->Update(fDeltaTime);
 }
 
 void CScene_NetBattle::Late_Update(float fDeltaTime)
@@ -34,6 +35,8 @@ void CScene_NetBattle::Late_Update(float fDeltaTime)
 	CObjMgr::Get_Instance()->Late_Update(fDeltaTime);
 
 	CBattleMng::Get_Instance()->Late_Update(fDeltaTime);
+
+	CBattleUI::Get_Instance()->Late_Update(fDeltaTime);
 }
 
 void CScene_NetBattle::Render(HDC hDC)
@@ -88,10 +91,11 @@ void CScene_NetBattle::Render(HDC hDC)
 	// 오브젝트 그리기
 	CObjMgr::Get_Instance()->Render(hDC);
 
-	
+	CBattleUI::Get_Instance()->Render(hDC);
 }
 
 void CScene_NetBattle::Release()
 {
 	CBattleMng::Get_Instance()->Destroy_Instance();
+	CBattleUI::Get_Instance()->Destroy_Instance();
 }

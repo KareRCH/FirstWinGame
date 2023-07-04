@@ -160,6 +160,9 @@
     <Filter Include="소스 파일\00. Core\01. Manager\06. BmpMgr\AnimTable">
       <UniqueIdentifier>{6387d53c-d512-4fd4-bfc4-f9290d8f869f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\01. NetBattle\BattlePlayer">
+      <UniqueIdentifier>{b1a44e1f-8e23-47c3-9f84-9149a6005aa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -279,8 +282,11 @@
     <ClInclude Include="Core\SoundMgr.h">
       <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
     </ClInclude>
-    <ClInclude Include="RockmanEXE\Manager\AnimationTable.h">
+    <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Manager\AnimationTable.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,8 +371,11 @@
     <ClCompile Include="Core\SoundMgr.cpp">
       <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationTable.cpp">
+    <ClCompile Include="BattleUI.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
