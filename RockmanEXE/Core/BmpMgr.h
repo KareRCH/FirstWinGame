@@ -19,10 +19,13 @@ public:
 
 	void		Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
 
+	void		Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<int> vecDir, bool bAllowScroll = true);
+
 	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
 	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, int srcx, int srcy, bool bAllowScroll = true);
 
 	void		Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize = 3);
+	void		Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize = 3);
 	
 private: // ╫л╠шео
 	static CBmpMgr* m_pInstance;

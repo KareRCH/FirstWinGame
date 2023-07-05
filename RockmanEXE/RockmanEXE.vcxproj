@@ -154,6 +154,7 @@
     <ClInclude Include="Core\SoundMgr.h" />
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
+    <ClInclude Include="VecBox3.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="RockmanEXE\Scene\Scene_NetBattle.h" />
     <ClInclude Include="RockmanEXE\Virus\Virus.h" />
     <ClInclude Include="RockmanX\Character\Character_SideView.h" />
+    <ClInclude Include="Spell.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +187,7 @@
     <ClCompile Include="Core\Character.cpp" />
     <ClCompile Include="Core\CollisionMgr.cpp" />
     <ClCompile Include="Core\GameProcess.cpp" />
+    <ClCompile Include="Core\ITeamAgent.cpp" />
     <ClCompile Include="Core\KeyMgr.cpp" />
     <ClCompile Include="Core\MainGame.cpp" />
     <ClCompile Include="Core\Mouse.cpp" />
@@ -207,6 +210,7 @@
     <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp" />
     <ClCompile Include="RockmanEXE\Virus\Virus.cpp" />
     <ClCompile Include="RockmanX\Character\Character_SideView.cpp" />
+    <ClCompile Include="Spell.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="RockmanEXE.rc" />

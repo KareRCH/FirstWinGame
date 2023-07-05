@@ -10,14 +10,6 @@ private:
 	~CBattleUnit_Factory() {}
 
 public:
-	static T* Create()
-	{
-		CCharacter_NetBattle* pObj = new T;
-		pObj->Initialize();
-
-		return static_cast<T*>(pObj);
-	}
-
 	static T* Create(float _fX, float _fY)
 	{
 		CCharacter_NetBattle* pObj = new T;
@@ -37,21 +29,22 @@ public:
 		return static_cast<T*>(pObj);
 	}
 
-	static T* Create(INFO tInfo)
+	static T* Create(CVector3<float> vecPos, CVector2<int> vecDir, CVector3<float> vecBox)
 	{
 		CCharacter_NetBattle* pObj = new T;
-		pObj->Set_Pos(tInfo.fX, tInfo.fY);
-		pObj->Set_Size(tInfo.fCX, tInfo.fCY);
+		pObj->Set_VecPos(vecPos);
+		pObj->Set_Box(vecBox);
+		pObj->Set_Direction(vecDir);
 		pObj->Initialize();
 
 		return static_cast<T*>(pObj);
 	}
 
-	static T* Create(INFO tInfo, CVector2<int> vecDir)
+	static T* Create(CVector3<float> vecPos, CVector2<int> vecDir, CVector3<float> vecBox, CVector3<float> vecBoxPos)
 	{
 		CCharacter_NetBattle* pObj = new T;
-		pObj->Set_Pos(tInfo.fX, tInfo.fY);
-		pObj->Set_Size(tInfo.fCX, tInfo.fCY);
+		pObj->Set_VecPos(vecPos);
+		pObj->Set_Box(vecBox);
 		pObj->Set_Direction(vecDir);
 		pObj->Initialize();
 

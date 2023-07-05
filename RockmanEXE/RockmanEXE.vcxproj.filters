@@ -163,6 +163,15 @@
     <Filter Include="소스 파일\01. RockmanEXE\03. Scene\01. NetBattle\BattlePlayer">
       <UniqueIdentifier>{b1a44e1f-8e23-47c3-9f84-9149a6005aa8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\02. Spell">
+      <UniqueIdentifier>{ef3c9153-e39b-43b2-940a-0f8d9d3e10be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\02. Spell\NewFilter1">
+      <UniqueIdentifier>{ada37df3-f5d3-4fc8-9a9e-750e322ead78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\04. Math\02. Box">
+      <UniqueIdentifier>{f1ad6c80-951b-4cec-ab5f-59947d257767}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -288,6 +297,12 @@
     <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
     </ClInclude>
+    <ClInclude Include="Spell.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="VecBox3.h">
+      <Filter>소스 파일\00. Core\04. Math\02. Box</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -376,6 +391,12 @@
     </ClCompile>
     <ClCompile Include="BattleUI.cpp">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
+    </ClCompile>
+    <ClCompile Include="Spell.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ITeamAgent.cpp">
+      <Filter>소스 파일\00. Core\05. Interface\01. TeamAgent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

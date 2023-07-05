@@ -40,21 +40,6 @@ void CMainGame::Initialize()
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();
-
-#ifdef _DEBUG
-#if _TEST_CONSOLE
-	// 디버그용 콘솔창
-	if (::AllocConsole() == TRUE)
-	{
-		FILE* nfp[3];
-		freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
-		freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
-		freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
-		std::ios::sync_with_stdio();
-	}
-#endif
-#endif // _DEBUG
-
 }
 
 void CMainGame::Update(float fDeltaTime)
@@ -65,6 +50,7 @@ void CMainGame::Update(float fDeltaTime)
 
 void CMainGame::Late_Update(float fDeltaTime)
 {
+	
 	CScrollMgr::Get_Instance()->Scroll_Lock();
 
 	CSceneMgr::Get_Instance()->Late_Update(fDeltaTime);
@@ -137,12 +123,7 @@ void CMainGame::Render()
 
 void CMainGame::Release()
 {	
-#ifdef _DEBUG
-#if _TEST_CONSOLE
-	// 콘솔 사용 해제
-	FreeConsole();
-#endif
-#endif // _DEBUG
+
 
 	CBmpMgr::Destroy_Instance();
 	CScrollMgr::Destroy_Instance();

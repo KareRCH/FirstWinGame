@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Obj.h"
+#include "Character/Character_NetBattle.h"
 
 #define BATTLE_PANEL_ROW 3
 #define BATTLE_PANEL_COL 6
@@ -8,7 +8,7 @@
 #define PANEL_CROW 39
 #define PANEL_CCOL 24
 
-class CPanel : public CObj
+class CPanel : public CCharacter_NetBattle
 {
 public:
 	enum class ACT_STATE : int { IDLE, RIGHT, LEFT, UP, DOWN, TOP, BOTTOM };

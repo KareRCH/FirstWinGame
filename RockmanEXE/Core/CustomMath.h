@@ -4,6 +4,7 @@
 
 #include "Vector2.h"
 #include "Vector3.h"
+#include "VecBox3.h"
 
 template<typename T>
 typename std::enable_if<is_floating_point<T>::value, bool>::type

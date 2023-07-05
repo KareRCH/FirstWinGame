@@ -60,6 +60,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ULONGLONG	ulTime = GetTickCount64();	// 30
     srand(unsigned int(time(NULL)));
 
+#ifdef _DEBUG
+#if _TEST_CONSOLE
+    // 디버그용 콘솔창
+    if (::AllocConsole() == TRUE)
+    {
+        FILE* nfp[3];
+        freopen_s(nfp + 0, "CONOUT$", "rb", stdin);
+        freopen_s(nfp + 1, "CONOUT$", "wb", stdout);
+        freopen_s(nfp + 2, "CONOUT$", "wb", stderr);
+        std::ios::sync_with_stdio();
+    }
+#endif
+#endif // _DEBUG
+
     while (true)
     {
         // PeekMessage : 메세지를 읽어오면 TRUE, 읽을 메세지가 없으면 FALSE를 반환
@@ -85,7 +99,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             if (ulTime + FRAME_DELAY < ulCurTime)
             {
                 // 1초를 기준으로 현재 시간에 과거 시간을 뺀 값을 
-                float fDeltaTime = (static_cast<float>(ulCurTime) - static_cast<float>(ulTime)) / 1000.f;
+                float fDeltaTime = (static_cast<float>(ulCurTime - ulTime)) / 1000.f;
+                //cout << ulCurTime << " " << ulTime << " " << fDeltaTime << '\n';
                 MainGame.Update(fDeltaTime);
                 MainGame.Late_Update(fDeltaTime);
                 MainGame.Render();
@@ -94,6 +109,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
     }
+
+#ifdef _DEBUG
+#if _TEST_CONSOLE
+    // 콘솔 사용 해제
+    FreeConsole();
+#endif
+#endif // _DEBUG
 
     return (int) msg.wParam;
 }

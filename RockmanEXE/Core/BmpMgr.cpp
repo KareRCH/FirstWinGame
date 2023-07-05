@@ -88,6 +88,32 @@ void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tF
 	);
 }
 
+void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<int> vecDir, bool bAllowScroll)
+{
+	// Strip 형태의 PNG를 표시하는데 쓰인다.
+	// 단일용 PNG는 따로 관리한다.
+
+	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(pImgKey);
+	if (!pBitMap) return;
+	Gdp::Bitmap* pImage = pBitMap->Get_Image();
+	Gdp::Graphics g(hDC);
+
+	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
+	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
+
+	g.TranslateTransform(vecPos.x + fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z + fScrollY * (float)bAllowScroll);
+	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
+
+	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+	g.DrawImage(
+		pImage, -(tFrame.iOffsetX) - ((tFrame.iFrameStart + tFrame.iFrameCur) > 0), -(tFrame.iOffsetY) - (tFrame.iMotion > 0),
+		(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - ((tFrame.iFrameStart + tFrame.iFrameCur) > 0),
+		(tFrame.iMotion * tFrame.iFrameHeight) - (tFrame.iMotion > 0),
+		tFrame.iFrameWidth, tFrame.iFrameHeight,
+		Gdp::UnitPixel
+	);
+}
+
 void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll)
 {
 	// Strip 형태의 PNG를 표시하는데 쓰인다.
@@ -135,4 +161,10 @@ void CBmpMgr::Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize)
 {
 	MoveToEx(hDC, (int)tInfo.fX, (int)tInfo.fY, NULL);
 	Ellipse(hDC, (int)tInfo.fX - iSize, (int)tInfo.fY - iSize, (int)tInfo.fX + iSize, (int)tInfo.fY + iSize);
+}
+
+void CBmpMgr::Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize)
+{
+	MoveToEx(hDC, (int)vecPos.x, (int)vecPos.y + (int)vecPos.z, NULL);
+	Ellipse(hDC, (int)vecPos.x - iSize, (int)vecPos.y - (int)vecPos.z - iSize, (int)vecPos.x + iSize, (int)vecPos.y - (int)vecPos.z + iSize);
 }

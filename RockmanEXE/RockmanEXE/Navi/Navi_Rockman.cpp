@@ -21,7 +21,8 @@ CNavi_Rockman::~CNavi_Rockman()
 
 void CNavi_Rockman::Initialize(void)
 {
-	CCharacter_NetBattle::Initialize();
+	CCharacter_NetBattle::Initialize_Gravity();
+	CObjMgr::Get_Instance()->Add_Object(UNIT, this);
 
 #pragma region 이미지 추가
 	TCHAR sText[100];
@@ -94,50 +95,30 @@ void CNavi_Rockman::Initialize(void)
 
 int CNavi_Rockman::Update(float fDeltaTime)
 {
-	
-
 	State_Update(fDeltaTime);
 
-	CObj::Update_Rect();
 	CObj::Move_Frame();
+
 	return 0;
 }
 
 void CNavi_Rockman::Late_Update(float fDeltaTime)
 {
-	
+	Gravity(fDeltaTime);		// 중력
+	Move(fDeltaTime);			// 이동에 대한 처리를 수행하기
 }
 
 void CNavi_Rockman::Render(HDC hDC)
 {
-	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(Get_FrameKey(0));
-	Gdp::Bitmap* pImage = pBitMap->Get_Image();
-	Gdp::Graphics g(hDC);
+	CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection);
+	CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
 
-	// 캔버스 크기 설정
-	//Gdp::Rect rcCanvas = Gdp::Rect(
-	//	Get_Frame(0).iFrameCur * 67,	// 오프셋
-	//	Get_Frame(0).iMotion * 55,	// 오프셋
-	//	67,
-	//	55
+	//g.DrawImage(
+	//	pImage, -(Get_Frame(0).iOffsetX), -(Get_Frame(0).iOffsetY),	// 이미지 오프셋
+	//	Get_Frame(0).iFrameCur * Get_Frame(0).iFrameWidth, Get_Frame(0).iMotion * Get_Frame(0).iFrameHeight,
+	//	Get_Frame(0).iFrameWidth, Get_Frame(0).iFrameHeight,				// 이미지 조각 크기로 대체
+	//	Gdp::UnitPixel
 	//);
-	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
-	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
-
-	g.TranslateTransform(m_tInfo.fX + fScrollX, m_tInfo.fY + fScrollY);
-	g.ScaleTransform((float)m_vecDirection.x, (float)m_vecDirection.y);
-	g.GetDpiX();
-
-	g.DrawImage(
-		pImage, -(Get_Frame(0).iOffsetX), -(Get_Frame(0).iOffsetY),	// 이미지 오프셋
-		Get_Frame(0).iFrameCur * Get_Frame(0).iFrameWidth, Get_Frame(0).iMotion * Get_Frame(0).iFrameHeight,
-		Get_Frame(0).iFrameWidth, Get_Frame(0).iFrameHeight,				// 이미지 조각 크기로 대체
-		Gdp::UnitPixel
-	);
-
-	MoveToEx(hDC, (int)m_tInfo.fX, (int)m_tInfo.fY, NULL);
-	Ellipse(hDC, (int)m_tInfo.fX - 3, (int)m_tInfo.fY - 3, (int)m_tInfo.fX + 3, (int)m_tInfo.fY + 3);
-
 }
 
 void CNavi_Rockman::Release(void)
@@ -161,19 +142,19 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 
 		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 		{
-			m_vecMoveDirection.x = 1;
+			m_vecMoveDir.x = 1;
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
 		{
-			m_vecMoveDirection.x = -1;
+			m_vecMoveDir.x = -1;
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
-			m_vecMoveDirection.y = 1;
+			m_vecMoveDir.y = 1;
 		}
 		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
-			m_vecMoveDirection.y = -1;
+			m_vecMoveDir.y = -1;
 		}
 
 		if (CKeyMgr::Get_Instance()->Key_Down('A'))
@@ -185,6 +166,11 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			|| CKeyMgr::Get_Instance()->Key_Pressing(VK_UP) || CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
 			m_tState.Set_State(MOVE_READY);
+		}
+
+		if (m_bIsOnGround && CKeyMgr::Get_Instance()->Key_Down('S'))
+		{
+			m_tState.Set_State(JUMP);
 		}
 
 		break;
@@ -208,10 +194,10 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Move_End");
 			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
-			m_tInfo.fX += (float)PANEL_CROW * (float)m_vecMoveDirection.x;
-			m_tInfo.fY -= (float)PANEL_CCOL * (float)m_vecMoveDirection.y;
+			m_vecSpeed.x = (float)PANEL_CROW * (float)m_vecMoveDir.x;
+			m_vecSpeed.y = (float)PANEL_CCOL * (float)m_vecMoveDir.y;
 
-			m_vecMoveDirection = CVector2<int>::Zero();
+			m_vecMoveDir = CVector2<int>::Zero();
 		}
 
 
@@ -231,6 +217,23 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 
 
 		if (Get_Frame(0).iFrameCur >= Get_Frame(0).iFrameEnd)
+		{
+			m_tState.Set_State(IDLE);
+		}
+		break;
+	case JUMP:
+		if (m_tState.IsState_Entered())
+		{
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Idle");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
+
+			m_vecSpeed.z = 5.f;
+		}
+
+		// 실행식
+
+		// 조건식
+		if (!m_bIsOnGround)
 		{
 			m_tState.Set_State(IDLE);
 		}

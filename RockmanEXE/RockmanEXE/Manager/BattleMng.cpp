@@ -79,10 +79,11 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		}
 
 		// 플레이어 생성
-		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(
-			{ m_vvPanel_List[1][1]->Get_Info().fX, m_vvPanel_List[1][1]->Get_Info().fY - 16.f, 30.f, 20.f},
-			CVector2<int>(1, 1)
-		);
+		CVector3<float> vecCreatePos, vecBox(15.f, 10.f, 16.f), vecBoxPos(0.f, 0.f, 0.f);
+		vecCreatePos.x = m_vvPanel_List[1][1]->Get_Info().fX;
+		vecCreatePos.y = m_vvPanel_List[1][1]->Get_Info().fY;
+		vecCreatePos.z = vecBox.z;
+		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(vecCreatePos, CVector2<int>(1, 1), vecBox, vecBoxPos);
 		m_BattleObjList.push_back(pCreated);
 
 

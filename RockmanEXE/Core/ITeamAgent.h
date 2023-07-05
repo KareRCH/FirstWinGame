@@ -45,6 +45,4 @@ private:
 public:
 };
 
-ULONGLONG ITeamAgent::ID_COUNT = 0;
-
 using ERELATION_STATE = ITeamAgent::ERELATION;
