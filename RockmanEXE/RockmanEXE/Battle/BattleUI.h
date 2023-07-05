@@ -2,14 +2,17 @@
 
 #include "Define.h"
 
+#include "Manager/ChipDataTable.h"
+
 class CBattleUI
 {
 public:
 	enum STATE { OPENING, OPENED, CLOSING, CLOSED };
+	enum STATE_CROSS { CROSS_OPENING, CROSS_CLOSING, CROSS_OPENED, CROSS_CLOSED };
 
 private:
 	CBattleUI() {}
-	~CBattleUI() { Release(); }
+	~CBattleUI() {}
 	CBattleUI(const CBattleUI& _rhs) = delete;
 
 private:
@@ -52,6 +55,23 @@ private:
 
 private:
 	STATE_INFO<STATE>	m_tState;
-	bool bInitBattle = true;	// 처음 진입했을 때 띄우는 UI가 있어 사용한다.
+	STATE_INFO<STATE_CROSS>	m_tState_Cross;
+	bool m_bInitBattle = true;	// 처음 진입했을 때 띄우는 UI가 있어 사용한다.
+
+private:
+	void State_Update(float fDeltaTime);
+
+public:
+	// 배틀매니저용
+	void Set_PetUI_State(STATE eState)
+	{
+		m_tState.Set_State(eState);
+	}
+
+private:
+	vector<FChipData_ForBattle>		m_LoadedChip_List;
+
+public:
+	void Set_LoadedChip_List(vector<FChipData_ForBattle>* value) { m_LoadedChip_List =  *value; }
 };
 

@@ -63,3 +63,23 @@ public:
 	ECHIP_RARITY		eRarity;
 	ECHIP_CLASS			eClass;
 };
+
+// 배틀용 칩데이터, 경량화 되어 있다.
+class FChipData_ForBattle final
+{
+public:
+	FChipData_ForBattle()
+		: iID(), iDamage(), eAttribute(), eCode()
+	{}
+	~FChipData_ForBattle() {}
+
+public:
+	// 데이터 테이블에서 이름과 설명을 불러오기 위한 수단
+	int						iID;
+	// 칩의 대미지
+	int						iDamage;
+	// 칩의 속성
+	EATTRIBUTE				eAttribute;
+	// PA, 칩 조합에 사용됨
+	ECHIP_CODE				eCode;
+};

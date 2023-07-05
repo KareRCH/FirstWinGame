@@ -80,5 +80,8 @@ private:
 			pNewData->eClass = eClass;
 		}
 	}
+
+private:
+	void Load_ChipImage();
 };
 

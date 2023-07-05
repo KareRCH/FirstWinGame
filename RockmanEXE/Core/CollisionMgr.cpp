@@ -18,7 +18,7 @@ void CCollisionMgr::Collision_Rect(list<CObj*> _Dst, list<CObj*> _Src)
 	{
 		for (auto& Src : _Src)
 		{
-			if (IntersectRect(&rc, &(Dst->Get_Rect()), &(Src->Get_Rect())))
+			if (!(Dst->Get_IsPaused() || !Dst->Get_IsPaused()) && IntersectRect(&rc, &(Dst->Get_Rect()), &(Src->Get_Rect())))
 			{
 				Dst->Collide(Src);
 				Src->Collide(Dst);
@@ -98,10 +98,10 @@ void CCollisionMgr::Collision_Sphere(list<CObj*> _Dst, list<CObj*> _Src)
 	{
 		for (auto& Src : _Src)
 		{
-			if (Check_Sphere(Dst, Src))
+			if (!(Dst->Get_IsPaused() || !Dst->Get_IsPaused()) && Check_Sphere(Dst, Src))
 			{
-				Dst->Set_Dead();
-				Src->Set_Dead();
+				Dst->Collide(Src);
+				Src->Collide(Dst);
 			}
 		}
 	}

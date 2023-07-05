@@ -7,8 +7,8 @@
 #define		WINCX		800
 #define		WINCY		600
 
-#define		ROCKMAN_EXECX 288
-#define		ROCKMAN_EXECY 216
+#define		ROCKMAN_EXECX 264
+#define		ROCKMAN_EXECY 198
 
 #define		PURE		= 0
 #define		PI			3.141592f
@@ -33,7 +33,7 @@ typedef struct tagInfo
 
 enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
-enum OBJID { SYSTEM, PLAYER, BULLET, MONSTER, UNIT, MOUSE, SHIELD, BUTTON, OBJID_END };
+enum OBJID { SYSTEM, PANEL, PLAYER, BULLET, MONSTER, UNIT, MOUSE, SHIELD, BUTTON, OBJID_END };
 
 enum SCENEID { SC_LOGO, SC_MENU, SC_EDIT, SC_STAGE, SC_END };
 
@@ -160,13 +160,10 @@ struct tagState
 
 	bool IsState_Entered()
 	{
-		// 탈출 변수 자동 비활성화
-		if (bIsExit)
-			bIsExit = !bIsExit;
-
 		if (bIsEnter)
 		{
-			bIsEnter = !bIsEnter;
+			bIsEnter = false;
+			bIsExit = false;		// 상태 진입시 탈출 조건 자동 비활성화
 			return true;
 		}
 		return false;
@@ -174,14 +171,13 @@ struct tagState
 
 	bool IsState_Exit()
 	{
-		// bIsEnter가 true가 아니면
-		// 탈출 조건을 충족하지 못함.
+		// 이미 Entered 함수를 불러왔을 때 탈출 조건을 OFF 시킨다.
 		if (!bIsEnter)
-			bIsExit = !bIsExit;
+			bIsExit = false;
 
 		if (bIsExit)
 		{
-			bIsExit = !bIsExit;
+			bIsExit = false;
 			return true;
 		}
 		return false;

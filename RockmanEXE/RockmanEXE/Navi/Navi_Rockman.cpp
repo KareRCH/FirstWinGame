@@ -25,10 +25,46 @@ void CNavi_Rockman::Initialize(void)
 
 #pragma region 이미지 추가
 	TCHAR sText[100];
-	const TCHAR* sCharacterDir = L"./RockmanEXE/Resource/battle/navi/rockman_exe/";
+	const TCHAR* sCharacterDir = L"./RockmanEXE/Resource/battle/navi/rockman_exe/normal/";
 	lstrcpy(sText, sCharacterDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"normal.png"), L"NBT_Rockman_EXE_Normal");
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"idle.png"), L"NBT_Rockman_EXE_Normal_Idle");
 	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"hit.png"), L"NBT_Rockman_EXE_Normal_Hit");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"paralyze.png"), L"NBT_Rockman_EXE_Normal_Paralyze");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"move_end.png"), L"NBT_Rockman_EXE_Normal_Move_End");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"move_ready.png"), L"NBT_Rockman_EXE_Normal_Move_Ready");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"sword.png"), L"NBT_Rockman_EXE_Normal_Sword");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"throw.png"), L"NBT_Rockman_EXE_Normal_Throw");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"crouch.png"), L"NBT_Rockman_EXE_Normal_Crouch");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_cannon.png"), L"NBT_Rockman_EXE_Normal_Shoot_Cannon");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_buster.png"), L"NBT_Rockman_EXE_Normal_Shoot_Buster");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_duration.png"), L"NBT_Rockman_EXE_Normal_Shoot_Duration");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"throw_disk.png"), L"NBT_Rockman_EXE_Normal_Throw_Disk");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_1.png"), L"NBT_Rockman_EXE_Normal_Shoot_1");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ready_crouch_1.png"), L"NBT_Rockman_EXE_Normal_Ready_Crouch_1");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_2.png"), L"NBT_Rockman_EXE_Normal_Shoot_2");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ready_crouch_2.png"), L"NBT_Rockman_EXE_Normal_Ready_Crouch_2");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ready_swing.png"), L"NBT_Rockman_EXE_Normal_Ready_Swing");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"swing.png"), L"NBT_Rockman_EXE_Normal_Swing");
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"crouch.png"), L"NBT_Rockman_EXE_Normal_Crouch");
+	/*lstrcpy(sText, sCharacterDir);
 	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"cross_aqua.png"), L"NBT_Rockman_EXE_Aqua_Cross");
 	lstrcpy(sText, sCharacterDir);
 	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"cross_charge.png"), L"NBT_Rockman_EXE_Charge_Cross");
@@ -47,11 +83,11 @@ void CNavi_Rockman::Initialize(void)
 	lstrcpy(sText, sCharacterDir);
 	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"cross_tengu.png"), L"NBT_Rockman_EXE_Tengu_Cross");
 	lstrcpy(sText, sCharacterDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"cross_tomahawk.png"), L"NBT_Rockman_EXE_Tomahawk_Cross");
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"cross_tomahawk.png"), L"NBT_Rockman_EXE_Tomahawk_Cross");*/
 #pragma endregion
 
-	Set_FrameKey(0, L"NBT_Rockman_EXE_Normal");
-	CAnimationTable::Get_Instance()->Load_AnimData(L"Idle", Get_FrameList()[0]);
+	Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Idle");
+	CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
 	m_tState.Set_State(STATE::IDLE);
 }
@@ -90,6 +126,7 @@ void CNavi_Rockman::Render(HDC hDC)
 
 	g.TranslateTransform(m_tInfo.fX + fScrollX, m_tInfo.fY + fScrollY);
 	g.ScaleTransform((float)m_vecDirection.x, (float)m_vecDirection.y);
+	g.GetDpiX();
 
 	g.DrawImage(
 		pImage, -(Get_Frame(0).iOffsetX), -(Get_Frame(0).iOffsetY),	// 이미지 오프셋
@@ -118,37 +155,44 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 	case IDLE:
 		if (m_tState.IsState_Entered())
 		{
-			CAnimationTable::Get_Instance()->Load_AnimData(L"Idle", Get_FrameList()[0]);
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Idle");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 		}
 
-		if (CKeyMgr::Get_Instance()->Key_Down(VK_RIGHT))
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
 		{
 			m_vecMoveDirection.x = 1;
 		}
-		else if (CKeyMgr::Get_Instance()->Key_Down(VK_LEFT))
+		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
 		{
 			m_vecMoveDirection.x = -1;
 		}
-		else if (CKeyMgr::Get_Instance()->Key_Down(VK_UP))
+		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
 		{
 			m_vecMoveDirection.y = 1;
 		}
-		else if (CKeyMgr::Get_Instance()->Key_Down(VK_DOWN))
+		else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
 			m_vecMoveDirection.y = -1;
 		}
 
-		if (CKeyMgr::Get_Instance()->Key_Down(VK_RIGHT) || CKeyMgr::Get_Instance()->Key_Down(VK_LEFT)
-			|| CKeyMgr::Get_Instance()->Key_Down(VK_UP) || CKeyMgr::Get_Instance()->Key_Down(VK_DOWN))
+		if (CKeyMgr::Get_Instance()->Key_Down('A'))
+		{
+			m_tState.Set_State(SHOOT_BUSTER);
+		}
+
+		if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT) || CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT)
+			|| CKeyMgr::Get_Instance()->Key_Pressing(VK_UP) || CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
 		{
 			m_tState.Set_State(MOVE_READY);
 		}
-		break;
 
+		break;
 	case MOVE_READY:
 		if (m_tState.IsState_Entered())
 		{
-			CAnimationTable::Get_Instance()->Load_AnimData(L"Move_Ready", Get_FrameList()[0]);
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Move_Ready");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 		}
 
 
@@ -161,7 +205,8 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 	case MOVE_END:
 		if (m_tState.IsState_Entered())
 		{
-			CAnimationTable::Get_Instance()->Load_AnimData(L"Move_End", Get_FrameList()[0]);
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Move_End");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
 			m_tInfo.fX += (float)PANEL_CROW * (float)m_vecMoveDirection.x;
 			m_tInfo.fY -= (float)PANEL_CCOL * (float)m_vecMoveDirection.y;
@@ -176,7 +221,22 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			m_tState.Set_State(IDLE);
 		}
 		break;
+	case SHOOT_BUSTER:
+		if (m_tState.IsState_Entered())
+		{
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Shoot_Buster");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
+		}
+
+
+
+		if (Get_Frame(0).iFrameCur >= Get_Frame(0).iFrameEnd)
+		{
+			m_tState.Set_State(IDLE);
+		}
+		break;
 	}
+	
 }
 
 

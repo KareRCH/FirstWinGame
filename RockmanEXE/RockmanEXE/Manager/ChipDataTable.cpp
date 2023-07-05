@@ -1,5 +1,7 @@
 #include "ChipDataTable.h"
 
+#include "BmpMgr.h"
+
 
 CChipDataTable* CChipDataTable::g_pInstance = nullptr;
 int	CChipDataTable::iID_Count = 0;
@@ -1528,7 +1530,7 @@ void CChipDataTable::Initialize()
 
 #pragma endregion
 
-
+	Load_ChipImage();
 }
 
 void CChipDataTable::Release()
@@ -1551,3 +1553,32 @@ void CChipDataTable::Release()
 		iter = m_GigaTable_Map.erase(iter);
 	}
 }
+
+void CChipDataTable::Load_ChipImage()
+{
+	wstring wsString;
+	
+	wstring wsDir = L"./RockmanEXE/Resource/ui/chip/portray/";
+	wstring wsName = L"UI_Chip_Portray_";
+	
+	for(int i = 1; i <= 265; ++i )
+	{
+		TCHAR sText[100];
+		wstringstream ssInt;
+		ssInt << i;
+		wsString = ssInt.str() + L".png";
+		lstrcpy(sText, wsName.c_str());
+		CBmpMgr::Get_Instance()->Insert_PNG((wsDir + wsString).c_str(), (wsName + ssInt.str()).c_str());
+	}
+
+	wsDir = L"./RockmanEXE/Resource/ui/chip/icon/";
+	wsName = L"UI_Chip_Icon_";
+	for (int i = 1; i <= 211; ++i)
+	{
+		wstringstream ssInt;
+		ssInt << i;
+		wsString = ssInt.str() + L".png";
+		CBmpMgr::Get_Instance()->Insert_PNG((wsDir + wsString).c_str(), (wsName + ssInt.str()).c_str());
+	}
+}
+

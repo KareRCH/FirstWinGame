@@ -10,19 +10,20 @@ public:
 
 public:
 	// 모션 종류, 최대 애니메이션 수
-	int iMotion;
-	int	iMotionSize;
+	int iMotionX = 0;
+	int iMotionY = 0;
+	int	iMotionSize = 0;
 
 	// 시트의 프레임별 사이즈
-	int	iFrameWidth;
-	int iFrameHeight;
+	int	iFrameWidth = 0;
+	int iFrameHeight = 0;
 
 	// 원점
-	int iOffsetX;
-	int iOffsetY;
+	int iOffsetX = 0;
+	int iOffsetY = 0;
 
 	// 초당 속도
-	float fSpeed;
+	float fSpeed = 0.f;
 
 public:
 	ULONGLONG Get_Speed_ForFrame()
@@ -32,9 +33,9 @@ public:
 
 	void Parse_Frame(FRAME& tFrame)
 	{
-		tFrame.iMotion = iMotion;
-		tFrame.iFrameEnd = iMotionSize;
-		tFrame.iFrameStart = 0;
+		tFrame.iMotion = iMotionY;
+		tFrame.iFrameEnd = iMotionSize - 1;
+		tFrame.iFrameStart = iMotionX;
 		tFrame.iFrameCur = 0;
 		tFrame.ulSpeed = Get_Speed_ForFrame();
 		tFrame.ulTime = GetTickCount64();
@@ -87,13 +88,14 @@ private:
 	map<const TCHAR*, map<const TCHAR*, FAnimData>> m_mapTable;
 
 	void Create_Animation(const TCHAR* sName, const TCHAR* sAnimName,	
-		int iMotion, int iMotionSize, 
+		int iMotionX, int iMotionY, int iMotionSize, 
 		int iFrameWidth, int iFrameHeight,
 		int iOffsetX, int iOffsetY, float fSpeed)
 	{
 		FAnimData pNewData = FAnimData();
 
-		pNewData.iMotion = iMotion;
+		pNewData.iMotionX = iMotionX;
+		pNewData.iMotionY = iMotionY;
 		pNewData.iMotionSize = iMotionSize;
 
 		pNewData.iFrameWidth = iFrameWidth;

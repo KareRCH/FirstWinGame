@@ -4,6 +4,9 @@
 
 #include "Battle/Panel.h"
 #include "Battle/BattleUI.h"
+#include "Manager/ChipDataTable.h"
+
+#define MAX_CHIP_COUNT 8
 
 /*
 * 배틀에 관해 여러가지를 관리하는 클래스
@@ -13,7 +16,7 @@
 class CBattleMng
 {
 private:
-	CBattleMng() {}
+	CBattleMng() : m_iLoadedChip_Count(5){}
 	~CBattleMng() {}
 	CBattleMng(const CBattleMng& _rhs) = delete;
 
@@ -28,6 +31,8 @@ public:
 		PRE_BATTLE,
 		// 실시간 전투 시작
 		BATTLE_START, 
+		// 전투중
+		BATTLE_PROCESS,
 		// 전투 결과 발표
 		BATTLE_RESULT,
 		// 전투 종료, 
@@ -77,7 +82,10 @@ private: // 전역적으로 쓰이는 변수
 
 private: // 게임 준비 관련
 	// 패널 저장리스트
-	vector<vector<CPanel*>>		m_vvPanel_List;
+	vector<vector<CPanel*>>			m_vvPanel_List;					// 패널 저장 리스트
+	list<FChipData_ForBattle>		m_ChipData_List;				// 플레이어의 칩 정보를 저장
+	vector<FChipData_ForBattle>		m_LoadedChip_List;				// 턴에 로드된 칩 리스트
+	int								m_iLoadedChip_Count;			// 현재 로드할 수 있는 칩의 개수
 
 private: // 턴 관련
 	int				m_iTurn = 1;								// 턴은 1부터 시작한다.
@@ -85,7 +93,7 @@ private: // 턴 관련
 
 private: // 게임 결과 관련
 	bool			m_bBusting_Success = false;					// 게임 종료 후 버스팅 성공 유무
-	DELAY<float>	m_fBattleEnd_Delay = DELAY<float>(10.f);	// 턴이 끝나고
+	DELAY<float>	m_fBattleEnd_Delay = DELAY<float>(1.f);		// 턴이 끝나고 결과 출력 딜레이
 
 
 private:
@@ -93,7 +101,21 @@ private:
 	void ChipSelect(float fDeltaTime);
 	void PreBattle(float fDeltaTime);
 	void BattleStart(float fDeltaTime);
+	void BattleProcess(float fDeltaTime);
 	void BattleResult(float fDeltaTime);
 	void BattleEnd(float fDeltaTime);
+
+
+private:
+	list<CObj*>		m_BattleObjList;
+	CBattleUI*		m_pBattleUI = nullptr;
+
+private:
+	// 테스트용 칩 로드 함수
+	void Test_LoadChip();
+	void Test_CreateChip(int iID, int iDamage, EATTRIBUTE eAttribute, ECHIP_CODE eCode);
+	void Chip_Shuffle();
+	void Chip_LoadCount();
+	void Chip_Equip();
 };
 

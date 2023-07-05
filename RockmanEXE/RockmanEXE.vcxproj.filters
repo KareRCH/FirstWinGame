@@ -282,11 +282,11 @@
     <ClInclude Include="Core\SoundMgr.h">
       <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
     </ClInclude>
-    <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="RockmanEXE\Manager\AnimationTable.h">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -371,11 +371,11 @@
     <ClCompile Include="Core\SoundMgr.cpp">
       <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
     </ClCompile>
-    <ClCompile Include="BattleUI.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="AnimationTable.cpp">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleUI.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

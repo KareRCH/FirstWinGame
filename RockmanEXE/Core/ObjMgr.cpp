@@ -57,7 +57,11 @@ int CObjMgr::Update(float fDeltaTime)
 		for (auto iter = m_ObjList[i].begin();
 			iter != m_ObjList[i].end(); )
 		{
-			int iResult = (*iter)->Update(fDeltaTime);
+			int iResult = 0;
+			if (!(*iter)->Get_IsPaused())
+				(*iter)->Update(fDeltaTime);
+
+			iResult = (int)(*iter)->Get_Dead();
 
 			if (OBJ_DEAD == iResult)
 			{
@@ -78,7 +82,8 @@ void CObjMgr::Late_Update(float fDeltaTime)
 	{
 		for (auto& iter : m_ObjList[i])
 		{
-			iter->Late_Update(fDeltaTime);
+			if (!iter->Get_IsPaused())
+				iter->Late_Update(fDeltaTime);
 
 			if (m_ObjList[i].empty())
 				break;
@@ -96,7 +101,10 @@ void CObjMgr::Render(HDC hDC)
 	for (size_t i = 0; i < OBJID_END; ++i)
 	{
 		for (auto& iter : m_ObjList[i])
-			iter->Render(hDC);
+		{
+			if (iter->Get_Visible())
+				iter->Render(hDC);
+		}
 	}
 
 }

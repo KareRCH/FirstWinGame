@@ -23,6 +23,13 @@ public:
 	void			Set_Dead() { m_bDead = true; }
 	bool			Get_Dead() { return m_bDead; }
 
+	void			Set_Pause() { m_bPause = true; }
+	void			Set_Resume() { m_bPause = false; }
+	bool			Get_IsPaused() { return m_bPause; }
+
+	void			Set_Visible(bool value) { m_bIsVisible = value; }
+	bool			Get_Visible() { return m_bIsVisible; }
+
 	void			Set_FrameKey(int iIndex, const TCHAR* pFrameKey)
 	{
 		if (m_vFrame.size() > iIndex)
@@ -78,6 +85,10 @@ protected:
 	DIRECTION	m_eDir;
 
 	bool		m_bDead;			// 오브젝트 삭제용
+	bool		m_bPause;			// 오브젝트 활동정지
+	bool		m_bIsVisible;		// 오브젝트 렌더 여부
+
+	int			m_iRenderDepth;		// 렌더 깊이 (숫자가 클 수록 더 빠른 순서로 렌더링 됨)
 
 	// 이미지를 로드하고 프레임을 업데이트 하기 위한 벡터리스트
 	// 한 객체에 대해 여러개의 이미지를 로드할 수 있습니다.
@@ -85,5 +96,6 @@ protected:
 
 public:
 	vector<pair<const TCHAR*, FRAME>>& Get_FrameList() { return m_vFrame; }
+	int	Get_RenderDepth() { return m_iRenderDepth; }
 };
 

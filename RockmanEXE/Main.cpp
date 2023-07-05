@@ -58,6 +58,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     // 1 / 1000초의 DWORD 정수 값으로 반환(밀리 세컨드)
 
     ULONGLONG	ulTime = GetTickCount64();	// 30
+    srand(unsigned int(time(NULL)));
 
     while (true)
     {
@@ -84,7 +85,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             if (ulTime + FRAME_DELAY < ulCurTime)
             {
                 // 1초를 기준으로 현재 시간에 과거 시간을 뺀 값을 
-                float fDeltaTime = 1.f / (static_cast<float>(ulCurTime) - static_cast<float>(ulTime));
+                float fDeltaTime = (static_cast<float>(ulCurTime) - static_cast<float>(ulTime)) / 1000.f;
                 MainGame.Update(fDeltaTime);
                 MainGame.Late_Update(fDeltaTime);
                 MainGame.Render();

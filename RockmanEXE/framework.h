@@ -26,6 +26,7 @@
 #include <cmath>
 #include <algorithm>
 #include <functional>
+#include <sstream>
 
 #include <Vfw.h>
 #pragma comment(lib, "vfw32.lib")

@@ -16,6 +16,13 @@ public:
 
 	HDC			Find_Img(const TCHAR* pImgKey);
 	CBitMap*	Find_CBitMap(const TCHAR* pImgKey);
+
+	void		Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
+
+	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
+	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, int srcx, int srcy, bool bAllowScroll = true);
+
+	void		Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize = 3);
 	
 private: // ╫л╠шео
 	static CBmpMgr* m_pInstance;

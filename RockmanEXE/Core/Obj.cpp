@@ -1,6 +1,6 @@
 #include "Obj.h"
 
-CObj::CObj() : m_eDir(DIR_END), m_bDead(false)
+CObj::CObj() : m_eDir(DIR_END), m_bDead(false), m_bPause(false), m_bIsVisible(true)
 {
 	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
 	ZeroMemory(&m_tRect, sizeof(m_tRect));
@@ -28,7 +28,7 @@ void CObj::Move_Frame()
 			++tFrame.iFrameCur;
 
 			if (tFrame.iFrameCur > tFrame.iFrameEnd)
-				tFrame.iFrameCur = tFrame.iFrameStart;
+				tFrame.iFrameCur = 0;
 
 			tFrame.ulTime = GetTickCount64();
 		}

@@ -86,11 +86,13 @@ void CScene_NetBattle::Render(HDC hDC)
 	//	0,
 	//	SRCCOPY);
 
+	// 판넬이긴한데. 나중에 바꿔야할 듯
 	CBattleMng::Get_Instance()->Render(hDC);
 
 	// 오브젝트 그리기
 	CObjMgr::Get_Instance()->Render(hDC);
 
+	// UI 그리기
 	CBattleUI::Get_Instance()->Render(hDC);
 }
 
