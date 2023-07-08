@@ -52,7 +52,7 @@ public:
 		}
 	}
 
-	FRAME	Get_Frame(int iIndex)
+	FRAME&	Get_Frame(int iIndex)
 	{
 		if (m_vFrame.size() > iIndex)
 			return m_vFrame[iIndex].second;
@@ -70,7 +70,7 @@ public:
 	virtual void		Render(HDC hDC)						PURE;
 	virtual void		Release(void)						PURE;
 public:
-	virtual void		Collide(CObj* _pDst)	PURE;
+	virtual void		Collide(CObj* _pDst)				PURE;
 
 protected:
 	// Update_Rect는 z축 사용에 따른 개념 분리에 따라 사용하지 않습니다.

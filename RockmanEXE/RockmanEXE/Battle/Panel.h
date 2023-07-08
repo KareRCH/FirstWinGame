@@ -62,10 +62,11 @@ private:
 	~CPanelFactory() = delete;
 
 public:
-	static CPanel* Create(CVector3<float> vecPos, CPanel::PNL_COLOR eColor, CPanel::PNL_BRIGHTNESS eBrightness,
+	static CPanel* Create(TEAM_ID iTeam, CVector3<float> vecPos, CPanel::PNL_COLOR eColor, CPanel::PNL_BRIGHTNESS eBrightness,
 		CPanel::PNL_STATE ePanelState)
 	{
 		CPanel* pObj = new CPanel;
+		pObj->Set_TeamID((int)iTeam);
 		pObj->Set_VecPos(vecPos);
 		pObj->Set_Color_Init(eColor);
 		pObj->Set_Color(eColor);

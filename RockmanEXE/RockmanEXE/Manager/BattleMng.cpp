@@ -43,6 +43,7 @@ void CBattleMng::Update(float fDeltaTime)
 
 void CBattleMng::Late_Update(float fDeltaTime)
 {
+
 }
 
 void CBattleMng::Render(HDC hDC)
@@ -73,7 +74,7 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 					(float)((ROCKMAN_EXECX / 2) - (int)((float)PANEL_CROW * 2.5f) + (PANEL_CROW * col)),
 					(float)(118 + (PANEL_CCOL * row)), 0.f
 				);
-				CPanel* pCreated = CPanelFactory::Create(t, 
+				CPanel* pCreated = CPanelFactory::Create((col < (BATTLE_PANEL_COL / 2)) ? TEAM_ALPHA : TEAM_BETA, t,
 					(col < (BATTLE_PANEL_COL / 2)) ? CPanel::PNL_RED : CPanel::PNL_BLUE, 
 					(CPanel::PNL_BRIGHTNESS)max((int)CPanel::DARK - row, 0),
 					(CPanel::PNL_STATE)(rand() % 14)
@@ -130,20 +131,32 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		}
 	}
 
-	bool bAll_Enemy_Created = false;
-
 	// 딜레이를 주며 적을 소환한다.
+
 	if (!m_EnemyList.empty())
 	{
+		auto iter = m_EnemyList.begin();
 		if (m_fEnemy_Appear_Delay.Update(fDeltaTime))
 		{
 			m_fEnemy_Appear_Delay.Reset();
-			m_EnemyList.front()->Set_Visible(true);
-			m_EnemyList.pop_front();
-			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"appear.wav"), SYSTEM_EFFECT, 1.f);
+
+			for (; iter != m_EnemyList.end(); ++iter)
+			{
+				if (!(*iter)->Get_Visible())
+				{
+					(*iter)->Set_Visible(true);
+					CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"appear.wav"), SYSTEM_EFFECT, 1.f);
+					break;
+				}
+			}
+
+			if (iter == m_EnemyList.end())
+				m_bAll_Enemy_Created = true;
 		}
 	}
-	else
+
+	// 전부 소환함
+	if (m_bAll_Enemy_Created)
 	{
 		if (m_fBattle_Pre_Delay.Update(fDeltaTime))
 			m_tState.Set_State(STATE::CHIP_SELECT);
@@ -233,6 +246,10 @@ void CBattleMng::BattleProcess(float fDeltaTime)
 		if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 			m_tState.Set_State(STATE::CHIP_SELECT);
 	}
+	if (m_EnemyList.empty())
+	{
+		m_tState.Set_State(STATE::BATTLE_RESULT);
+	}
 
 	if (m_tState.IsState_Exit())
 	{
@@ -245,8 +262,15 @@ void CBattleMng::BattleResult(float fDeltaTime)
 	// 배틀 종료 후 결과 표시
 	if (m_tState.IsState_Entered())
 	{
-
+		m_fBattleEnd_Delay.Reset();
+		CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"enemy_deleted.wav"), 1.f);
 	}
+
+	if (m_fBattleEnd_Delay.Update(fDeltaTime))
+	{
+		m_tState.Set_State(STATE::BATTLE_END);
+	}
+
 
 	if (m_tState.IsState_Exit())
 	{

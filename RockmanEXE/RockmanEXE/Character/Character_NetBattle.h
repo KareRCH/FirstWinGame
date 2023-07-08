@@ -18,7 +18,7 @@
 class CCharacter_NetBattle abstract : public CCharacter, public ITeamAgent
 {
 public:
-	CCharacter_NetBattle() : m_iAttack(), m_bInvincible() {}
+	CCharacter_NetBattle() : m_iAttack(), m_bInvincible(), m_bHit(), m_bParalyze() {}
 	virtual ~CCharacter_NetBattle() {}
 
 public:
@@ -170,13 +170,14 @@ public:
 
 #pragma region 스테이터스 관련
 protected:
-	GAUGE<int>	m_iHP;			// 체력
-	int			m_iAttack;		// 공격력
+	GAUGE<int>		m_iHP;				// 체력
+	int				m_iAttack;			// 공격력
 
-	bool		m_bInvincible;	// 무적
+	bool			m_bInvincible;		// 무적
+	GAUGE<float>	m_fInvicibleTime;	// 무적시간
 
-	bool		m_bHit;			// 맞음
-	bool		m_bParalyze;	// 마비
+	bool			m_bHit;				// 맞음
+	bool			m_bParalyze;		// 마비
 
 public:
 	GAUGE<int>  Get_HP() { return m_iHP; }

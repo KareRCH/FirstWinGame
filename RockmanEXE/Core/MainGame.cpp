@@ -45,8 +45,8 @@ void CMainGame::Initialize()
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();
 
-	ITeamAgent::Add_TeamRelation(TEAM_ALPHA ,ERELATION_STATE::HOSTILE);
-	ITeamAgent::Add_TeamRelation(TEAM_BETA, ERELATION_STATE::HOSTILE);
+	ITeamAgent::Add_TeamRelation(TEAM_ALPHA, TEAM_BETA, ERELATION_STATE::HOSTILE);
+	ITeamAgent::Add_TeamRelation(TEAM_BETA, TEAM_ALPHA, ERELATION_STATE::HOSTILE);
 }
 
 void CMainGame::Update(float fDeltaTime)

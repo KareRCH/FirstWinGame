@@ -23,7 +23,8 @@ void CObj::Move_Frame()
 	for (auto iter = m_vFrame.begin(); iter != m_vFrame.end(); ++iter)
 	{
 		auto& tFrame = (*iter).second;
-		if (tFrame.ulTime + tFrame.ulSpeed < GetTickCount64())
+		tFrame.ulCurTime = GetTickCount64();
+		if (tFrame.ulTime + tFrame.ulSpeed < tFrame.ulCurTime)
 		{
 			++tFrame.iFrameCur;
 
@@ -35,7 +36,7 @@ void CObj::Move_Frame()
 					tFrame.iFrameCur = tFrame.iFrameEnd;
 			}
 
-			tFrame.ulTime = GetTickCount64();
+			tFrame.ulTime = tFrame.ulCurTime;
 		}
 	}
 }

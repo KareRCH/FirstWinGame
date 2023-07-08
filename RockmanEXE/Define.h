@@ -123,7 +123,7 @@ typedef struct tagLine
 typedef struct tagFrame
 {
 	tagFrame() : bLoop(true), iFrameStart(), iFrameEnd(), iFrameCur(), iMotion(),
-		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), ulTime(GetTickCount64()){}
+		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), ulTime(GetTickCount64()), ulCurTime(GetTickCount64()){}
 
 	bool			bLoop;
 
@@ -139,9 +139,11 @@ typedef struct tagFrame
 
 	ULONGLONG		ulSpeed;		// 딜레이
 	ULONGLONG		ulTime;			// 시간 체크
+	ULONGLONG		ulCurTime;		// 현재 시간
 
 	void Set_Loop(bool value) { bLoop = value; }
 	bool IsFrameEnd() { return (iFrameCur >= iFrameEnd); }
+	bool IsFrameTick(int value) { return ((iFrameCur == value) && (ulTime == ulCurTime)); }
 	bool IsFrameStart() { return (iFrameCur == 0); }
 }FRAME;
 

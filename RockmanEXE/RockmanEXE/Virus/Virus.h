@@ -2,6 +2,7 @@
 
 #include "Character/Character_NetBattle.h"
 #include "ObjMgr.h"
+#include "Manager/BattleMng.h"
 
 /*
 * 적 종류중 바이러스 캐릭터에 대한 속성 정의 클래스입니다.
@@ -15,7 +16,7 @@ public:
 public:
 	CVirus() {}
 	CVirus(const CVirus& _rhs) = delete;
-	virtual ~CVirus() {}
+	virtual ~CVirus() { CBattleMng::Get_Instance()->Enemy_Deleted(this); }
 
 	// CCharacter_NetBattle을(를) 통해 상속됨
 	virtual int Update(float fDeltaTime) override;

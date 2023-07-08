@@ -23,7 +23,9 @@ void CSpell_Shockwave::Initialize(void)
 
 	Set_FrameKey(0, L"NBT_Spell_Shockwave");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
-	Get_Frame(0).Set_Loop(true);
+	
+	for (int i = 0; i < (int)ACTION_KEY::MAX; ++i)
+		m_mapAction.emplace((ACTION_KEY)i, ACTION());
 }
 
 int CSpell_Shockwave::Update(float fDeltaTime)
@@ -41,20 +43,6 @@ int CSpell_Shockwave::Update(float fDeltaTime)
 
 void CSpell_Shockwave::Late_Update(float fDeltaTime)
 {
-	// 딜레이에 따라 정해진 방향으로 이동한다.
-	if (Get_Frame(0).IsFrameStart())
-	{
-		m_mapAction[ACTION_KEY::MOVED].Act();
-	}
-	if (Get_Frame(0).IsFrameEnd())
-	{
-		if (m_mapAction[ACTION_KEY::MOVED].Sync())
-		{
-			m_vecPos.x += m_vecSpeed.x * (float)m_vecDirection.x;
-			//CSoundMgr::Get_Instance()->Play_Sound(L"");
-		}
-	}
-
 	// 충돌 처리
 	CVecCollisionMgr::Collision_Box(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
 
@@ -64,10 +52,21 @@ void CSpell_Shockwave::Late_Update(float fDeltaTime)
 	auto tPanel = CVecCollisionMgr::Collision_Box(CObjMgr::Get_Instance()->Get_ObjList(PANEL), this);
 	m_vecPos = vecTemp;
 
-	if (tPanel.empty())
+	if (tPanel.empty() && Get_Frame(0).IsFrameTick(Get_Frame(0).iFrameEnd))
 	{
 		m_mapAction[ACTION_KEY::DIE].Act();
+		m_bIsVisible = false;
 	}
+	
+	// 딜레이에 따라 정해진 방향으로 이동한다.
+	if (Get_Frame(0).IsFrameTick(Get_Frame(0).iFrameEnd))
+	{
+		Get_Frame(0).iFrameCur = 0;
+		m_vecPos.x += m_vecSpeed.x * (float)m_vecDirection.x;
+		//CSoundMgr::Get_Instance()->Play_Sound(L"");
+	}
+
+	
 }
 
 void CSpell_Shockwave::Render(HDC hDC)
@@ -89,8 +88,11 @@ void CSpell_Shockwave::Collide(CObj* _pDst)
 		&& Get_Owner() != pChr
 		&& ERELATION_STATE::HOSTILE == ITeamAgent::Check_Relation(pChr, this))
 	{
-		pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
-		pChr->Collide(this);
+		if (!pChr->Get_Invincible())
+		{
+			pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
+			pChr->Collide(this);
+		}
 	}
 
 	/*CCharacter_NetBattle* pChr = dynamic_cast<CCharacter_NetBattle*>(_pDst);

@@ -196,6 +196,9 @@
     <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell">
       <UniqueIdentifier>{73ceb80a-6bb3-4af7-a26e-21106dc82f2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\02. Overworld">
+      <UniqueIdentifier>{11d9c1dd-a512-4492-a5f8-834ad99f76d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">

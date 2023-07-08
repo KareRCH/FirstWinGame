@@ -99,7 +99,6 @@ private: // 게임 결과 관련
 	bool			m_bBusting_Success = false;					// 게임 종료 후 버스팅 성공 유무
 	DELAY<float>	m_fBattleEnd_Delay = DELAY<float>(1.f);		// 턴이 끝나고 결과 출력 딜레이
 
-
 private:
 	void ReadyForGame(float fDeltaTime);
 	void ChipSelect(float fDeltaTime);
@@ -115,10 +114,23 @@ private:
 	list<CCharacter_NetBattle*>		m_EnemyList;
 	CBattleUI*						m_pBattleUI = nullptr;
 
+	bool m_bAll_Enemy_Created = false;
+
 public:
 	void Add_BattleObject(CCharacter_NetBattle* pObj)
 	{
 		m_BattleObjList.push_back(pObj);
+	}
+
+public:
+	void Enemy_Deleted(CCharacter_NetBattle* pSrc)
+	{
+		auto iter = find_if(m_EnemyList.begin(), m_EnemyList.end(), [&pSrc](CCharacter_NetBattle* pDst) {
+			return (pSrc == pDst);
+			});
+
+		if (iter != m_EnemyList.end())
+			m_EnemyList.erase(iter);
 	}
 
 private:

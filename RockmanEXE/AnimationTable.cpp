@@ -18,7 +18,7 @@ void CAnimationTable::Initialize()
 		L"NBT_Rockman_EXE_Normal_Hit", L"1",
 		0, 0, 8, 
 		64, 64,
-		32, 32, 0.25f
+		32, 32, 0.75f
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal_Paralyze", L"1",

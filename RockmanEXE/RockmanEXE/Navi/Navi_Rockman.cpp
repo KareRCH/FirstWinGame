@@ -13,6 +13,7 @@
 
 #include "AbstractFactory.h"
 #include <SoundMgr.h>
+#include <VecCollisionMgr.h>
 
 CNavi_Rockman::CNavi_Rockman()
 {
@@ -29,7 +30,7 @@ void CNavi_Rockman::Initialize(void)
 	CNavi::Initialize_Navi();
 
 	// 현재 좌표 박스로 조정하기
-	m_vecBox = CVector3<float>(15.f, 13.f, 16.f);
+	m_vecBox = CVector3<float>(15.f, 10.f, 16.f);
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecPos.z += (m_vecBox.z - m_vecBoxPos.z);
 
@@ -102,6 +103,8 @@ void CNavi_Rockman::Initialize(void)
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
 	m_tState.Set_State(STATE::IDLE);
+
+	m_fInvicibleTime.ReAdjust(1.5f);
 }
 
 int CNavi_Rockman::Update(float fDeltaTime)
@@ -115,8 +118,27 @@ int CNavi_Rockman::Update(float fDeltaTime)
 
 void CNavi_Rockman::Late_Update(float fDeltaTime)
 {
+	auto vecTemp = m_vecPos;
 	Gravity(fDeltaTime);		// 중력
 	Move(fDeltaTime);			// 이동에 대한 처리를 수행하기
+	// 충돌 처리
+	
+	// 다음 프레임의 판넬처리를 만든다.
+	auto tPanels = CVecCollisionMgr::Collision_Box(CObjMgr::Get_Instance()->Get_ObjList(PANEL), this);
+	
+	if (!tPanels.empty())
+	{
+		CPanel* tPanel = dynamic_cast<CPanel*>(tPanels.front());
+		if (tPanel)
+		{
+			if (ERELATION_STATE::HOSTILE == Check_Relation(tPanel, this))
+			{
+				m_vecPos = vecTemp;
+			}
+		}
+	}
+	else
+		m_vecPos = vecTemp;
 }
 
 void CNavi_Rockman::Render(HDC hDC)
@@ -147,10 +169,28 @@ void CNavi_Rockman::Release(void)
 
 void CNavi_Rockman::Collide(CObj* _pDst)
 {
+	// 공격을 받는다.
+	CSpell* pSrc = dynamic_cast<CSpell*>(_pDst);
+	if (pSrc
+		&& Get_Owner() != pSrc
+		&& ERELATION_STATE::HOSTILE == ITeamAgent::Check_Relation(pSrc, this))
+	{
+		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"hurt.wav"), SOUND_EFFECT, 1.f);
+		m_fInvicibleTime.Reset();
+		m_tState.Set_State(HIT);
+		m_bInvincible = true;
+	}
+
 }
 
 void CNavi_Rockman::State_Update(float fDeltaTime)
 {
+	cout << m_fInvicibleTime.Cur << '\n';
+	if (m_fInvicibleTime.Update(fDeltaTime))
+	{
+		m_bInvincible = false;
+	}
+
 	switch (m_tState.eState)
 	{
 	case IDLE:
@@ -293,6 +333,27 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 		if (m_tState.IsState_Exit())
 		{
 			
+		}
+		break;
+	case HIT:
+		if (m_tState.IsState_Entered())
+		{
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Hit");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
+		}
+
+		// 실행식
+		m_vecMoveDir = CVector2<int>::Zero();
+
+		// 조건식
+		if (Get_Frame(0).IsFrameEnd())
+		{
+			m_tState.Set_State(IDLE);
+		}
+
+		if (m_tState.IsState_Exit())
+		{
+
 		}
 		break;
 	}

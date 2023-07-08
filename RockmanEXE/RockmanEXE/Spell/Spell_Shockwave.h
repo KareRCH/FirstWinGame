@@ -7,7 +7,7 @@
 class CSpell_Shockwave : public CSpell
 {
 public:
-	enum class ACTION_KEY { MOVED, DIE };
+	enum class ACTION_KEY : int { MOVED, DIE, MAX };
 public:
 	CSpell_Shockwave() {}
 	virtual ~CSpell_Shockwave() {}

@@ -31,7 +31,7 @@ void CSoundMgr::Initialize()
 
 	result = FMOD_System_GetMasterChannelGroup(m_pSystem, &m_pMasterChanelGroup);
 
-	LoadSoundFile("./RockmanEXE/Resource/sfx/loops/");
+	LoadSoundFile("./RockmanEXE/Resource/sfx/loops_wav/");
 	LoadSoundFile("./RockmanEXE/Resource/sfx/sfx_wav/");
 }
 void CSoundMgr::Release()
@@ -88,6 +88,7 @@ void CSoundMgr::Play_BGM(TCHAR * pSoundKey, float fVolume)
 	if (iter == m_mapSound.end())
 		return;
 
+	CSoundMgr::Get_Instance()->Stop_Sound(SOUND_BGM);
 	FMOD_System_PlaySound(m_pSystem, iter->second, m_pChannelGroup[BGM_GROUP], FALSE, &m_pChannelArr[SOUND_BGM]);
 	FMOD_Channel_SetMode(m_pChannelArr[SOUND_BGM], FMOD_LOOP_NORMAL);
 	FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], fVolume);

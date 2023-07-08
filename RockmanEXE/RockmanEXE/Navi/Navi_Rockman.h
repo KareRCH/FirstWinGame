@@ -9,7 +9,7 @@
 class CNavi_Rockman : public CNavi
 {
 public:
-	enum STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP, JUMP_SHOOT_BUSTER };
+	enum STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP, JUMP_SHOOT_BUSTER, HIT };
 public:
 	CNavi_Rockman();
 	virtual ~CNavi_Rockman();
