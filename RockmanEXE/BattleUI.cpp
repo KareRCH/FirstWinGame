@@ -1,5 +1,6 @@
 #include "Battle/BattleUI.h"
 
+#include "SoundMgr.h"
 #include "BmpMgr.h"
 #include "ScrollMgr.h"
 #include "KeyMgr.h"
@@ -88,7 +89,7 @@ void CBattleUI::State_Update(float fDeltaTime)
 	case STATE::OPENING:
 		if (m_tState.IsState_Entered())
 		{
-
+			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_screen_open.wav"), SYSTEM_EFFECT, 1.f);
 		}
 
 		m_tInfo.fX += 20.f;
@@ -123,6 +124,7 @@ void CBattleUI::State_Update(float fDeltaTime)
 		if (m_tState.IsState_Entered())
 		{
 			m_bInitBattle = false;
+			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_confirm.wav"), SYSTEM_EFFECT, 1.f);
 		}
 
 		m_tInfo.fX -= 20.f;

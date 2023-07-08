@@ -90,6 +90,8 @@ protected:
 
 	int			m_iRenderDepth;		// 렌더 깊이 (숫자가 클 수록 더 빠른 순서로 렌더링 됨)
 
+	CObj*		m_pOwner;			// 이 객체의 주인
+
 	// 이미지를 로드하고 프레임을 업데이트 하기 위한 벡터리스트
 	// 한 객체에 대해 여러개의 이미지를 로드할 수 있습니다.
 	vector<pair<const TCHAR*, FRAME>> m_vFrame;	
@@ -97,5 +99,9 @@ protected:
 public:
 	vector<pair<const TCHAR*, FRAME>>& Get_FrameList() { return m_vFrame; }
 	int	Get_RenderDepth() { return m_iRenderDepth; }
+
+public:
+	CObj* Get_Owner() { return m_pOwner; }
+	void Set_Owner(CObj* value) { m_pOwner = value; }
 };
 

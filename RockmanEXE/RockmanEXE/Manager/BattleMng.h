@@ -76,7 +76,7 @@ public:
 	}
 
 private: // 전역적으로 쓰이는 변수
-	map<STATE, function<void(CBattleMng*, float)>>		m_fnState_Map;
+	MAP_FUNC<STATE, void(CBattleMng*, float)>		m_fnState_Map;
 
 	STATE_INFO<STATE>		m_tState = STATE_INFO<STATE>();
 
@@ -86,6 +86,10 @@ private: // 게임 준비 관련
 	list<FChipData_ForBattle>		m_ChipData_List;				// 플레이어의 칩 정보를 저장
 	vector<FChipData_ForBattle>		m_LoadedChip_List;				// 턴에 로드된 칩 리스트
 	int								m_iLoadedChip_Count;			// 현재 로드할 수 있는 칩의 개수
+
+	DELAY<float>	m_fBattle_Pre_Delay = DELAY<float>(0.5f);
+	DELAY<float>	m_fBattle_Start_Delay = DELAY<float>(1.5f);		// 배틀 시작시 딜레이
+	DELAY<float>	m_fEnemy_Appear_Delay = DELAY<float>(0.5f);
 
 private: // 턴 관련
 	int				m_iTurn = 1;								// 턴은 1부터 시작한다.
@@ -107,8 +111,15 @@ private:
 
 
 private:
-	list<CObj*>		m_BattleObjList;
-	CBattleUI*		m_pBattleUI = nullptr;
+	list<CCharacter_NetBattle*>		m_BattleObjList;
+	list<CCharacter_NetBattle*>		m_EnemyList;
+	CBattleUI*						m_pBattleUI = nullptr;
+
+public:
+	void Add_BattleObject(CCharacter_NetBattle* pObj)
+	{
+		m_BattleObjList.push_back(pObj);
+	}
 
 private:
 	// 테스트용 칩 로드 함수

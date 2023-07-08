@@ -7,6 +7,8 @@
 
 #define GRAVITY_NETBATTLE 9.8f * 1.3f;
 
+
+
 /*
 * 넷 배틀에 쓰이는 캐릭터에 대한 추상클래스
 * 록맨, 내비, 바이러스, 각종 오브젝트, 무기와 같이
@@ -16,7 +18,7 @@
 class CCharacter_NetBattle abstract : public CCharacter, public ITeamAgent
 {
 public:
-	CCharacter_NetBattle() {}
+	CCharacter_NetBattle() : m_iAttack(), m_bInvincible() {}
 	virtual ~CCharacter_NetBattle() {}
 
 public:
@@ -56,22 +58,22 @@ protected: // 물리 관련
 	bool					m_bIsOnGround = true;		// 땅에 있을 때
 
 public:
-	void			Set_VecPos(CVector3<float>& value) { m_vecPos = value; }
+	void			Set_VecPos(CVector3<float> value) { m_vecPos = value; }
 	CVector3<float> Get_VecPos() { return m_vecPos; }
 
-	void			Set_Box(CVector3<float>& value) { m_vecBox = value; }
+	void			Set_Box(CVector3<float> value) { m_vecBox = value; }
 	CVector3<float> Get_Box() { return m_vecBox; }
 
 	void			Set_BoxPos(CVector3<float>& value) { m_vecBoxPos = value; }
 	CVector3<float> Get_BoxPos() { return m_vecBoxPos; }
 
-	void			Set_Speed(CVector3<float>& value) { m_vecSpeed = value; }
+	void			Set_Speed(CVector3<float> value) { m_vecSpeed = value; }
 	CVector3<float> Get_Speed() { return m_vecSpeed; }
 
-	void			Set_Accel(CVector3<float>& value) { m_vecAccel = value; }
+	void			Set_Accel(CVector3<float> value) { m_vecAccel = value; }
 	CVector3<float> Get_Accel() { return m_vecAccel; }
 
-	void			Set_Damping(CVector3<float>& value) { m_vecDamping = value; }
+	void			Set_Damping(CVector3<float> value) { m_vecDamping = value; }
 	CVector3<float> Get_Damping() { return m_vecDamping; }
 
 	bool			IsOnGround() { return m_bIsOnGround; }
@@ -79,15 +81,15 @@ public:
 public:
 	// 충돌박스에 대한 실제 영역을 구하는 함수입니다.
 	// 필요할 때 쓸 수 있도록 디자인 되었습니다.
-	CVecBox3<float> Get_BoxArea()
+	CVecBox<float> Get_BoxArea()
 	{
-		CVecBox3<float> vecBoxArea;
-		vecBoxArea.right		= m_vecPos.x + m_vecBoxPos.x + m_vecBox.x;
-		vecBoxArea.left			= m_vecPos.x + m_vecBoxPos.x - m_vecBox.x;
-		vecBoxArea.up			= m_vecPos.y + m_vecBoxPos.y - m_vecBox.y;
-		vecBoxArea.down			= m_vecPos.y + m_vecBoxPos.y + m_vecBox.y;
-		vecBoxArea.top			= m_vecPos.z + m_vecBoxPos.y + m_vecBox.z;
-		vecBoxArea.bottom		= m_vecPos.z + m_vecBoxPos.y - m_vecBox.z;
+		CVecBox<float> vecBoxArea = CVecBox<float>();
+		vecBoxArea.right	= m_vecPos.x + m_vecBoxPos.x + m_vecBox.x;
+		vecBoxArea.left		= m_vecPos.x + m_vecBoxPos.x - m_vecBox.x;
+		vecBoxArea.up		= m_vecPos.y + m_vecBoxPos.y + m_vecBox.y;
+		vecBoxArea.down		= m_vecPos.y + m_vecBoxPos.y - m_vecBox.y;
+		vecBoxArea.top		= m_vecPos.z + m_vecBoxPos.z + m_vecBox.z;
+		vecBoxArea.bottom	= m_vecPos.z + m_vecBoxPos.z - m_vecBox.z;
 
 		return vecBoxArea;
 	}
@@ -114,10 +116,10 @@ public:
 		m_vecSpeed.z += m_vecAccel.z * fDeltaTime;
 
 		float	fNextZ;
-		fNextZ = (m_vecPos.z + m_vecBoxPos.z) - m_vecBox.z + m_vecSpeed.z;
+		fNextZ = m_vecPos.z - (m_vecBox.z - m_vecBoxPos.z) + m_vecSpeed.z;
 		if (m_bLimit_Z && (fNextZ < 0.f))
 		{
-			m_vecPos.z = m_vecBoxPos.z + m_vecBox.z;
+			m_vecPos.z = (m_vecBox.z - m_vecBoxPos.z);
 			m_vecSpeed.z = 0;
 			m_bIsOnGround = true;
 		}
@@ -166,13 +168,28 @@ public:
 	void Set_MoveDirection(int x, int y) { m_vecMoveDir.x = x; m_vecMoveDir.y = y; }
 #pragma endregion
 
-#pragma region 네비용 인벤토리(칩 저장용)
+#pragma region 스테이터스 관련
 protected:
-	
+	GAUGE<int>	m_iHP;			// 체력
+	int			m_iAttack;		// 공격력
+
+	bool		m_bInvincible;	// 무적
+
+	bool		m_bHit;			// 맞음
+	bool		m_bParalyze;	// 마비
 
 public:
+	GAUGE<int>  Get_HP() { return m_iHP; }
+	void		Set_HP(int value) { m_iHP.Cur = value; }
+	void		Set_ResetHP(int value) { m_iHP = GAUGE<int>(value, true); }
 
+	int			Get_Attack() { return m_iAttack; }
+	void		Set_Attack(int value) { m_iAttack = value; }
+
+	bool		Get_Invincible() { return m_bInvincible; }
+	void		Set_Invincible(bool value) { m_bInvincible = value; }
 #pragma endregion
+
 
 };
 

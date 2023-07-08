@@ -88,36 +88,33 @@ public:
         return !(*this == other);
     }
 
-    // 郴利
-    //T Dot(const CVector3<T>& other) const
-    //{
-    //    return x * other.x + y * other.y + z * other.z;
-    //}
+    //郴利
+    T Dot(const CVector3<T>& other) const
+    {
+        return x * other.x + y * other.y + z * other.z;
+    }
 
-    //// 寇利
-    //CVector3<T> Cross(const CVector3<T>& other) const
-    //{
-    //    return CVector3<T>(
-    //        y * other.z - z * other.y,
-    //        z * other.x - x * other.z,
-    //        x * other.y - y * other.x
-    //    );
-    //}
+    // 寇利
+    CVector3<T> Cross(const CVector3<T>& other) const
+    {
+        return CVector3<T>(
+            y * other.z - z * other.y,
+            z * other.x - x * other.z,
+            x * other.y - y * other.x
+        );
+    }
 
-    /*T Length() const
+    T Length() const
     {
         return sqrt(x * x + y * y + z * z);
-    }*/
+    }
 
-    /*CVector3<T> Normalized() const
+    CVector3<T> Normalized() const
     {
         float len = Length();
         float normalizedX = static_cast<float>(x) / len;
         float normalizedY = static_cast<float>(y) / len;
         float normalizedZ = static_cast<float>(z) / len;
-        T normalizedXInt = static_cast<T>(normalizedX * numeric_limits<T>::max());
-        T normalizedYInt = static_cast<T>(normalizedY * numeric_limits<T>::max());
-        T normalizedZInt = static_cast<T>(normalizedZ * numeric_limits<T>::max());
-        return CVector3<T>(normalizedXInt, normalizedYInt, normalizedZInt);
-    }*/
+        return CVector3<T>(normalizedX, normalizedY, normalizedZ);
+    }
 };

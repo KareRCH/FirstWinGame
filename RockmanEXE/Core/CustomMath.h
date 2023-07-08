@@ -4,7 +4,10 @@
 
 #include "Vector2.h"
 #include "Vector3.h"
-#include "VecBox3.h"
+#include "VecLine3.h"
+#include "VecBox.h"
+#include "VecShpere.h"
+
 
 template<typename T>
 typename std::enable_if<is_floating_point<T>::value, bool>::type

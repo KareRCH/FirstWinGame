@@ -1,9 +1,13 @@
 #include "BattleMng.h"
 
 #include "KeyMgr.h"
+#include "SoundMgr.h"
 
-#include "Battle/BattleUnit_Factory.h"
 #include "Navi/Navi_Rockman.h"
+#include <Virus/Virus_Mettaur.h>
+#include "Battle/BattleUnit_Factory.h"
+
+
 
 CBattleMng* CBattleMng::m_pInstance = nullptr;
 
@@ -24,6 +28,8 @@ void CBattleMng::Initialize()
 	m_pBattleUI = CBattleUI::Get_Instance();
 
 	m_LoadedChip_List.reserve(MAX_CHIP_COUNT);
+
+	CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"loop_battle.wav"), 1.f);
 }
 
 void CBattleMng::Release()
@@ -53,7 +59,8 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 	// 단 한번만 이뤄진다.
 	if (m_tState.IsState_Entered())
 	{
-		
+		m_fEnemy_Appear_Delay.Reset();
+		m_fBattle_Pre_Delay.Reset();
 
 		// 판넬 생성
 		m_vvPanel_List.resize(BATTLE_PANEL_ROW);
@@ -62,12 +69,10 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 			m_vvPanel_List.resize(BATTLE_PANEL_COL);
 			for (int col = 0; col < BATTLE_PANEL_COL; ++col)
 			{
-				INFO t = { 
+				CVector3<float> t = CVector3<float>(
 					(float)((ROCKMAN_EXECX / 2) - (int)((float)PANEL_CROW * 2.5f) + (PANEL_CROW * col)),
-					(float)(118 + (PANEL_CCOL * row)), 
-					(float)PANEL_CROW, 
-					(float)PANEL_CCOL 
-				};
+					(float)(118 + (PANEL_CCOL * row)), 0.f
+				);
 				CPanel* pCreated = CPanelFactory::Create(t, 
 					(col < (BATTLE_PANEL_COL / 2)) ? CPanel::PNL_RED : CPanel::PNL_BLUE, 
 					(CPanel::PNL_BRIGHTNESS)max((int)CPanel::DARK - row, 0),
@@ -79,12 +84,10 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		}
 
 		// 플레이어 생성
-		CVector3<float> vecCreatePos, vecBox(15.f, 10.f, 16.f), vecBoxPos(0.f, 0.f, 0.f);
-		vecCreatePos.x = m_vvPanel_List[1][1]->Get_Info().fX;
-		vecCreatePos.y = m_vvPanel_List[1][1]->Get_Info().fY;
-		vecCreatePos.z = vecBox.z;
-		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(vecCreatePos, CVector2<int>(1, 1), vecBox, vecBoxPos);
-		m_BattleObjList.push_back(pCreated);
+		CVector3<float> vecCreatePos;
+		vecCreatePos.x = m_vvPanel_List[1][1]->Get_VecPos().x;
+		vecCreatePos.y = m_vvPanel_List[1][1]->Get_VecPos().y;
+		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(TEAM_ALPHA, vecCreatePos, CVector2<int>(1, 1));
 
 
 
@@ -99,7 +102,27 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 
 		// 셔플된 칩 데이터중 Chip_Count만큼 벡터에 넣는다.
 		Chip_LoadCount();
-		
+
+		// 테스트 적
+		vecCreatePos.x = m_vvPanel_List[1][4]->Get_VecPos().x;
+		vecCreatePos.y = m_vvPanel_List[1][4]->Get_VecPos().y;
+		CVirus* pEnemy1 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+		m_EnemyList.push_back(pEnemy1);
+		pEnemy1->Set_Visible(false);
+
+		// 테스트 적
+		//vecCreatePos.x = m_vvPanel_List[0][5]->Get_VecPos().x;
+		//vecCreatePos.y = m_vvPanel_List[0][5]->Get_VecPos().y;
+		//CVirus* pEnemy2 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+		//m_EnemyList.push_back(pEnemy2);
+		//pEnemy2->Set_Visible(false);
+
+		//// 테스트 적
+		//vecCreatePos.x = m_vvPanel_List[2][3]->Get_VecPos().x;
+		//vecCreatePos.y = m_vvPanel_List[2][3]->Get_VecPos().y;
+		//CVirus* pEnemy3 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+		//m_EnemyList.push_back(pEnemy3);
+		//pEnemy3->Set_Visible(false);
 
 		for (auto& rObj : m_BattleObjList)
 		{
@@ -108,9 +131,23 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 	}
 
 	bool bAll_Enemy_Created = false;
+
 	// 딜레이를 주며 적을 소환한다.
-	
-	m_tState.Set_State(STATE::CHIP_SELECT);
+	if (!m_EnemyList.empty())
+	{
+		if (m_fEnemy_Appear_Delay.Update(fDeltaTime))
+		{
+			m_fEnemy_Appear_Delay.Reset();
+			m_EnemyList.front()->Set_Visible(true);
+			m_EnemyList.pop_front();
+			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"appear.wav"), SYSTEM_EFFECT, 1.f);
+		}
+	}
+	else
+	{
+		if (m_fBattle_Pre_Delay.Update(fDeltaTime))
+			m_tState.Set_State(STATE::CHIP_SELECT);
+	}
 
 	if (m_tState.IsState_Exit())
 	{
@@ -127,6 +164,8 @@ void CBattleMng::ChipSelect(float fDeltaTime)
 		{
 			rObj->Set_Pause();
 		}
+
+		m_fTurn_Gauge.Reset();
 
 		m_pBattleUI->Set_LoadedChip_List(&m_LoadedChip_List);
 		m_pBattleUI->Set_PetUI_State(CBattleUI::STATE::OPENING);
@@ -162,10 +201,14 @@ void CBattleMng::BattleStart(float fDeltaTime)
 	// 배틀을 시작한다. 게이지를 차오르도록 만든다.
 	if (m_tState.IsState_Entered())
 	{
-		
+		// 딜레이 초기화
+		m_fBattle_Start_Delay.Reset();
 	}
 
-	m_tState.Set_State(STATE::BATTLE_PROCESS);
+	if (m_fBattle_Start_Delay.Update(fDeltaTime))
+	{
+		m_tState.Set_State(STATE::BATTLE_PROCESS);
+	}
 
 	if (m_tState.IsState_Exit())
 	{
@@ -184,10 +227,9 @@ void CBattleMng::BattleProcess(float fDeltaTime)
 		}
 	}
 
-	m_fTurn_Gauge.Cur += fDeltaTime;
- 	if (m_fTurn_Gauge.Max <= m_fTurn_Gauge.Cur)
+	
+ 	if (m_fTurn_Gauge.Update(fDeltaTime))
 	{
-		m_fTurn_Gauge.Cur = m_fTurn_Gauge.Max;
 		if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 			m_tState.Set_State(STATE::CHIP_SELECT);
 	}
@@ -242,26 +284,26 @@ void CBattleMng::Test_LoadChip()
 	Test_CreateChip(1, 80, EATTRIBUTE::NONE, ECHIP_CODE::F);
 	Test_CreateChip(1, 80, EATTRIBUTE::NONE, ECHIP_CODE::WILD_CARD);
 
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(90, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
 
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(91, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
 
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
-	Test_CreateChip(0, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::A);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::B);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
+	Test_CreateChip(89, 40, EATTRIBUTE::NONE, ECHIP_CODE::C);
 }
 
 void CBattleMng::Test_CreateChip(int iID, int iDamage, EATTRIBUTE eAttribute, ECHIP_CODE eCode)

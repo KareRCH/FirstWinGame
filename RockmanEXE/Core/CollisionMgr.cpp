@@ -1,15 +1,6 @@
 #include "CollisionMgr.h"
 
 
-CCollisionMgr::CCollisionMgr()
-{
-}
-
-
-CCollisionMgr::~CCollisionMgr()
-{
-}
-
 void CCollisionMgr::Collision_Rect(list<CObj*> _Dst, list<CObj*> _Src)
 {
 	RECT	rc{};

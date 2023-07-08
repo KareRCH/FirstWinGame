@@ -15,13 +15,24 @@ CSoundMgr::~CSoundMgr()
 
 void CSoundMgr::Initialize()
 {
-	// 사운드를 담당하는 대표객체를 생성하는 함수
-	FMOD_System_Create(&m_pSystem, 0U);
-	
-	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
-	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+	FMOD_RESULT	result;
 
-	LoadSoundFile(); 
+	// 사운드를 담당하는 대표객체를 생성하는 함수
+	result = FMOD_System_Create(&m_pSystem, FMOD_VERSION);
+	
+	result = FMOD_System_SetOutput(m_pSystem, FMOD_OUTPUTTYPE_ALSA);
+
+	// 1. 시스템 포인터, 2. 사용할 가상채널 수 , 초기화 방식) 
+	result = FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
+
+	result = FMOD_System_CreateChannelGroup(m_pSystem, "BGM_Group", &m_pChannelGroup[BGM_GROUP]);
+	result = FMOD_System_CreateChannelGroup(m_pSystem, "SND1_Group", &m_pChannelGroup[SND1_GROUP]);
+	result = FMOD_System_CreateChannelGroup(m_pSystem, "SND2_Group", &m_pChannelGroup[SND2_GROUP]);
+
+	result = FMOD_System_GetMasterChannelGroup(m_pSystem, &m_pMasterChanelGroup);
+
+	LoadSoundFile("./RockmanEXE/Resource/sfx/loops/");
+	LoadSoundFile("./RockmanEXE/Resource/sfx/sfx_wav/");
 }
 void CSoundMgr::Release()
 {
@@ -36,19 +47,14 @@ void CSoundMgr::Release()
 	FMOD_System_Close(m_pSystem);
 }
 
-
-
-
-void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
+void CSoundMgr::Play_Sound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
 {
 	map<TCHAR*, FMOD_SOUND*>::iterator iter; 
 
 	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
-	iter = find_if(m_mapSound.begin(), m_mapSound.end(), 
-		[&](auto& iter)->bool 
-	{
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(),  [&](auto& iter)->bool  {
 		return !lstrcmp(pSoundKey, iter.first);
-	});
+		});
 	
 	if (iter == m_mapSound.end())
 		return;
@@ -57,7 +63,12 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
 
 	if (FMOD_Channel_IsPlaying(m_pChannelArr[eID], &bPlay))
 	{
-		//FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[eID]);
+		FMOD_System_PlaySound(m_pSystem, iter->second, m_pChannelGroup[SND1_GROUP],  FALSE, &m_pChannelArr[eID]);
+	}
+	else
+	{
+		FMOD_Channel_Stop(m_pChannelArr[eID]);
+		FMOD_System_PlaySound(m_pSystem, iter->second, m_pChannelGroup[SND1_GROUP], FALSE, &m_pChannelArr[eID]);
 	}
 
 	FMOD_Channel_SetVolume(m_pChannelArr[eID], fVolume);
@@ -65,26 +76,25 @@ void CSoundMgr::PlaySound(TCHAR * pSoundKey, CHANNELID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::PlayBGM(TCHAR * pSoundKey, float fVolume)
+void CSoundMgr::Play_BGM(TCHAR * pSoundKey, float fVolume)
 {
 	map<TCHAR*, FMOD_SOUND*>::iterator iter;
 
 	// iter = find_if(m_mapSound.begin(), m_mapSound.end(), CTag_Finder(pSoundKey));
-	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)->bool
-	{
+	iter = find_if(m_mapSound.begin(), m_mapSound.end(), [&](auto& iter)->bool {
 		return !lstrcmp(pSoundKey, iter.first);
-	});
+		});
 	
 	if (iter == m_mapSound.end())
 		return;
 
-	//FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, iter->second, FALSE, &m_pChannelArr[SOUND_BGM]);
+	FMOD_System_PlaySound(m_pSystem, iter->second, m_pChannelGroup[BGM_GROUP], FALSE, &m_pChannelArr[SOUND_BGM]);
 	FMOD_Channel_SetMode(m_pChannelArr[SOUND_BGM], FMOD_LOOP_NORMAL);
 	FMOD_Channel_SetVolume(m_pChannelArr[SOUND_BGM], fVolume);
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::StopSound(CHANNELID eID)
+void CSoundMgr::Stop_Sound(CHANNELID eID)
 {
 	FMOD_Channel_Stop(m_pChannelArr[eID]);
 }
@@ -102,21 +112,27 @@ void CSoundMgr::SetChannelVolume(CHANNELID eID, float fVolume)
 	FMOD_System_Update(m_pSystem);
 }
 
-void CSoundMgr::LoadSoundFile()
+void CSoundMgr::LoadSoundFile(const char* pPath)
 {
+	char sText[128] = "";
+	strcpy_s(sText, pPath);
+	strcat_s(sText, "*.*");
+
 	// _finddata_t : <io.h>에서 제공하며 파일 정보를 저장하는 구조체
-	_finddata_t fd; 
+	_finddata_t fd;
 
 	// _findfirst : <io.h>에서 제공하며 사용자가 설정한 경로 내에서 가장 첫 번째 파일을 찾는 함수
-	long handle = _findfirst("../Sound/*.*", &fd);
+	long long handle = _findfirst(sText, &fd);
 
 	if (handle == -1)
 		return; 
 
 	int iResult = 0; 
 
-	char szCurPath[128] = "../Sound/";
-	char szFullPath[128] = ""; 
+	char szCurPath[128] = "";
+	char szFullPath[128] = "";
+
+	strcpy_s(szCurPath, pPath);
 
 	while (iResult != -1)
 	{
@@ -126,12 +142,14 @@ void CSoundMgr::LoadSoundFile()
 		strcat_s(szFullPath, fd.name);
 
 		FMOD_SOUND* pSound = nullptr; 
+		FMOD_CREATESOUNDEXINFO tSoundInfo;
 
-		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, 0, &pSound);
+		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, NULL, &pSound);
+		
 
 		if (eRes == FMOD_OK)
 		{
-			int iLength = strlen(fd.name) + 1; 
+			int iLength = (int)strlen(fd.name) + 1; 
 
 			TCHAR* pSoundKey = new TCHAR[iLength];
 			ZeroMemory(pSoundKey, sizeof(TCHAR) * iLength);
@@ -141,6 +159,7 @@ void CSoundMgr::LoadSoundFile()
 
 			m_mapSound.emplace(pSoundKey, pSound);
 		}
+
 		//_findnext : <io.h>에서 제공하며 다음 위치의 파일을 찾는 함수, 더이상 없다면 -1을 리턴
 		iResult = _findnext(handle, &fd);
 	}

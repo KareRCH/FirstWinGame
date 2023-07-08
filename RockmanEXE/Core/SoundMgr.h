@@ -30,14 +30,14 @@ public:
 	void Release(); 
 
 public:
-	void PlaySound(TCHAR* pSoundKey, CHANNELID eID, float fVolume);
-	void PlayBGM(TCHAR* pSoundKey, float fVolume);
-	void StopSound(CHANNELID eID);
+	void Play_Sound(TCHAR* pSoundKey, CHANNELID eID, float fVolume);
+	void Play_BGM(TCHAR* pSoundKey, float fVolume);
+	void Stop_Sound(CHANNELID eID);
 	void StopAll();
 	void SetChannelVolume(CHANNELID eID, float fVolume);
 
 private:
-	void LoadSoundFile(); 
+	void LoadSoundFile(const char* pPath);
 
 private:
 	static CSoundMgr* m_pInstance; 
@@ -50,5 +50,10 @@ private:
 
 	// 사운드 ,채널 객체 및 장치를 관리하는 객체 
 	FMOD_SYSTEM* m_pSystem; 
+
+	FMOD_CHANNELGROUP* m_pChannelGroup[MAX_CHANNEL_GROUP];
+	FMOD_CHANNELGROUP* m_pMasterChanelGroup;
+
+	
 };
 

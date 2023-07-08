@@ -28,7 +28,12 @@ void CObj::Move_Frame()
 			++tFrame.iFrameCur;
 
 			if (tFrame.iFrameCur > tFrame.iFrameEnd)
-				tFrame.iFrameCur = 0;
+			{
+				if (tFrame.bLoop)
+					tFrame.iFrameCur = 0;
+				else
+					tFrame.iFrameCur = tFrame.iFrameEnd;
+			}
 
 			tFrame.ulTime = GetTickCount64();
 		}

@@ -40,9 +40,14 @@
 // 사운드 라이브러리
 #include "fmod.h"
 #include "fmod.hpp"
+#include "fmod_errors.h"
+#include "fmod_studio.h"
+#include "fmod_studio.hpp"
 #pragma comment(lib, "fmodL_vc.lib")
+#pragma comment(lib, "fmodstudioL_vc.lib")
 
 #include <io.h>
+#include "fmod_common.h"
 
 // gdiplus 그래픽 라이브러리
 #include <ole2.h>

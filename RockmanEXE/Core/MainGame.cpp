@@ -10,8 +10,10 @@
 #include "BmpMgr.h"
 #include "SceneMgr.h"
 #include "ScrollMgr.h"
+#include "SoundMgr.h"
 #include "Manager/AnimationTable.h"
 #include "Manager/ChipDataTable.h"
+#include "ITeamAgent.h"
 
 CMainGame::CMainGame() : m_hDC(nullptr), m_ulTime(GetTickCount64()), m_iFPS(0), m_gdiplusToken()
 {
@@ -34,12 +36,17 @@ void CMainGame::Initialize()
 	gdiplusStartupInput.SuppressBackgroundThread = FALSE;
 	Gdp::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 
+	CSoundMgr::Get_Instance()->Initialize();
+
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
 
 	CSceneMgr::Get_Instance()->Scene_Change(SC_STAGE);
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();
+
+	ITeamAgent::Add_TeamRelation(TEAM_ALPHA ,ERELATION_STATE::HOSTILE);
+	ITeamAgent::Add_TeamRelation(TEAM_BETA, ERELATION_STATE::HOSTILE);
 }
 
 void CMainGame::Update(float fDeltaTime)
@@ -124,7 +131,7 @@ void CMainGame::Render()
 void CMainGame::Release()
 {	
 
-
+	CSoundMgr::Destroy_Instance();
 	CBmpMgr::Destroy_Instance();
 	CScrollMgr::Destroy_Instance();
 	CKeyMgr::Destroy_Instance();

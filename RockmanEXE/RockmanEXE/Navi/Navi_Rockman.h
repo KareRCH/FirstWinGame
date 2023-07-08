@@ -2,12 +2,14 @@
 
 #include "Navi.h"
 
+
 #include "Battle/Panel.h"
+
 
 class CNavi_Rockman : public CNavi
 {
 public:
-	enum STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP };
+	enum STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP, JUMP_SHOOT_BUSTER };
 public:
 	CNavi_Rockman();
 	virtual ~CNavi_Rockman();

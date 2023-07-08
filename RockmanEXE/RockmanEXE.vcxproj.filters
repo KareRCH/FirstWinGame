@@ -166,11 +166,35 @@
     <Filter Include="소스 파일\01. RockmanEXE\02. Obj\02. Spell">
       <UniqueIdentifier>{ef3c9153-e39b-43b2-940a-0f8d9d3e10be}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\02. Spell\NewFilter1">
-      <UniqueIdentifier>{ada37df3-f5d3-4fc8-9a9e-750e322ead78}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\00. Core\04. Math\02. Box">
       <UniqueIdentifier>{f1ad6c80-951b-4cec-ab5f-59947d257767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\04. Math\03. Line">
+      <UniqueIdentifier>{4b8acee1-edb7-472e-9c87-1bde803da680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Core\04. Math\04. Sphere">
+      <UniqueIdentifier>{c2bf6d00-4b95-466d-b53b-12dc6ad872e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur">
+      <UniqueIdentifier>{d5e509a0-dad7-44fa-a5fe-f4bc9bddfa1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell">
+      <UniqueIdentifier>{c7273b70-f08b-496e-a2b6-e5ffed1e9c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\02. ChargeBuster">
+      <UniqueIdentifier>{90b5228f-ea82-4067-9e1d-c9c2f988b446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\01. Buster">
+      <UniqueIdentifier>{17b95f52-ace4-4c94-a7f6-a23dddcd24db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell">
+      <UniqueIdentifier>{e7cd9a9e-9682-4eae-8bf9-3a091d988549}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\01. Cannon">
+      <UniqueIdentifier>{4a30f4e1-adb1-473b-bcd0-b57699457a0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell">
+      <UniqueIdentifier>{73ceb80a-6bb3-4af7-a26e-21106dc82f2f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -297,11 +321,32 @@
     <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
     </ClInclude>
-    <ClInclude Include="Spell.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="VecBox3.h">
+    <ClInclude Include="VecBox.h">
       <Filter>소스 파일\00. Core\04. Math\02. Box</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VecLine3.h">
+      <Filter>소스 파일\00. Core\04. Math\03. Line</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VecShpere.h">
+      <Filter>소스 파일\00. Core\04. Math\04. Sphere</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\VecCollisionMgr.h">
+      <Filter>소스 파일\00. Core\01. Manager\03. CollisionMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Virus\Virus_Mettaur.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\02. Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_Buster.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\01. Buster</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Battle\BattleSpell_Factory.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\00. Design</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_Shockwave.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -392,11 +437,23 @@
     <ClCompile Include="BattleUI.cpp">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
     </ClCompile>
-    <ClCompile Include="Spell.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ITeamAgent.cpp">
       <Filter>소스 파일\00. Core\05. Interface\01. TeamAgent</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\VecCollisionMgr.cpp">
+      <Filter>소스 파일\00. Core\01. Manager\03. CollisionMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Virus\Virus_Mettaur.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\02. Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_Buster.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\01. Buster</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_Shockwave.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

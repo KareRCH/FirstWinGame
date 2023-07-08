@@ -44,4 +44,10 @@ private:
 	list<CObj*>	m_ObjList[OBJID_END];
 
 	static CObjMgr*		m_pInstance;
+
+public:
+	list<CObj*>* Get_ObjList(OBJID eID)
+	{
+		return &m_ObjList[eID];
+	}
 };

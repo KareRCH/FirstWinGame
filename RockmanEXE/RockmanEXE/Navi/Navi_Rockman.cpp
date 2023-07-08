@@ -7,7 +7,12 @@
 #include "ScrollMgr.h"
 #include "Manager/AnimationTable.h"
 
+#include "Battle/BattleSpell_Factory.h"
+#include "Spell/Spell_Buster.h"
+
+
 #include "AbstractFactory.h"
+#include <SoundMgr.h>
 
 CNavi_Rockman::CNavi_Rockman()
 {
@@ -21,8 +26,14 @@ CNavi_Rockman::~CNavi_Rockman()
 
 void CNavi_Rockman::Initialize(void)
 {
-	CCharacter_NetBattle::Initialize_Gravity();
-	CObjMgr::Get_Instance()->Add_Object(UNIT, this);
+	CNavi::Initialize_Navi();
+
+	// 현재 좌표 박스로 조정하기
+	m_vecBox = CVector3<float>(15.f, 13.f, 16.f);
+	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
+	m_vecPos.z += (m_vecBox.z - m_vecBoxPos.z);
+
+	m_iHP = GAUGE<int>(100, true);
 
 #pragma region 이미지 추가
 	TCHAR sText[100];
@@ -119,6 +130,15 @@ void CNavi_Rockman::Render(HDC hDC)
 	//	Get_Frame(0).iFrameWidth, Get_Frame(0).iFrameHeight,				// 이미지 조각 크기로 대체
 	//	Gdp::UnitPixel
 	//);
+
+	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
+	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
+
+
+	WCHAR text[100];
+	//_stprintf_s(text, L"%i", (int)m_tState_Act.eState);
+	_stprintf_s(text, L"%i", m_iHP.Cur);
+	TextOutW(hDC, (int)m_vecPos.x - iScrollX, (int)m_vecPos.y - (int)m_vecPos.z - iScrollY, text, lstrlen(text));
 }
 
 void CNavi_Rockman::Release(void)
@@ -212,6 +232,8 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 		{
 			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Shoot_Buster");
 			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
+
+			CBattleSpell_Factory<CSpell_Buster>::Create(TEAM_ALPHA, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
 		}
 
 
@@ -227,19 +249,53 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Idle");
 			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
-			m_vecSpeed.z = 5.f;
+			if (m_bIsOnGround)
+			{
+				CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"jump_lite.wav"), SYSTEM_EFFECT, 1.f);
+				m_vecSpeed.z = 5.f;
+			}
 		}
 
 		// 실행식
 
 		// 조건식
-		if (!m_bIsOnGround)
+		if (m_bIsOnGround && m_vecSpeed.z <= 0.f)
 		{
 			m_tState.Set_State(IDLE);
 		}
+		if (CKeyMgr::Get_Instance()->Key_Down('A'))
+		{
+			m_tState.Set_State(JUMP_SHOOT_BUSTER);
+		}
+		break;
+	case JUMP_SHOOT_BUSTER:
+		if (m_tState.IsState_Entered())
+		{
+			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Shoot_Buster");
+			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
+			
+
+			CBattleSpell_Factory<CSpell_Buster>::Create(TEAM_ALPHA, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
+		}
+
+		// 실행식
+
+		// 조건식
+		if (m_bIsOnGround && m_vecSpeed.z <= 0.f)
+		{
+			m_tState.Set_State(IDLE);
+		}
+		else if (Get_Frame(0).IsFrameEnd())
+		{
+			m_tState.Set_State(JUMP);
+		}
+
+		if (m_tState.IsState_Exit())
+		{
+			
+		}
 		break;
 	}
-	
 }
 
 

@@ -709,6 +709,65 @@ void CAnimationTable::Initialize()
 		20, 11, 0.5f
 	);
 #pragma endregion
+
+#pragma region ∏‰≈¯
+	Create_Animation(
+		L"NBT_Mettaur_Idle", L"1",
+		0, 0, 1,
+		64, 64,
+		33, 53, 0.f
+	); Create_Animation(
+		L"NBT_Mettaur_Prepare_Atk", L"1",
+		0, 0, 5,
+		64, 64,
+		33, 53, 0.8f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Attack", L"1",
+		0, 0, 11,
+		64, 64,
+		33, 53, 0.8f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Hiding", L"1",
+		0, 0, 6,
+		64, 64,
+		33, 53, 0.8f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Hid", L"1",
+		0, 0, 1,
+		64, 64,
+		33, 53, 0.f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Showing", L"1",
+		0, 0, 6,
+		64, 64,
+		33, 53, 0.8f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Jump", L"1",
+		0, 0, 2,
+		64, 64,
+		33, 53, 0.8f
+	);
+	Create_Animation(
+		L"NBT_Mettaur_Landing", L"1",
+		0, 0, 3,
+		64, 64,
+		33, 53, 0.8f
+	);
+#pragma endregion
+#pragma region ºÓ≈©ø˛¿Ã∫Í
+	Create_Animation(
+		L"NBT_Spell_Shockwave", L"1",
+		0, 0, 5,
+		50, 50,
+		27, 44, 0.7f
+	);
+#pragma endregion
+
 }
 
 void CAnimationTable::Release()

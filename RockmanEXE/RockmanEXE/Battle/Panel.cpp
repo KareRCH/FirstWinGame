@@ -7,6 +7,9 @@
 
 void CPanel::Initialize()
 {
+	m_vecBox = CVector3<float>(19.5f, 12.5f, 16.f);
+	m_vecBoxPos = CVector3<float>(0.f, 0.f, -8.f);
+
 #pragma region 이미지 추가
 	TCHAR sText[100];
 	const TCHAR* sDir = L"./RockmanEXE/Resource/battle/tiles/red_panel/";
@@ -205,7 +208,7 @@ void CPanel::Late_Update(float fDeltaTime)
 
 void CPanel::Render(HDC hDC)
 {
-	CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), m_tInfo, Get_Frame(0));
+	CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection);
 }
 
 void CPanel::Release()

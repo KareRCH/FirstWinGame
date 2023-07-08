@@ -12,7 +12,7 @@ class CPanel : public CCharacter_NetBattle
 {
 public:
 	enum class ACT_STATE : int { IDLE, RIGHT, LEFT, UP, DOWN, TOP, BOTTOM };
-	enum class PNL_STATE : int { NORMAL, BLANK, CRACK, BROCKEN, ICE, GRASS, MAGMA, SAND, POISON, HOLY, RIGHT, LEFT, UP, DOWN};
+	enum class PNL_STATE : int { NORMAL, BLANK, CRACK, BROCKEN, ICE, GRASS, MAGMA, SAND, POISON, HOLY, RIGHT, LEFT, UP, DOWN };
 	enum PNL_COLOR { PNL_RED, PNL_BLUE, PNL_NONE };
 	enum PNL_BRIGHTNESS { BLIGHT, MIDDLE, DARK };
 public:
@@ -62,12 +62,11 @@ private:
 	~CPanelFactory() = delete;
 
 public:
-	static CPanel* Create(INFO tInfo, CPanel::PNL_COLOR eColor, CPanel::PNL_BRIGHTNESS eBrightness,
-							CPanel::PNL_STATE ePanelState)
+	static CPanel* Create(CVector3<float> vecPos, CPanel::PNL_COLOR eColor, CPanel::PNL_BRIGHTNESS eBrightness,
+		CPanel::PNL_STATE ePanelState)
 	{
 		CPanel* pObj = new CPanel;
-		pObj->Set_Pos(tInfo.fX, tInfo.fY);
-		pObj->Set_Size(tInfo.fCX, tInfo.fCY);
+		pObj->Set_VecPos(vecPos);
 		pObj->Set_Color_Init(eColor);
 		pObj->Set_Color(eColor);
 		pObj->Set_Brightness(eBrightness);

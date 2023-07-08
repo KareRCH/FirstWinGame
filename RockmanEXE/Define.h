@@ -18,7 +18,7 @@
 
 #define		VK_MAX		0xff
 
-#define		_TEST_CONSOLE	0
+#define		_TEST_CONSOLE	1
 
 #define		FRAME_DELAY		10
 
@@ -33,11 +33,15 @@ typedef struct tagInfo
 
 enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
-enum OBJID { SYSTEM, PANEL, PLAYER, BULLET, MONSTER, UNIT, MOUSE, SHIELD, BUTTON, OBJID_END };
+enum OBJID { SYSTEM, PANEL, PLAYER, BULLET, MONSTER, UNIT, SPELL, MOUSE, SHIELD, BUTTON, OBJID_END };
 
 enum SCENEID { SC_LOGO, SC_MENU, SC_EDIT, SC_STAGE, SC_END };
 
-enum CHANNELID { SOUND_EFFECT, SOUND_BGM, MAXCHANNEL };
+enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SYSTEM_EFFECT, SOUND_EFFECT3, MAXCHANNEL };
+
+enum CHANNEL_GROUP_ID { BGM_GROUP, SND1_GROUP, SND2_GROUP, MAX_CHANNEL_GROUP };
+
+enum TEAM_ID { TEAM_ALPHA, TEAM_BETA, TEAM_GAMMA };
 
 template<typename T>
 void Safe_Delete(T& Temp)
@@ -118,6 +122,11 @@ typedef struct tagLine
 // 이미지를 표시하기 위해 업그레이드 된 FRAME 구조체
 typedef struct tagFrame
 {
+	tagFrame() : bLoop(true), iFrameStart(), iFrameEnd(), iFrameCur(), iMotion(),
+		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), ulTime(GetTickCount64()){}
+
+	bool			bLoop;
+
 	int				iFrameStart;	// 시작 프레임
 	int				iFrameEnd;		// 끝 프레임
 	int				iFrameCur;		// 현재 프레임
@@ -131,6 +140,9 @@ typedef struct tagFrame
 	ULONGLONG		ulSpeed;		// 딜레이
 	ULONGLONG		ulTime;			// 시간 체크
 
+	void Set_Loop(bool value) { bLoop = value; }
+	bool IsFrameEnd() { return (iFrameCur >= iFrameEnd); }
+	bool IsFrameStart() { return (iFrameCur == 0); }
 }FRAME;
 
 // 대충 아무때나 쓸 수 있는 상태머신 구조체
@@ -182,6 +194,11 @@ struct tagState
 		}
 		return false;
 	}
+
+	bool IsOnState(T _eState)
+	{
+		return (eState == _eState);
+	}
 #pragma endregion
 };
 
@@ -192,13 +209,113 @@ using STATE_INFO = tagState<T>;
 template<typename T = float>
 struct _DELAY
 {
+	static_assert(std::is_arithmetic<T>::value, "T는 원시 타입이어야만 합니다.");
+
 	T Max;
 	T Cur;
 
-	_DELAY(T _Max) : Max(_Max), Cur(T()) {}
+	_DELAY() : Max(T()), Cur(T()) {}
+	_DELAY(T _Max, bool bMax = false) : Max(_Max), Cur(T(T(bMax) * T(_Max))) {}
+	~_DELAY() {}
+
+	// 값 업데이트 및 맥스값 도달시 반환
+	bool Update(T increase, bool bAutoReset = false)
+	{
+		Cur += increase;
+		if (Cur >= Max)
+		{
+			if (bAutoReset)
+				Cur = T();
+			return true;
+		}
+
+		return false;
+	}
+
+	bool Update(T increase, T point, bool bAutoReset = false)
+	{
+		Cur += increase;
+		if (Cur >= point)
+		{
+			if (bAutoReset)
+				Cur = T();
+			return true;
+		}
+
+		return false;
+	}
+
+	// 현재값 초기화
+	void Reset()
+	{
+		Cur = T();
+	}
+
+	// Max 값 재설정 및 현재값 초기화
+	void ReAdjust(T max)
+	{
+		Max = max;
+		Cur = T();
+	}
 };
+
 template <typename T = float>
 using DELAY = _DELAY<T>;
+
+template <typename T = float>
+using GAUGE = _DELAY<T>;
+
+
+typedef struct _ACTION
+{
+	_ACTION() : bAction() {}
+	~_ACTION() {}
+
+	bool bAction;
+
+	void Act()
+	{
+		bAction = true;
+	}
+
+	void Update()
+	{
+		bAction = false;
+	}
+
+	bool Sync()
+	{
+		if (bAction)
+		{
+			bAction = false;
+			return true;
+		}
+		return false;
+	}
+
+	bool IsOnAct()
+	{
+		return bAction;
+	}
+}ACTION;
+
+template<typename Key>
+using MAP_ACTION = map<Key, ACTION>;
+
+template<typename Key>
+class CMapAction_Updator
+{
+public:
+	void operator() (pair<Key, ACTION> Action)
+	{
+		Action.second.Update();
+	}
+};
+
+
+// 단순하게 쓰기 위한 템플릿
+template <typename Key, typename Func>
+using MAP_FUNC = map<Key, function<Func>>;
 
 extern HWND g_hWnd;
 extern bool g_bWinActivate;

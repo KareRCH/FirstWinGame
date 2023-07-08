@@ -17,6 +17,8 @@ void CScene_NetBattle::Initialize()
 	CBattleMng::Get_Instance();
 
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_dog_comp.png", L"BG_Dog_Comp");
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/overlay.png", L"BG_Overlay");
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_back.png", L"BG_Back_1");
 
 	CBattleUI::Get_Instance();
 }
@@ -42,7 +44,7 @@ void CScene_NetBattle::Late_Update(float fDeltaTime)
 void CScene_NetBattle::Render(HDC hDC)
 {
 	//HDC		hGoundDC = CBmpMgr::Get_Instance()->Find_Img(L"BG_Dog_Comp");
-	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(L"BG_Dog_Comp");
+	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(L"BG_Back_1");
 	Gdp::Bitmap* pImage = pBitMap->Get_Image();
 	Gdp::Graphics g(hDC);
 
@@ -53,6 +55,16 @@ void CScene_NetBattle::Render(HDC hDC)
 	//	pImage->GetWidth(), 
 	//	pImage->GetHeight() 
 	//);
+
+	g.DrawImage(
+		pImage, 0, 0,
+		0, 0,
+		ROCKMAN_EXECX, ROCKMAN_EXECY,
+		Gdp::UnitPixel
+	);
+
+	pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(L"BG_Overlay");
+	pImage = pBitMap->Get_Image();
 
 	g.DrawImage(
 		pImage, 0, 0,
