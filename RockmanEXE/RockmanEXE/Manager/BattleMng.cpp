@@ -29,7 +29,7 @@ void CBattleMng::Initialize()
 
 	m_LoadedChip_List.reserve(MAX_CHIP_COUNT);
 
-	CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"loop_battle.wav"), 1.f);
+	CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"loop_battle.mp3"), 1.f);
 }
 
 void CBattleMng::Release()
@@ -263,7 +263,7 @@ void CBattleMng::BattleResult(float fDeltaTime)
 	if (m_tState.IsState_Entered())
 	{
 		m_fBattleEnd_Delay.Reset();
-		CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"enemy_deleted.wav"), 1.f);
+		CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"enemy_deleted.mp3"), 1.f);
 	}
 
 	if (m_fBattleEnd_Delay.Update(fDeltaTime))
