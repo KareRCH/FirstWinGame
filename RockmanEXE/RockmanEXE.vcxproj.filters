@@ -160,9 +160,6 @@
     <Filter Include="소스 파일\00. Core\01. Manager\06. BmpMgr\AnimTable">
       <UniqueIdentifier>{6387d53c-d512-4fd4-bfc4-f9290d8f869f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\01. NetBattle\BattlePlayer">
-      <UniqueIdentifier>{b1a44e1f-8e23-47c3-9f84-9149a6005aa8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\01. RockmanEXE\02. Obj\02. Spell">
       <UniqueIdentifier>{ef3c9153-e39b-43b2-940a-0f8d9d3e10be}</UniqueIdentifier>
     </Filter>
@@ -198,6 +195,18 @@
     </Filter>
     <Filter Include="소스 파일\01. RockmanEXE\03. Scene\02. Overworld">
       <UniqueIdentifier>{11d9c1dd-a512-4492-a5f8-834ad99f76d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\02. Overworld\01. Central_Area">
+      <UniqueIdentifier>{d58283ef-3082-4831-b8a2-781cfce68d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\01. Player">
+      <UniqueIdentifier>{00500f63-fd91-4cb6-b21a-e4bde3c0bb4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\UI">
+      <UniqueIdentifier>{858f9296-f113-4e8e-842b-c123498a5196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\00. Title">
+      <UniqueIdentifier>{fb404111-a2dd-4a70-b0dc-c43c9d5052ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -321,9 +330,6 @@
     <ClInclude Include="RockmanEXE\Manager\AnimationTable.h">
       <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
     </ClInclude>
-    <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
-      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
-    </ClInclude>
     <ClInclude Include="VecBox.h">
       <Filter>소스 파일\00. Core\04. Math\02. Box</Filter>
     </ClInclude>
@@ -350,6 +356,24 @@
     </ClInclude>
     <ClInclude Include="RockmanEXE\Spell\Spell_Shockwave.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_Cannon.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\01. Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Scene\Scene_Central_Area.h">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\02. Overworld\01. Central_Area</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Player\Player_QuaterView.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\01. Player</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Battle\BattleUI.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Scene\Scene_TitleScreen.h">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\00. Title</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\00. Design</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -434,12 +458,6 @@
     <ClCompile Include="Core\SoundMgr.cpp">
       <Filter>소스 파일\00. Core\01. Manager\07. SndMgr</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationTable.cpp">
-      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
-    </ClCompile>
-    <ClCompile Include="BattleUI.cpp">
-      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ITeamAgent.cpp">
       <Filter>소스 파일\00. Core\05. Interface\01. TeamAgent</Filter>
     </ClCompile>
@@ -457,6 +475,24 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Spell\Spell_Shockwave.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\01. Mettaur\Spell</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_Cannon.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\01. Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Scene\Scene_Central_Area.cpp">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\02. Overworld\01. Central_Area</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Player\Player_QuaterView.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\01. Player</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Battle\BattleUI.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\01. BattleMng\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Manager\AnimationTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Scene\Scene_TitleScreen.cpp">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\00. Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

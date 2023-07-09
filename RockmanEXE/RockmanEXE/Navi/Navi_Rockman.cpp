@@ -5,15 +5,16 @@
 #include "BmpMgr.h"
 #include "CollisionMgr.h"
 #include "ScrollMgr.h"
-#include "Manager/AnimationTable.h"
-
-#include "Battle/BattleSpell_Factory.h"
-#include "Spell/Spell_Buster.h"
-
-
-#include "AbstractFactory.h"
 #include <SoundMgr.h>
 #include <VecCollisionMgr.h>
+
+#include "Manager/AnimationTable.h"
+#include "Battle/BattleSpell_Factory.h"
+#include "Spell/Spell_Buster.h"
+#include "Spell/Spell_Cannon.h"
+
+#include "AbstractFactory.h"
+
 
 CNavi_Rockman::CNavi_Rockman()
 {
@@ -133,12 +134,16 @@ void CNavi_Rockman::Late_Update(float fDeltaTime)
 		{
 			if (ERELATION_STATE::HOSTILE == Check_Relation(tPanel, this))
 			{
-				m_vecPos = vecTemp;
+				m_vecPos.x = vecTemp.x;
+				m_vecPos.y = vecTemp.y;
 			}
 		}
 	}
 	else
-		m_vecPos = vecTemp;
+	{
+		m_vecPos.x = vecTemp.x;
+		m_vecPos.y = vecTemp.y;
+	}
 }
 
 void CNavi_Rockman::Render(HDC hDC)
@@ -165,14 +170,14 @@ void CNavi_Rockman::Render(HDC hDC)
 
 void CNavi_Rockman::Release(void)
 {
+
 }
 
 void CNavi_Rockman::Collide(CObj* _pDst)
 {
 	// 공격을 받는다.
 	CSpell* pSrc = dynamic_cast<CSpell*>(_pDst);
-	if (pSrc
-		&& Get_Owner() != pSrc
+	if (pSrc && Get_Owner() != pSrc
 		&& ERELATION_STATE::HOSTILE == ITeamAgent::Check_Relation(pSrc, this))
 	{
 		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"hurt.wav"), SOUND_EFFECT, 1.f);
@@ -180,12 +185,10 @@ void CNavi_Rockman::Collide(CObj* _pDst)
 		m_tState.Set_State(HIT);
 		m_bInvincible = true;
 	}
-
 }
 
 void CNavi_Rockman::State_Update(float fDeltaTime)
 {
-	cout << m_fInvicibleTime.Cur << '\n';
 	if (m_fInvicibleTime.Update(fDeltaTime))
 	{
 		m_bInvincible = false;
@@ -273,7 +276,8 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			Set_FrameKey(0, L"NBT_Rockman_EXE_Normal_Shoot_Buster");
 			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
-			CBattleSpell_Factory<CSpell_Buster>::Create(TEAM_ALPHA, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
+			//CBattleSpell_Factory<CSpell_Buster>::Create(TEAM_ALPHA, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
+			CSpell_Cannon_Factory::Create(this, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y), 40);
 		}
 
 
@@ -315,7 +319,8 @@ void CNavi_Rockman::State_Update(float fDeltaTime)
 			CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 			
 
-			CBattleSpell_Factory<CSpell_Buster>::Create(TEAM_ALPHA, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
+			//CBattleSpell_Factory<CSpell_Buster>::Create((TEAM_ID)Get_TeamID(), m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y));
+			CSpell_Cannon_Factory::Create(this, m_vecPos, CVector2<int>(m_vecDirection.x, m_vecDirection.y), 40);
 		}
 
 		// 실행식

@@ -112,18 +112,18 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		pEnemy1->Set_Visible(false);
 
 		// 테스트 적
-		//vecCreatePos.x = m_vvPanel_List[0][5]->Get_VecPos().x;
-		//vecCreatePos.y = m_vvPanel_List[0][5]->Get_VecPos().y;
-		//CVirus* pEnemy2 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
-		//m_EnemyList.push_back(pEnemy2);
-		//pEnemy2->Set_Visible(false);
+		vecCreatePos.x = m_vvPanel_List[0][5]->Get_VecPos().x;
+		vecCreatePos.y = m_vvPanel_List[0][5]->Get_VecPos().y;
+		CVirus* pEnemy2 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+		m_EnemyList.push_back(pEnemy2);
+		pEnemy2->Set_Visible(false);
 
 		//// 테스트 적
-		//vecCreatePos.x = m_vvPanel_List[2][3]->Get_VecPos().x;
-		//vecCreatePos.y = m_vvPanel_List[2][3]->Get_VecPos().y;
-		//CVirus* pEnemy3 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
-		//m_EnemyList.push_back(pEnemy3);
-		//pEnemy3->Set_Visible(false);
+		vecCreatePos.x = m_vvPanel_List[2][3]->Get_VecPos().x;
+		vecCreatePos.y = m_vvPanel_List[2][3]->Get_VecPos().y;
+		CVirus* pEnemy3 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+		m_EnemyList.push_back(pEnemy3);
+		pEnemy3->Set_Visible(false);
 
 		for (auto& rObj : m_BattleObjList)
 		{
@@ -181,15 +181,13 @@ void CBattleMng::ChipSelect(float fDeltaTime)
 		m_fTurn_Gauge.Reset();
 
 		m_pBattleUI->Set_LoadedChip_List(&m_LoadedChip_List);
-		m_pBattleUI->Set_PetUI_State(CBattleUI::STATE::OPENING);
+		m_pBattleUI->Set_State_PetUI(CBattleUI::STATE::OPENING);
 	}
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
-		m_tState.Set_State(STATE::PRE_BATTLE);
 
 	if (m_tState.IsState_Exit())
 	{
-		m_pBattleUI->Set_PetUI_State(CBattleUI::CLOSING);
+
 	}
 }
 
@@ -216,6 +214,7 @@ void CBattleMng::BattleStart(float fDeltaTime)
 	{
 		// 딜레이 초기화
 		m_fBattle_Start_Delay.Reset();
+		m_pBattleUI->Set_State_BattleStartUI(CBattleUI::STATE_BATTLE_START::VISIBLE);
 	}
 
 	if (m_fBattle_Start_Delay.Update(fDeltaTime))
@@ -225,7 +224,7 @@ void CBattleMng::BattleStart(float fDeltaTime)
 
 	if (m_tState.IsState_Exit())
 	{
-
+		m_pBattleUI->Set_State_BattleStartUI(CBattleUI::STATE_BATTLE_START::INVISIBLE);
 	}
 }
 
@@ -238,11 +237,18 @@ void CBattleMng::BattleProcess(float fDeltaTime)
 		{
 			rObj->Set_Resume();
 		}
+
+		m_bTurnGauge_Sound = true;
 	}
 
 	
  	if (m_fTurn_Gauge.Update(fDeltaTime))
 	{
+		if (m_bTurnGauge_Sound)
+		{
+			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"custom_bar_full.wav"), SYSTEM_EFFECT, 1.f);
+			m_bTurnGauge_Sound = false;
+		}
 		if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 			m_tState.Set_State(STATE::CHIP_SELECT);
 	}
@@ -263,6 +269,8 @@ void CBattleMng::BattleResult(float fDeltaTime)
 	if (m_tState.IsState_Entered())
 	{
 		m_fBattleEnd_Delay.Reset();
+		m_pBattleUI->Set_State_BattleEndUI(CBattleUI::STATE_BATTLE_END::VISIBLE);
+		m_pBattleUI->Set_State_Custom(CBattleUI::STATE_CUSTOM::INVISIBLE);
 		CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"enemy_deleted.mp3"), 1.f);
 	}
 
@@ -274,7 +282,7 @@ void CBattleMng::BattleResult(float fDeltaTime)
 
 	if (m_tState.IsState_Exit())
 	{
-
+		m_pBattleUI->Set_State_BattleEndUI(CBattleUI::STATE_BATTLE_END::INVISIBLE);
 	}
 }
 
@@ -285,6 +293,8 @@ void CBattleMng::BattleEnd(float fDeltaTime)
 	{
 
 	}
+
+
 
 	if (m_tState.IsState_Exit())
 	{

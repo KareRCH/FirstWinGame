@@ -18,7 +18,7 @@
 
 #define		VK_MAX		0xff
 
-#define		_TEST_CONSOLE	1
+#define		_TEST_CONSOLE	0
 
 #define		FRAME_DELAY		10
 
@@ -35,7 +35,7 @@ enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
 enum OBJID { SYSTEM, PANEL, PLAYER, BULLET, MONSTER, UNIT, SPELL, MOUSE, SHIELD, BUTTON, OBJID_END };
 
-enum SCENEID { SC_LOGO, SC_MENU, SC_EDIT, SC_STAGE, SC_END };
+enum SCENEID { SC_LOGO, SC_MENU, SC_WORLD1, SC_EDIT, SC_STAGE, SC_END };
 
 enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SYSTEM_EFFECT, SOUND_EFFECT3, MAXCHANNEL };
 
@@ -151,17 +151,20 @@ typedef struct tagFrame
 template <typename T>
 struct tagState
 {
-	tagState() : eState(T()), ePrevState(T()) 
+	tagState() : eState(T()), ePrevState(T()), eNextState(T()) 
 	{
 		bIsEnter = false;
 		bIsExit = false;
+		bIsReserved = false;
 	}
 	~tagState() {}
 
 	bool	bIsEnter;
 	bool	bIsExit;
+	bool	bIsReserved;
 	T		eState;
 	T		ePrevState;
+	T		eNextState;
 
 #pragma region 상태머신 함수
 	void Set_State(T _eState)
@@ -172,9 +175,16 @@ struct tagState
 		bIsEnter = true;
 	}
 
+	void Reserve_State(T _eState)
+	{
+		eNextState = _eState;
+		bIsReserved = true;
+	}
+
+	// 진입할 때
 	bool IsState_Entered()
 	{
-		if (bIsEnter)
+		if (bIsEnter && !bIsReserved)
 		{
 			bIsEnter = false;
 			bIsExit = false;		// 상태 진입시 탈출 조건 자동 비활성화
@@ -183,8 +193,18 @@ struct tagState
 		return false;
 	}
 
+	// 빠져나갈 때
 	bool IsState_Exit()
 	{
+		// 예약 상태에서는 하나의 
+		if (bIsReserved)
+		{
+			Set_State(eNextState);
+			bIsReserved = false;
+			bIsExit = false;
+			return true;
+		}
+
 		// 이미 Entered 함수를 불러왔을 때 탈출 조건을 OFF 시킨다.
 		if (!bIsEnter)
 			bIsExit = false;
@@ -195,6 +215,12 @@ struct tagState
 			return true;
 		}
 		return false;
+	}
+	
+	// 예약이 없는 상태에서만 업데이트를 할 수 있다.
+	bool Can_Update()
+	{
+		return !bIsReserved;
 	}
 
 	bool IsOnState(T _eState)
@@ -228,6 +254,8 @@ struct _DELAY
 		{
 			if (bAutoReset)
 				Cur = T();
+			else
+				Cur = Max;
 			return true;
 		}
 
@@ -241,6 +269,8 @@ struct _DELAY
 		{
 			if (bAutoReset)
 				Cur = T();
+			else
+				Cur = Max;
 			return true;
 		}
 
@@ -258,6 +288,11 @@ struct _DELAY
 	{
 		Max = max;
 		Cur = T();
+	}
+
+	float Get_Percent()
+	{
+		return (static_cast<float>(Cur) / static_cast<float>(Max));
 	}
 };
 

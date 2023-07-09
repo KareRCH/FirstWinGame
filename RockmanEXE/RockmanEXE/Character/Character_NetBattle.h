@@ -37,8 +37,8 @@ protected:
 	}
 
 protected: // 범용 내부 변수
-	vector<ULONGLONG>	m_ulTimers;				// 정해진 시간을 체킹하는 타이머
-	vector<float>		m_fTimers;				// 시간값 
+	vector<ULONGLONG>			m_ulTimers;				// CPU 기반으로 정해진 시간을 체킹하는 타이머
+	vector<GAUGE<float>>		m_fTimers;				// DeltaTime 기반 타이머 
 
 #pragma region 물리관련 
 

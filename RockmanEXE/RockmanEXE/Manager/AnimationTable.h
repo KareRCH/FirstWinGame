@@ -46,6 +46,24 @@ public:
 		tFrame.iFrameWidth = iFrameWidth;
 		tFrame.iFrameHeight = iFrameHeight;
 	}
+
+	void Parse_Frame_Maintain(FRAME& tFrame)
+	{
+		tFrame.iMotion = iMotionY;
+		tFrame.iFrameEnd = iMotionSize - 1;
+		tFrame.iFrameStart = iMotionX;
+
+		if (tFrame.iFrameCur > tFrame.iFrameEnd)
+			tFrame.iFrameCur = 0;
+
+		tFrame.ulSpeed = Get_Speed_ForFrame();
+
+		tFrame.iOffsetX = iOffsetX;
+		tFrame.iOffsetY = iOffsetY;
+
+		tFrame.iFrameWidth = iFrameWidth;
+		tFrame.iFrameHeight = iFrameHeight;
+	}
 };
 
 class CAnimationTable final
@@ -88,9 +106,8 @@ private:
 	map<const TCHAR*, map<const TCHAR*, FAnimData>> m_mapTable;
 
 	void Create_Animation(const TCHAR* sName, const TCHAR* sAnimName,	
-		int iMotionX, int iMotionY, int iMotionSize, 
-		int iFrameWidth, int iFrameHeight,
-		int iOffsetX, int iOffsetY, float fSpeed)
+		int iMotionX, int iMotionY, int iMotionSize, float fSpeed,
+		int iOffsetX, int iOffsetY, int iFrameWidth, int iFrameHeight)
 	{
 		FAnimData pNewData = FAnimData();
 
@@ -136,7 +153,7 @@ public:
 		return FAnimData();
 	}
 
-	FAnimData Load_AnimData(const TCHAR* sAnimName, pair<const TCHAR*, FRAME>& pairFrame)
+	FAnimData Load_AnimData(const TCHAR* sAnimName, pair<const TCHAR*, FRAME>& pairFrame, bool bMaintain = false)
 	{
 		if (m_mapTable.empty())
 			return FAnimData();
@@ -155,7 +172,10 @@ public:
 				auto& tFrameData = pairFrame.second;
 
 				// Frame 구조체에 대한 변환작업
-				AnimData.Parse_Frame(tFrameData);
+				if (!bMaintain)
+					AnimData.Parse_Frame(tFrameData);
+				else
+					AnimData.Parse_Frame_Maintain(tFrameData);
 				
 				return AnimData;
 			}

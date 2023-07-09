@@ -40,7 +40,7 @@ void CMainGame::Initialize()
 
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
 
-	CSceneMgr::Get_Instance()->Scene_Change(SC_STAGE);
+	CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();

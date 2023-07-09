@@ -158,8 +158,13 @@
     <ClInclude Include="Core\Vector2.h" />
     <ClInclude Include="Core\Vector3.h" />
     <ClInclude Include="RockmanEXE\Battle\BattleSpell_Factory.h" />
+    <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h" />
+    <ClInclude Include="RockmanEXE\Player\Player_QuaterView.h" />
+    <ClInclude Include="RockmanEXE\Scene\Scene_Central_Area.h" />
+    <ClInclude Include="RockmanEXE\Scene\Scene_TitleScreen.h" />
     <ClInclude Include="RockmanEXE\Spell\Spell.h" />
     <ClInclude Include="RockmanEXE\Spell\Spell_Buster.h" />
+    <ClInclude Include="RockmanEXE\Spell\Spell_Cannon.h" />
     <ClInclude Include="RockmanEXE\Spell\Spell_Shockwave.h" />
     <ClInclude Include="RockmanEXE\Virus\Virus_Mettaur.h" />
     <ClInclude Include="VecBox.h" />
@@ -187,8 +192,6 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationTable.cpp" />
-    <ClCompile Include="BattleUI.cpp" />
     <ClCompile Include="Core\BitMap.cpp" />
     <ClCompile Include="Core\BmpMgr.cpp" />
     <ClCompile Include="Core\Character.cpp" />
@@ -206,18 +209,24 @@
     <ClCompile Include="Core\SoundMgr.cpp" />
     <ClCompile Include="Core\VecCollisionMgr.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RockmanEXE\Battle\BattleUI.cpp" />
     <ClCompile Include="RockmanEXE\Battle\Panel.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_NetBattle.cpp" />
     <ClCompile Include="RockmanEXE\Character\Character_QuaterView.cpp" />
     <ClCompile Include="RockmanEXE\GameProc_RockmanEXE.cpp" />
+    <ClCompile Include="RockmanEXE\Manager\AnimationTable.cpp" />
     <ClCompile Include="RockmanEXE\Manager\AttributeMng.cpp" />
     <ClCompile Include="RockmanEXE\Manager\BattleMng.cpp" />
     <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp" />
+    <ClCompile Include="RockmanEXE\Player\Player_QuaterView.cpp" />
+    <ClCompile Include="RockmanEXE\Scene\Scene_Central_Area.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp" />
+    <ClCompile Include="RockmanEXE\Scene\Scene_TitleScreen.cpp" />
     <ClCompile Include="RockmanEXE\Spell\Spell.cpp" />
     <ClCompile Include="RockmanEXE\Spell\Spell_Buster.cpp" />
+    <ClCompile Include="RockmanEXE\Spell\Spell_Cannon.cpp" />
     <ClCompile Include="RockmanEXE\Spell\Spell_Shockwave.cpp" />
     <ClCompile Include="RockmanEXE\Virus\Virus.cpp" />
     <ClCompile Include="RockmanEXE\Virus\Virus_Mettaur.cpp" />

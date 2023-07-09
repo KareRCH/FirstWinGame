@@ -80,6 +80,9 @@ private: // 전역적으로 쓰이는 변수
 
 	STATE_INFO<STATE>		m_tState = STATE_INFO<STATE>();
 
+public:
+	void Set_State(STATE eState) { m_tState.Reserve_State(eState); }
+
 private: // 게임 준비 관련
 	// 패널 저장리스트
 	vector<vector<CPanel*>>			m_vvPanel_List;					// 패널 저장 리스트
@@ -94,6 +97,10 @@ private: // 게임 준비 관련
 private: // 턴 관련
 	int				m_iTurn = 1;								// 턴은 1부터 시작한다.
 	DELAY<float>	m_fTurn_Gauge = DELAY<float>(10.f);			// 턴의 기본을 10초로 잡는다.
+	bool			m_bTurnGauge_Sound = false;					//
+
+public:
+	DELAY<float>	Get_TurnGauge() { return m_fTurn_Gauge; }
 
 private: // 게임 결과 관련
 	bool			m_bBusting_Success = false;					// 게임 종료 후 버스팅 성공 유무

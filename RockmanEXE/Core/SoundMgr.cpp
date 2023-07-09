@@ -142,8 +142,7 @@ void CSoundMgr::LoadSoundFile(const char* pPath)
 		// "../Sound/Success.wav"
 		strcat_s(szFullPath, fd.name);
 
-		FMOD_SOUND* pSound = nullptr; 
-		FMOD_CREATESOUNDEXINFO tSoundInfo;
+		FMOD_SOUND* pSound = nullptr;
 
 		FMOD_RESULT eRes = FMOD_System_CreateSound(m_pSystem, szFullPath, FMOD_DEFAULT, NULL, &pSound);
 		

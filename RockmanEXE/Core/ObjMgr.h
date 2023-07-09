@@ -50,4 +50,9 @@ public:
 	{
 		return &m_ObjList[eID];
 	}
+
+	list<CObj*>* Get_ObjListAll()
+	{
+		return m_ObjList;
+	}
 };

@@ -50,12 +50,14 @@ void CSpell_Buster::Collide(CObj* _pDst)
 {
 	// 공격용 유닛은 대미지를 준다.
 	CCharacter_NetBattle* pChr= dynamic_cast<CCharacter_NetBattle*>(_pDst);
-	if (pChr 
-		&& Get_Owner() != pChr 
+	if (pChr && Get_Owner() != pChr 
 		&& ERELATION_STATE::HOSTILE == ITeamAgent::Check_Relation(pChr, this))
 	{
-		pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
-		pChr->Collide(this);
-		Set_Dead();
+		if (!pChr->Get_Invincible())
+		{
+			pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
+			pChr->Collide(this);
+			Set_Dead();
+		}
 	}
 }

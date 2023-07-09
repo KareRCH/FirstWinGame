@@ -1,6 +1,7 @@
 #include "SceneMgr.h"
 
-
+#include "Scene/Scene_TitleScreen.h"
+#include "Scene/Scene_Central_Area.h"
 
 CSceneMgr*	CSceneMgr::m_pInstance = nullptr;
 
@@ -25,11 +26,15 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 		switch (m_eCurScene)
 		{
 		case SC_LOGO:
-			//m_pScene = new CLogo;
+			//m_pScene = new CScene_TitleScreen;
 			break;
 
 		case SC_MENU:
-			//m_pScene = new CMyMenu;
+			m_pScene = new CScene_TitleScreen;
+			break;
+
+		case SC_WORLD1:
+			m_pScene = new CScene_Central_Area;
 			break;
 
 		case SC_EDIT:
@@ -37,7 +42,6 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 
 		case SC_STAGE:
 			m_pScene = new CScene_NetBattle;
-			//m_pScene = new CStage;
 			break;
 		}
 

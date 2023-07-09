@@ -2,6 +2,8 @@
 
 #include "Define.h"
 
+#include "Obj.h"
+
 class CScrollMgr
 {
 private:
@@ -34,6 +36,14 @@ public:
 	void		Set_ScrollX(float _fX) { m_fScrollX += _fX; }
 	void		Set_ScrollY(float _fY) { m_fScrollY += _fY; }
 
+	void		Set_Scroll(float _fX, float _fY) { m_fScrollX = _fX; m_fScrollY = _fY; }
+
+	void		Set_LockSize(int _iX, int _iY)
+	{
+		m_iLockX = _iX;
+		m_iLockY = _iY;
+	}
+
 	void		Scroll_Lock();
 
 private:
@@ -41,6 +51,15 @@ private:
 
 	float					m_fScrollX;
 	float					m_fScrollY;
+
+	int						m_iLockX;
+	int						m_iLockY;
+
+private:
+	CObj* m_pLockOn_Obj;
+
+public:
+	void	Set_LockOn_Obj(CObj* value) { m_pLockOn_Obj = value;  }
 
 };
 
