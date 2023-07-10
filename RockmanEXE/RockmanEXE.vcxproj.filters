@@ -208,6 +208,12 @@
     <Filter Include="소스 파일\01. RockmanEXE\03. Scene\00. Title">
       <UniqueIdentifier>{fb404111-a2dd-4a70-b0dc-c43c9d5052ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\04. Tile">
+      <UniqueIdentifier>{9dff452c-183a-4c9e-b568-0fc4b171a22e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\03. Edit">
+      <UniqueIdentifier>{b9cb8ad9-cb85-4bc5-aa12-ef4ebc1cc3a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -375,6 +381,15 @@
     <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\00. Design</Filter>
     </ClInclude>
+    <ClInclude Include="RockmanEXE\Overworld\Tile.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\04. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Overworld\TileMgr.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\04. Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Scene\Scene_Edit.h">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -493,6 +508,15 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Scene\Scene_TitleScreen.cpp">
       <Filter>소스 파일\01. RockmanEXE\03. Scene\00. Title</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Overworld\Tile.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\04. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Overworld\TileMgr.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\04. Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Scene\Scene_Edit.cpp">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

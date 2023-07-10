@@ -867,7 +867,7 @@ void CAnimationTable::Initialize()
 	Create_Animation(
 		L"Title_Gregar", L"1",
 		0, 0, 10, 0.5f,
-		120, 80, 240, 160
+		132, 99, 264, 198
 	);
 #pragma endregion
 

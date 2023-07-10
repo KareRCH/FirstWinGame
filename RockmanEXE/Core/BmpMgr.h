@@ -28,7 +28,7 @@ public:
 	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, int srcx, int srcy, int src_width, int src_height, bool bAllowScroll);
 
 	void		Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize = 3);
-	void		Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize = 3);
+	void		Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize = 3, bool bAllowScroll = true);
 	
 private: // ╫л╠шео
 	static CBmpMgr* m_pInstance;

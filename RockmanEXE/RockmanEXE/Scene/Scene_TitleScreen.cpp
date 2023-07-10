@@ -37,7 +37,7 @@ void CScene_TitleScreen::Late_Update(float fDeltaTime)
 void CScene_TitleScreen::Render(HDC hDC)
 {
 	CVector3<float> tVecPos = CVector3<float>();
-	tVecPos.x = (float)(ROCKMAN_EXECX / 2);
+	tVecPos.x = (float)(ROCKMAN_EXECX / 2 - 1);
 	tVecPos.y = (float)(ROCKMAN_EXECY / 2);
 	CBmpMgr::Get_Instance()->Draw_PNG_StripScale(hDC, Get_FrameKey(), Get_FrameData(), tVecPos, CVector2<float>(1.0f, 1.0f), false);
 }

@@ -39,17 +39,17 @@ void CScrollMgr::Scroll_Lock()
 		}
 	}
 
-	if (0.f < m_fScrollX)
+	if (0.f > m_fScrollX)
 		m_fScrollX = 0.f;
 
-	if (0.f < m_fScrollY)
+	if (0.f > m_fScrollY)
 		m_fScrollY = 0.f;
 
 
-	if (ROCKMAN_EXECX - m_iLockX > m_fScrollX)
-		m_fScrollX = ROCKMAN_EXECX - m_iLockX;
+	if (m_fScrollX > m_iLockX - ROCKMAN_EXECX)
+		m_fScrollX = m_iLockX - ROCKMAN_EXECX;
 	
-	if (ROCKMAN_EXECY - m_iLockY > m_fScrollY)
-		m_fScrollY = ROCKMAN_EXECY - m_iLockY;
+	if (m_fScrollY > m_iLockY - ROCKMAN_EXECY)
+		m_fScrollY = m_iLockY - ROCKMAN_EXECY;
 
 }

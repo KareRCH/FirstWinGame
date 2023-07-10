@@ -76,7 +76,7 @@ void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tF
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(tInfo.fX + fScrollX * (float)bAllowScroll, tInfo.fY + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(tInfo.fX - fScrollX * (float)bAllowScroll, tInfo.fY - fScrollY * (float)bAllowScroll);
 
 	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
 	g.DrawImage(
@@ -101,7 +101,7 @@ void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVecto
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(vecPos.x + fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
 	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
 	//g.SetSmoothingMode(Gdp::SmoothingModeAntiAlias);
 	g.SetInterpolationMode(Gdp::InterpolationModeNearestNeighbor);
@@ -129,7 +129,7 @@ void CBmpMgr::Draw_PNG_StripScale(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, C
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(vecPos.x + fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
 	g.ScaleTransform(vecSize.x, vecSize.y);
 	//g.SetSmoothingMode(Gdp::SmoothingModeAntiAlias);
 	g.SetInterpolationMode(Gdp::InterpolationModeNearestNeighbor);
@@ -153,11 +153,12 @@ void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, 
 	if (!pBitMap) return;
 	Gdp::Bitmap* pImage = pBitMap->Get_Image();
 	Gdp::Graphics g(hDC);
+	g.SetInterpolationMode(Gdp::InterpolationModeBicubic);
 
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(tInfo.fX + fScrollX * (float)bAllowScroll, tInfo.fY + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(tInfo.fX - fScrollX * (float)bAllowScroll, tInfo.fY - fScrollY * (float)bAllowScroll);
 
 	g.DrawImage(
 		pImage, -(tFrame.iOffsetX), -(tFrame.iOffsetY),
@@ -178,7 +179,7 @@ void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, 
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(tInfo.fX + fScrollX * (float)bAllowScroll, tInfo.fY + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(tInfo.fX - fScrollX * (float)bAllowScroll, tInfo.fY - fScrollY * (float)bAllowScroll);
 
 	g.DrawImage(
 		pImage, -(tFrame.iOffsetX), -(tFrame.iOffsetY),
@@ -199,7 +200,7 @@ void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, 
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(tInfo.fX + fScrollX * (float)bAllowScroll, tInfo.fY + fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(tInfo.fX - fScrollX * (float)bAllowScroll, tInfo.fY - fScrollY * (float)bAllowScroll);
 
 	g.DrawImage(
 		pImage, -(tFrame.iOffsetX), -(tFrame.iOffsetY),
@@ -214,8 +215,17 @@ void CBmpMgr::Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize)
 	Ellipse(hDC, (int)tInfo.fX - iSize, (int)tInfo.fY - iSize, (int)tInfo.fX + iSize, (int)tInfo.fY + iSize);
 }
 
-void CBmpMgr::Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize)
+void CBmpMgr::Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize, bool bAllowScroll)
 {
-	MoveToEx(hDC, (int)vecPos.x, (int)vecPos.y + (int)vecPos.z, NULL);
-	Ellipse(hDC, (int)vecPos.x - iSize, (int)vecPos.y - (int)vecPos.z - iSize, (int)vecPos.x + iSize, (int)vecPos.y - (int)vecPos.z + iSize);
+	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
+	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
+
+	MoveToEx(hDC, (int)vecPos.x - (int)fScrollX * (int)bAllowScroll, 
+		(int)vecPos.y + (int)vecPos.z - (int)fScrollY * (int)bAllowScroll, 
+		NULL);
+	Ellipse(hDC, 
+		(int)vecPos.x - iSize - (int)fScrollX * (int)bAllowScroll, 
+		(int)vecPos.y - (int)vecPos.z - iSize - (int)fScrollY * (int)bAllowScroll, 
+		(int)vecPos.x + iSize - fScrollX * (float)bAllowScroll,
+		(int)vecPos.y - (int)vecPos.z + iSize - fScrollY * (float)bAllowScroll);
 }

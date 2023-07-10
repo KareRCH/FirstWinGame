@@ -159,8 +159,11 @@
     <ClInclude Include="Core\Vector3.h" />
     <ClInclude Include="RockmanEXE\Battle\BattleSpell_Factory.h" />
     <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h" />
+    <ClInclude Include="RockmanEXE\Overworld\Tile.h" />
+    <ClInclude Include="RockmanEXE\Overworld\TileMgr.h" />
     <ClInclude Include="RockmanEXE\Player\Player_QuaterView.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_Central_Area.h" />
+    <ClInclude Include="RockmanEXE\Scene\Scene_Edit.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_TitleScreen.h" />
     <ClInclude Include="RockmanEXE\Spell\Spell.h" />
     <ClInclude Include="RockmanEXE\Spell\Spell_Buster.h" />
@@ -220,8 +223,11 @@
     <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp" />
+    <ClCompile Include="RockmanEXE\Overworld\Tile.cpp" />
+    <ClCompile Include="RockmanEXE\Overworld\TileMgr.cpp" />
     <ClCompile Include="RockmanEXE\Player\Player_QuaterView.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_Central_Area.cpp" />
+    <ClCompile Include="RockmanEXE\Scene\Scene_Edit.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_NetBattle.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_TitleScreen.cpp" />
     <ClCompile Include="RockmanEXE\Spell\Spell.cpp" />

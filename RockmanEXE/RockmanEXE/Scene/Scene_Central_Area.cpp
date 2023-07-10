@@ -32,6 +32,12 @@ void CScene_Central_Area::Initialize()
 void CScene_Central_Area::Update(float fDeltaTime)
 {
 	CObjMgr::Get_Instance()->Update(fDeltaTime);
+
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
+	{
+		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"pre_battle.wav"), SYSTEM_EFFECT, 1.f);
+		CSceneMgr::Get_Instance()->Scene_Change(SC_STAGE);
+	}
 }
 
 void CScene_Central_Area::Late_Update(float fDeltaTime)
@@ -56,6 +62,8 @@ void CScene_Central_Area::Render(HDC hDC)
 
 	CScrollMgr::Get_Instance()->Scroll_Lock();
 
+	float	iScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
+	float	iScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
 	CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"BG_Dog_Comp", tInfo, tFrame, false);
 
@@ -63,9 +71,10 @@ void CScene_Central_Area::Render(HDC hDC)
 	tFrame.iFrameHeight = 900;
 	CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"Central_Area", tInfo, tFrame);
 
-	float	iScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
-	float	iScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
-
+	WCHAR text[100];
+	//_stprintf_s(text, L"%i", (int)m_tState_Act.eState);
+	_stprintf_s(text, L"%f, %f", iScrollX, iScrollY);
+	TextOutW(hDC, 10, 10, text, lstrlen(text));
 	
 
 	// 오브젝트 그리기

@@ -56,7 +56,7 @@ private:
 	int						m_iLockY;
 
 private:
-	CObj* m_pLockOn_Obj;
+	CObj* m_pLockOn_Obj = nullptr;
 
 public:
 	void	Set_LockOn_Obj(CObj* value) { m_pLockOn_Obj = value;  }

@@ -9,7 +9,7 @@ public:
 
 public:
 	RECT&			Get_Rect() { return m_tRect; }
-	INFO			Get_Info() { return m_tInfo; }
+	INFO&			Get_Info() { return m_tInfo; }
 
 	void			Set_PosY(float _fY) { m_tInfo.fY += _fY; }
 	void			Set_PosX(float _fX) { m_tInfo.fX += _fX; }

@@ -14,7 +14,7 @@ void CPlayer_QuaterView::Initialize(void)
 	m_vecPos.z += (m_vecBox.z - m_vecBoxPos.z);
 
 	m_vecDirection = CVector2<int>(1, 1);
-	m_vecSpeed = CVector3<float>(3.f, 2.0f, 0.f);
+	m_vecSpeed = CVector3<float>(3.f, 1.5f, 0.f);
 
 #pragma region ¿ÃπÃ¡ˆ
 	TCHAR sText[100];

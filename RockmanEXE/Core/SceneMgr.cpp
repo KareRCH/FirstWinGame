@@ -2,6 +2,7 @@
 
 #include "Scene/Scene_TitleScreen.h"
 #include "Scene/Scene_Central_Area.h"
+#include "Scene/Scene_Edit.h"
 
 CSceneMgr*	CSceneMgr::m_pInstance = nullptr;
 
@@ -38,6 +39,7 @@ void CSceneMgr::Scene_Change(SCENEID eScene)
 			break;
 
 		case SC_EDIT:
+			m_pScene = new CScene_Edit;
 			break;
 
 		case SC_STAGE:
