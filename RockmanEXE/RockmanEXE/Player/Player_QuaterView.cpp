@@ -3,6 +3,9 @@
 #include "KeyMgr.h"
 #include "BmpMgr.h"
 #include "Manager/AnimationTable.h"
+#include <VecCollisionMgr.h>
+#include <Overworld/Tile.h>
+#include <Overworld/TileMgr.h>
 
 void CPlayer_QuaterView::Initialize(void)
 {
@@ -13,7 +16,7 @@ void CPlayer_QuaterView::Initialize(void)
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecPos.z += (m_vecBox.z - m_vecBoxPos.z);
 
-	m_vecDirection = CVector2<int>(1, 1);
+	m_vecDirection = CVector2<int>(0, -1);
 	m_vecSpeed = CVector3<float>(3.f, 1.5f, 0.f);
 
 #pragma region 이미지
@@ -124,8 +127,9 @@ void CPlayer_QuaterView::Initialize(void)
 	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_6.png"), L"OVW_Rockman_Shoot_6");
 #pragma endregion
 
-	m_sAnimName = L"OVW_Rockman_Stand_0";
-	Set_FrameKey(0, L"OVW_Rockman_Stand_0");
+	m_sDirection = L"4";
+	m_sAnimName = L"OVW_Rockman_Stand_4";
+	Set_FrameKey(0, L"OVW_Rockman_Stand_4");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 
 #pragma region 상태머신
@@ -154,13 +158,154 @@ int CPlayer_QuaterView::Update(float fDeltaTime)
 
 void CPlayer_QuaterView::Late_Update(float fDeltaTime)
 {
+	auto tVecPos = m_vecPos;
 	Move();
+
+	auto tileList = CVecCollisionMgr::Collision_Box_Tile(CTileMgr::Get_Instance()->Get_Tiles(), this);
+	if (!tileList.empty())
+	{
+		bool bIsBlock = false;
+		for (auto& item : tileList)
+		{
+			if (dynamic_cast<CTile*>(item)->Get_DrawID() == 1)
+			{
+				bIsBlock = true;
+				break;
+			}
+		}
+
+		if (bIsBlock)
+		{
+			m_vecPos = tVecPos;
+			// 막혀있을 때 진행방향에 따라 이동 방향을 바꿔주는 기능
+			// 오른, 왼
+			if (m_vecMoveDir.x != 0 && m_vecMoveDir.y == 0)
+			{
+				m_vecMoveDir.y = 1;
+				Move();
+
+				auto tileList2 = CVecCollisionMgr::Collision_Box_Tile(CTileMgr::Get_Instance()->Get_Tiles(), this);
+				bool bIsBlock2 = false;
+				if (!tileList2.empty())
+				{
+					for (auto& item : tileList2)
+					{
+						if (dynamic_cast<CTile*>(item)->Get_DrawID() == 1)
+						{
+							bIsBlock2 = true;
+							break;
+						}
+					}
+				}
+				m_vecPos = tVecPos;
+
+				m_vecMoveDir.y = -1;
+				Move();
+
+				auto tileList3 = CVecCollisionMgr::Collision_Box_Tile(CTileMgr::Get_Instance()->Get_Tiles(), this);
+				bool bIsBlock3 = false;
+				if (!tileList3.empty())
+				{
+					for (auto& item : tileList3)
+					{
+						if (dynamic_cast<CTile*>(item)->Get_DrawID() == 1)
+						{
+							bIsBlock3 = true;
+							break;
+						}
+					}
+				}
+				m_vecPos = tVecPos;
+
+				if (bIsBlock2 && bIsBlock3)
+				{
+					m_vecMoveDir.x = 0;
+					m_vecMoveDir.y = 0;
+				}
+				else
+				{
+					if (!bIsBlock2)
+					{
+						m_vecMoveDir.y = 1;
+					}
+					if (!bIsBlock3)
+					{
+						m_vecMoveDir.y = -1;
+					}
+				}
+				Move();
+			}
+			// 위, 아래
+			else if (m_vecMoveDir.y != 0 && m_vecMoveDir.x == 0)
+			{
+				m_vecMoveDir.x = 1;
+				Move();
+
+				auto tileList2 = CVecCollisionMgr::Collision_Box_Tile(CTileMgr::Get_Instance()->Get_Tiles(), this);
+				bool bIsBlock2 = false;
+				if (!tileList2.empty())
+				{
+					for (auto& item : tileList2)
+					{
+						if (dynamic_cast<CTile*>(item)->Get_DrawID() == 1)
+						{
+							bIsBlock2 = true;
+							break;
+						}
+					}
+				}
+				m_vecPos = tVecPos;
+
+				m_vecMoveDir.x = -1;
+				Move();
+
+				auto tileList3 = CVecCollisionMgr::Collision_Box_Tile(CTileMgr::Get_Instance()->Get_Tiles(), this);
+				bool bIsBlock3 = false;
+				if (!tileList3.empty())
+				{
+					for (auto& item : tileList3)
+					{
+						if (dynamic_cast<CTile*>(item)->Get_DrawID() == 1)
+						{
+							bIsBlock3 = true;
+							break;
+						}
+					}
+				}
+				m_vecPos = tVecPos;
+
+				if (bIsBlock2 && bIsBlock3)
+				{
+					m_vecMoveDir.x = 0;
+					m_vecMoveDir.y = 0;
+				}
+				else
+				{
+					if (!bIsBlock2)
+					{
+						m_vecMoveDir.x = 1;
+					}
+					if (!bIsBlock3)
+					{
+						m_vecMoveDir.x = -1;
+					}
+				}
+				Move();
+			}
+		}
+	}
+	else
+		m_vecPos = tVecPos;
 }
 
 void CPlayer_QuaterView::Render(HDC hDC)
 {
 	CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, CVector2<int>(1, 1));
-	CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
+	//CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
+
+	/*WCHAR text[100];
+	_stprintf_s(text, L"%f, %f", m_vecPos.x, m_vecPos.y);
+	TextOutW(hDC, 10, 10, text, lstrlen(text));*/
 }
 
 void CPlayer_QuaterView::Release(void)
@@ -256,7 +401,7 @@ bool CPlayer_QuaterView::Input_Move()
 void CPlayer_QuaterView::Move()
 {
 	m_vecPos.x += (float)m_vecMoveDir.x * m_vecSpeed.x;
-	m_vecPos.y -= (float)m_vecMoveDir.y * m_vecSpeed.y;
+	m_vecPos.y -= (float)m_vecMoveDir.y * m_vecSpeed.y * (float)((m_vecMoveDir.x == 0) ? 2 : 1);
 }
 
 void CPlayer_QuaterView::State_Update(float fDeltaTime)

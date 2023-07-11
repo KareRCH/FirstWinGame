@@ -13,6 +13,7 @@
 #include "SoundMgr.h"
 #include "Manager/AnimationTable.h"
 #include "Manager/ChipDataTable.h"
+#include "Player/PlayerData.h"
 #include "ITeamAgent.h"
 
 CMainGame::CMainGame() : m_hDC(nullptr), m_ulTime(GetTickCount64()), m_iFPS(0), m_gdiplusToken()
@@ -37,13 +38,13 @@ void CMainGame::Initialize()
 	Gdp::GdiplusStartup(&m_gdiplusToken, &gdiplusStartupInput, NULL);
 
 	CSoundMgr::Get_Instance()->Initialize();
-
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
-
-	CSceneMgr::Get_Instance()->Scene_Change(SC_EDIT);
+	CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();
+
+	CPlayerData::Get_Instance();
 
 	ITeamAgent::Add_TeamRelation(TEAM_ALPHA, TEAM_BETA, ERELATION_STATE::HOSTILE);
 	ITeamAgent::Add_TeamRelation(TEAM_BETA, TEAM_ALPHA, ERELATION_STATE::HOSTILE);
@@ -80,6 +81,20 @@ void CMainGame::Render()
 	}
 
 	HDC		hMemDC = CBmpMgr::Get_Instance()->Find_Img(L"Back");
+
+	//COLORREF textColor = RGB(255, 0, 0); // 빨간색 텍스트 색상
+	//int alpha = 10; // 투명도 값 (0~255 범위)
+	//// 투명도 값을 적용한 텍스트 색상 계산
+	//COLORREF transparentColor = (alpha << 24) | (textColor & 0x00FFFFFF);
+	//SetTextColor(hMemDC, transparentColor);
+
+	// 배경 투명
+	SetBkMode(hMemDC, TRANSPARENT);
+
+	// 투명도가 적용된 텍스트 색상 설정
+	SelectObject(hMemDC, g_hFonts[2]);
+	
+	
 
 	CSceneMgr::Get_Instance()->Render(hMemDC);
 
@@ -135,10 +150,11 @@ void CMainGame::Release()
 	CBmpMgr::Destroy_Instance();
 	CScrollMgr::Destroy_Instance();
 	CKeyMgr::Destroy_Instance();
-	CObjMgr::Destroy_Instance();
 	CSceneMgr::Destroy_Instance();
 	CAnimationTable::Destroy_Instance();
 	CChipDataTable::Destroy_Instance();
+	CPlayerData::Destroy_Instance();
+	CObjMgr::Destroy_Instance();
 
 	Gdp::GdiplusShutdown(m_gdiplusToken);
 	ReleaseDC(g_hWnd, m_hDC);	

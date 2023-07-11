@@ -1,6 +1,6 @@
 #include "Obj.h"
 
-CObj::CObj() : m_eDir(DIR_END), m_bDead(false), m_bPause(false), m_bIsVisible(true)
+CObj::CObj() : m_eDir(DIR_END), m_bDead(false), m_bPause(false), m_bIsVisible(true), m_iRenderDepth(0), m_fOpacity(1.f)
 {
 	ZeroMemory(&m_tInfo, sizeof(m_tInfo));
 	ZeroMemory(&m_tRect, sizeof(m_tRect));

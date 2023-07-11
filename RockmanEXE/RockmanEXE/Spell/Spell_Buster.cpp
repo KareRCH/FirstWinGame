@@ -35,6 +35,8 @@ void CSpell_Buster::Late_Update(float fDeltaTime)
 
 	// 충돌 처리
 	CVecCollisionMgr::Collision_Box(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
+
+	CCharacter_NetBattle::Info_Update();
 }
 
 void CSpell_Buster::Render(HDC hDC)

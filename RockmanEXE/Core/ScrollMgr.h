@@ -44,6 +44,9 @@ public:
 		m_iLockY = _iY;
 	}
 
+	int		Get_LockX() { return m_iLockX; }
+	int		Get_LockY() { return m_iLockY; }
+
 	void		Scroll_Lock();
 
 private:

@@ -1,5 +1,8 @@
 #include "VecCollisionMgr.h"
 
+#include "Overworld/Tile.h"
+#include <Character/Character_QuaterView.h>
+
 list<CObj*> CVecCollisionMgr::Collision_Box(list<CObj*>* Dst, CObj* Src)
 {
 	CCharacter_NetBattle* pSrc = dynamic_cast<CCharacter_NetBattle*>(Src);
@@ -14,6 +17,33 @@ list<CObj*> CVecCollisionMgr::Collision_Box(list<CObj*>* Dst, CObj* Src)
 		if (!pDst) { continue; }
 
 		if (CVecCollisionMgr_Check<float>::Check_Box(pDst->Get_BoxArea(), pSrc->Get_BoxArea()))
+		{
+			resultList.push_back(pDst);
+		}
+	}
+
+	for (auto& pDst : resultList)
+	{
+		pSrc->Collide(pDst);
+	}
+
+	return resultList;
+}
+
+list<CObj*> CVecCollisionMgr::Collision_Box_Tile(vector<CObj*>* Dst, CObj* Src)
+{
+	CCharacter_QuaterView* pSrc = dynamic_cast<CCharacter_QuaterView*>(Src);
+	if (!pSrc) { return list<CObj*>(); }
+
+	list<CObj*> resultList = list<CObj*>();
+
+	for (auto pObj : *Dst)
+	{
+		CTile* pDst = dynamic_cast<CTile*>(pObj);
+
+		if (!pDst) { continue; }
+
+		if (CVecCollisionMgr_Check<float>::Check_PointToRhombus(pDst->Get_BoxArea(), pSrc->Get_VecPos()))
 		{
 			resultList.push_back(pDst);
 		}

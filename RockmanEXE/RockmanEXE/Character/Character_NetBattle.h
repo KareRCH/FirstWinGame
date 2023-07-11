@@ -18,7 +18,7 @@
 class CCharacter_NetBattle abstract : public CCharacter, public ITeamAgent
 {
 public:
-	CCharacter_NetBattle() : m_iAttack(), m_bInvincible(), m_bHit(), m_bParalyze() {}
+	CCharacter_NetBattle() : m_iAttack(), m_bInvincible(), m_bHit(), m_bParalyze(), m_bAppearance(false) {}
 	virtual ~CCharacter_NetBattle() {}
 
 public:
@@ -79,6 +79,9 @@ public:
 	bool			IsOnGround() { return m_bIsOnGround; }
 
 public:
+	// Obj 좌표 호환용
+	void Info_Update();
+
 	// 충돌박스에 대한 실제 영역을 구하는 함수입니다.
 	// 필요할 때 쓸 수 있도록 디자인 되었습니다.
 	CVecBox<float> Get_BoxArea()
@@ -179,6 +182,8 @@ protected:
 	bool			m_bHit;				// 맞음
 	bool			m_bParalyze;		// 마비
 
+	bool			m_bAppearance;			// 등장하고 있는지
+
 public:
 	GAUGE<int>  Get_HP() { return m_iHP; }
 	void		Set_HP(int value) { m_iHP.Cur = value; }
@@ -189,6 +194,9 @@ public:
 
 	bool		Get_Invincible() { return m_bInvincible; }
 	void		Set_Invincible(bool value) { m_bInvincible = value; }
+
+	bool		Get_Appearance() { return m_bAppearance; }
+	void		Set_Appearance(bool value) { m_bAppearance = value; }
 #pragma endregion
 
 

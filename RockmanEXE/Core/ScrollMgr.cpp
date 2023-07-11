@@ -13,21 +13,25 @@ CScrollMgr::CScrollMgr()
 
 CScrollMgr::~CScrollMgr()
 {
+
 }
 
 void CScrollMgr::Scroll_Lock()
 {
-	/*auto pList = CObjMgr::Get_Instance()->Get_ObjListAll();
+	auto pList = CObjMgr::Get_Instance()->Get_ObjListAll();
+	bool bIsTarget_Exits = false;
 	for (int i = 0; i < OBJID_END; ++i)
 	{
 		auto& item = pList[i];
-		auto iter = find_if(item.begin(), item.end(), [&] (CObj* pObj) {
+		auto iter = find_if(item.begin(), item.end(), [this] (CObj* pObj) {
 			return (pObj == m_pLockOn_Obj);
 			});
 
-		if (iter == item.end())
-			m_pLockOn_Obj = nullptr;
-	}*/
+		if (iter != item.end())
+			bIsTarget_Exits = true;
+	}
+	if (!bIsTarget_Exits)
+		m_pLockOn_Obj = nullptr;
 
 	if (m_pLockOn_Obj)
 	{
@@ -47,9 +51,9 @@ void CScrollMgr::Scroll_Lock()
 
 
 	if (m_fScrollX > m_iLockX - ROCKMAN_EXECX)
-		m_fScrollX = m_iLockX - ROCKMAN_EXECX;
+		m_fScrollX = (float)(m_iLockX - ROCKMAN_EXECX);
 	
 	if (m_fScrollY > m_iLockY - ROCKMAN_EXECY)
-		m_fScrollY = m_iLockY - ROCKMAN_EXECY;
+		m_fScrollY = (float)(m_iLockY - ROCKMAN_EXECY);
 
 }

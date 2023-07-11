@@ -14,5 +14,8 @@ public:
 	virtual void		Late_Update(float fDeltaTime)	PURE;
 	virtual void		Render(HDC hDC)					PURE;
 	virtual void		Release()						PURE;
+
+public:
+	
 };
 

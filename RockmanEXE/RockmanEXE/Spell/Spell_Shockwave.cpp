@@ -66,7 +66,7 @@ void CSpell_Shockwave::Late_Update(float fDeltaTime)
 		//CSoundMgr::Get_Instance()->Play_Sound(L"");
 	}
 
-	
+	CCharacter_NetBattle::Info_Update();
 }
 
 void CSpell_Shockwave::Render(HDC hDC)

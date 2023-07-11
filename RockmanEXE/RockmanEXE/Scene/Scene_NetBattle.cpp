@@ -9,6 +9,7 @@
 #include "Manager/BattleMng.h"
 
 #include "AbstractFactory.h"
+#include <Manager/AnimationTable.h>
 
 
 
@@ -20,16 +21,26 @@ void CScene_NetBattle::Initialize()
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/overlay.png", L"BG_Overlay");
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_back.png", L"BG_Back_1");
 
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_central_comp.png", L"BG_Central_Area");
+
+	Add_Frame(L"BG_Central_Area");
+	CAnimationTable::Get_Instance()->Load_AnimData(L"1", *Get_Frame());
+
 	CBattleUI::Get_Instance();
+
+	CScrollMgr::Get_Instance()->Set_LockSize(ROCKMAN_EXECX, ROCKMAN_EXECY);
+	CScrollMgr::Get_Instance()->Set_Scroll(0.f, 0.f);
 }
 
 void CScene_NetBattle::Update(float fDeltaTime)
 {
 	CObjMgr::Get_Instance()->Update(fDeltaTime);
 
+	CBattleUI::Get_Instance()->Update(fDeltaTime);
+
 	CBattleMng::Get_Instance()->Update(fDeltaTime);
 
-	CBattleUI::Get_Instance()->Update(fDeltaTime);
+	Move_Frame();
 }
 
 void CScene_NetBattle::Late_Update(float fDeltaTime)
@@ -43,35 +54,12 @@ void CScene_NetBattle::Late_Update(float fDeltaTime)
 
 void CScene_NetBattle::Render(HDC hDC)
 {
-	//HDC		hGoundDC = CBmpMgr::Get_Instance()->Find_Img(L"BG_Dog_Comp");
-	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(L"BG_Back_1");
-	Gdp::Bitmap* pImage = pBitMap->Get_Image();
-	Gdp::Graphics g(hDC);
-
-	// 캔버스 크기 설정
-	//Gdp::Rect rcCanvas = Gdp::Rect(
-	//	0,	// 오프셋
-	//	0,	// 오프셋
-	//	pImage->GetWidth(), 
-	//	pImage->GetHeight() 
-	//);
-
-	g.DrawImage(
-		pImage, 0, 0,
-		0, 0,
-		ROCKMAN_EXECX, ROCKMAN_EXECY,
-		Gdp::UnitPixel
-	);
-
-	pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(L"BG_Overlay");
-	pImage = pBitMap->Get_Image();
-
-	g.DrawImage(
-		pImage, 0, 0,
-		0, 0,
-		pImage->GetWidth(), pImage->GetHeight(),
-		Gdp::UnitPixel
-	);
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+			CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(), Get_FrameData(),
+				CVector3<float>(128.f * (float)j, 64 * (float)i, 0.f), CVector2<int>(1, 1), false);
+	}
 
 	float	iScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float	iScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
@@ -112,4 +100,5 @@ void CScene_NetBattle::Release()
 {
 	CBattleMng::Get_Instance()->Destroy_Instance();
 	CBattleUI::Get_Instance()->Destroy_Instance();
+	CObjMgr::Get_Instance()->Release();
 }

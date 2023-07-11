@@ -13,6 +13,7 @@ HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING];                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING];            // 기본 창 클래스 이름입니다.
 HWND	g_hWnd;
+vector<HFONT>   g_hFonts;
 bool    g_bWinActivate;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
@@ -50,6 +51,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ROCKMANEXE));
 
     MSG msg;
+
+    AddFontResourceW(L"./Resource/font/neodgm.ttf");
+    AddFontResourceW(L"./Resource/font/PF스타더스트.ttf");
+    g_hFonts.push_back(CreateFontW(16, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+        VARIABLE_PITCH | FF_ROMAN, TEXT("Neo둥근모")));
+    g_hFonts.push_back(CreateFontW(32, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+        VARIABLE_PITCH | FF_ROMAN, TEXT("Neo둥근모")));
+    g_hFonts.push_back(CreateFontW(16, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+        VARIABLE_PITCH | FF_ROMAN, TEXT("PF스타더스트")));
+    //SendMessage(g_hWnd, WM_SETFONT, (WPARAM)g_hFonts[0], MAKELPARAM(TRUE, 0));
+    
 
     CMainGame		MainGame;
     MainGame.Initialize();
@@ -109,6 +121,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             }
         }
     }
+
+    RemoveFontResource(L"./Resource/font/neodgm.ttf");
+    RemoveFontResource(L"./Resource/font/PF스타더스트.ttf");
 
 #ifdef _DEBUG
 #if _TEST_CONSOLE
@@ -237,6 +252,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
             EndPaint(hWnd, &ps);
         }
+        break;
+    case WM_SETFONT:
+        //SelectObject(hDC);
         break;
     case WM_KEYDOWN:
         switch (wParam)

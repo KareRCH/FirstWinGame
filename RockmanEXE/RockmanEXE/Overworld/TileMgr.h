@@ -16,6 +16,7 @@ public:
 	void Release();
 
 	void	Picking_Tile(POINT pt, int _iDrawID, int _iOption);
+	void	Reset();
 	
 	void	Save_Tile();
 	void	Load_Tile();
@@ -42,6 +43,9 @@ private:
 	static CTileMgr*		m_pInstance;			// 
 	INFO					m_tPos;					// 타일 표시 시작 위치
 	vector<CObj*>			m_vecTile;
+
+public:
+	vector<CObj*>* Get_Tiles() { return &m_vecTile; }
 
 };
 

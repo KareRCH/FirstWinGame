@@ -158,192 +158,192 @@ void CAnimationTable::Initialize()
 	Create_Animation(
 		L"OVW_Rockman_Stand_0", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_1", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_2", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_3", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_4", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_5", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_6", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Stand_7", L"1",
 		0, 0, 1, 0.f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 
 	Create_Animation(
 		L"OVW_Rockman_Run_0", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_1", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_2", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_3", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_4", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_5", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_6", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Run_7", L"1",
 		0, 0, 6, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 
 	Create_Animation(
 		L"OVW_Rockman_Get", L"1",
 		0, 0, 3, 0.7f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 
 	Create_Animation(
 		L"OVW_Rockman_Flash1_0", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_1", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_2", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_3", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_4", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_5", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_6", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash1_7", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 
 	Create_Animation(
 		L"OVW_Rockman_Flash2_0", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_1", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_2", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_3", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_4", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_5", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_6", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Flash2_7", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 
 	Create_Animation(
 		L"OVW_Rockman_Battle_0", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Battle_2", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Battle_4", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 	Create_Animation(
 		L"OVW_Rockman_Battle_6", L"1",
 		0, 0, 2, 0.8f,
-		22, 30, 46, 46
+		23, 30, 46, 46
 	);
 #pragma endregion
 
@@ -869,8 +869,23 @@ void CAnimationTable::Initialize()
 		0, 0, 10, 0.5f,
 		132, 99, 264, 198
 	);
-#pragma endregion
+	Create_Animation(
+		L"BMP_Title_Gregar", L"1",
+		0, 0, 10, 0.5f,
+		131, 99, 264, 198
+	);
 
+	Create_Animation(
+		L"BG_Central_Area", L"1",
+		0, 0, 7, 0.5f,
+		2, 1, 130, 66
+	);
+	Create_Animation(
+		L"BMP_BG_Central_Area", L"1",
+		0, 0, 7, 0.5f,
+		2, 1, 130, 66
+	);
+#pragma endregion
 
 
 }

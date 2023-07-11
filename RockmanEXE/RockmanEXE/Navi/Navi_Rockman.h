@@ -9,7 +9,8 @@
 class CNavi_Rockman : public CNavi
 {
 public:
-	enum STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP, JUMP_SHOOT_BUSTER, HIT };
+	enum class STATE { IDLE, MOVE_READY, MOVE_END, SHOOT_BUSTER, CHARGE_BUSTER, JUMP, JUMP_SHOOT_BUSTER, HIT };
+	enum class STATE_BLINK { NONE, BLINK };
 public:
 	CNavi_Rockman();
 	virtual ~CNavi_Rockman();
@@ -27,6 +28,24 @@ private:
 	void State_Update(float fDeltaTime);
 
 private:
-	STATE_INFO<STATE>	m_tState;
+	STATE_SET<STATE, void(CNavi_Rockman*, float)> m_tState;
+
+private:
+	void Idle(float fDeltaTime);
+	void MoveReady(float fDeltaTime);
+	void MoveEnd(float fDeltaTime);
+	void ShootBuster(float fDeltaTime);
+	void ChargeBuster(float fDeltaTime);
+	void Jump(float fDeltaTime);
+	void JumpShootBuster(float fDeltaTime);
+	void Hit(float fDeltaTime);
+
+private:
+	STATE_SET<STATE_BLINK, void(CNavi_Rockman*, float)> m_tState_Blink;
+	GAUGE<float>			m_fBlink = GAUGE<float>(0.05f);
+
+private:
+	void Blink_None(float fDeltaTime);
+	void Blink_Blink(float fDeltaTime);
 };
 

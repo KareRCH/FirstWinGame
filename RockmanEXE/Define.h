@@ -39,7 +39,9 @@ typedef struct tagInfo
 
 enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
-enum OBJID { SYSTEM, PANEL, PLAYER, BULLET, MONSTER, UNIT, SPELL, MOUSE, SHIELD, BUTTON, OBJID_END };
+enum OBJID { SYSTEM, PANEL, TILE, PLAYER, BULLET, MONSTER, UNIT, SPELL, MOUSE, SHIELD, BUTTON, OBJID_END };
+
+enum RENDERID { BACKGROUND, GAMEOBJECT, EFFECT, UI, RENDER_END };
 
 enum SCENEID { SC_LOGO, SC_MENU, SC_WORLD1, SC_EDIT, SC_STAGE, SC_END };
 
@@ -129,7 +131,8 @@ typedef struct tagLine
 typedef struct tagFrame
 {
 	tagFrame() : bLoop(true), iFrameStart(), iFrameEnd(), iFrameCur(), iMotion(),
-		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), ulTime(GetTickCount64()), ulCurTime(GetTickCount64()){}
+		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), 
+		ulTime(GetTickCount64()), ulCurTime(GetTickCount64()), ulDelayTime(GetTickCount64()){}
 
 	bool			bLoop;
 
@@ -143,9 +146,10 @@ typedef struct tagFrame
 	int				iOffsetX;		// 이미지 원점 X
 	int				iOffsetY;		// 이미지 원점 Y
 
-	ULONGLONG		ulSpeed;		// 딜레이
+	ULONGLONG		ulSpeed;		// 속도
 	ULONGLONG		ulTime;			// 시간 체크
 	ULONGLONG		ulCurTime;		// 현재 시간
+	ULONGLONG		ulDelayTime;	// 딜레이 주는 시간
 
 	void Set_Loop(bool value) { bLoop = value; }
 	bool IsFrameEnd() { return (iFrameCur >= iFrameEnd); }
@@ -239,6 +243,70 @@ struct tagState
 template <typename T>
 using STATE_INFO = tagState<T>;
 
+// 단순하게 쓰기 위한 템플릿
+template <typename Key, typename Func>
+using MAP_FUNC = map<Key, function<Func>>;
+
+// 상태머신 세트
+template<typename Key, typename Func>
+struct STATE_SET
+{
+	STATE_SET() {}
+	~STATE_SET() {}
+
+public:
+	STATE_INFO<Key> tState;
+	MAP_FUNC<Key, Func> mapFunc;
+
+public:
+#pragma region 상태머신
+	void Set_State(Key _eState)
+	{
+		tState.Set_State(_eState);
+	}
+
+	void Reserve_State(Key _eState)
+	{
+		tState.Reserve_State();
+	}
+
+	// 진입할 때
+	bool IsState_Entered()
+	{
+		return tState.IsState_Entered();
+	}
+
+	// 빠져나갈 때
+	bool IsState_Exit()
+	{
+		return tState.IsState_Exit();
+	}
+
+	// 예약이 없는 상태에서만 업데이트를 할 수 있다.
+	bool Can_Update()
+	{
+		return tState.Can_Update();
+	}
+
+	bool IsOnState(Key _eState)
+	{
+		return tState.IsOnState(_eState);
+	}
+#pragma endregion
+#pragma region 함수 맵
+	void Add_Func(Key eState, function<Func>&& fn)
+	{
+		mapFunc.emplace(eState, fn);
+	}
+
+	function<Func> Get_StateFunc()
+	{
+		return mapFunc[tState.eState];
+	}
+#pragma endregion
+
+};
+
 // 딜레이 용도로 만든 구조체
 template<typename T = float>
 struct _DELAY
@@ -308,7 +376,6 @@ using DELAY = _DELAY<T>;
 template <typename T = float>
 using GAUGE = _DELAY<T>;
 
-
 typedef struct _ACTION
 {
 	_ACTION() : bAction() {}
@@ -355,10 +422,31 @@ public:
 	}
 };
 
+template<typename Key>
+struct ACTION_SET
+{
+	ACTION_SET() {}
+	~ACTION_SET() {}
 
-// 단순하게 쓰기 위한 템플릿
-template <typename Key, typename Func>
-using MAP_FUNC = map<Key, function<Func>>;
+public:
+	map<Key, ACTION> mapAction;
+
+	void Add_Action(Key&& tKey)
+	{
+		mapAction.emplace(tKey, ACTION());
+	}
+
+	ACTION& operator[] (Key&& tKey)
+	{
+		return mapAction[tKey];
+	}
+
+	void Update()
+	{
+		for_each(mapAction.begin(), mapAction.end(), CMapAction_Updator<Key>());
+	}
+};
 
 extern HWND g_hWnd;
+extern vector<HFONT> g_hFonts;
 extern bool g_bWinActivate;

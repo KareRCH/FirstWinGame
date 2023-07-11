@@ -35,3 +35,17 @@ public:
 	}
 };
 
+
+/*
+* 배틀 바이러스 데이터 전송용
+*/
+class CVirus_Transfer final
+{
+public:
+	CVirus_Transfer() : sVirus_Tag(L""), arrItem_Tag(array<wstring, 6>()) {}
+	~CVirus_Transfer() {}
+
+public:
+	wstring				sVirus_Tag = L"";					// 바이러스 태그 정보
+	array<wstring, 6>	arrItem_Tag;			// 획득 아이템 태그 정보
+};

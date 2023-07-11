@@ -214,6 +214,12 @@
     <Filter Include="소스 파일\01. RockmanEXE\03. Scene\03. Edit">
       <UniqueIdentifier>{b9cb8ad9-cb85-4bc5-aa12-ef4ebc1cc3a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\03. Scene\02. Overworld\01. Central_Area\Central2">
+      <UniqueIdentifier>{94f8fcf9-f161-4cc8-b1c0-41fd744e4ee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\05. Player">
+      <UniqueIdentifier>{66c5aaf1-9f27-4f49-9ee6-7dee724f8b9f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -390,6 +396,9 @@
     <ClInclude Include="RockmanEXE\Scene\Scene_Edit.h">
       <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
     </ClInclude>
+    <ClInclude Include="RockmanEXE\Player\PlayerData.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -517,6 +526,9 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Scene\Scene_Edit.cpp">
       <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Player\PlayerData.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

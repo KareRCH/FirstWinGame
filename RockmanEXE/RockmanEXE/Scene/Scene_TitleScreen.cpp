@@ -8,12 +8,11 @@
 
 void CScene_TitleScreen::Initialize()
 {
-	TCHAR sText[100];
-	const TCHAR* sDir = L"./RockmanEXE/Resource/background/";
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"title_gregar.png"), L"Title_Gregar");
+	wstring sText = L"./RockmanEXE/Resource/background/";
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"title_gregar.png").c_str(), L"Title_Gregar");
+	CBmpMgr::Get_Instance()->Insert_Bmp((sText + L"title_gregar.bmp").c_str(), L"BMP_Title_Gregar");
 
-	Add_Frame(L"Title_Gregar");
+	Add_Frame(L"BMP_Title_Gregar");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", *Get_Frame());
 
 	CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"loop_theme.mp3"), 1.f);
@@ -39,7 +38,7 @@ void CScene_TitleScreen::Render(HDC hDC)
 	CVector3<float> tVecPos = CVector3<float>();
 	tVecPos.x = (float)(ROCKMAN_EXECX / 2 - 1);
 	tVecPos.y = (float)(ROCKMAN_EXECY / 2);
-	CBmpMgr::Get_Instance()->Draw_PNG_StripScale(hDC, Get_FrameKey(), Get_FrameData(), tVecPos, CVector2<float>(1.0f, 1.0f), false);
+	CBmpMgr::Get_Instance()->Draw_BMP_Strip(hDC, Get_FrameKey(), Get_FrameData(), tVecPos, false);
 }
 
 void CScene_TitleScreen::Release()

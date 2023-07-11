@@ -63,6 +63,23 @@ CBitMap* CBmpMgr::Find_CBitMap(const TCHAR* pImgKey)
 	return iter->second;
 }
 
+void CBmpMgr::Draw_BMP_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, bool bAllowScroll)
+{
+	HDC		hMemDC = CBmpMgr::Get_Instance()->Find_Img(pImgKey);
+
+	int		iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
+	int		iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
+
+	GdiTransparentBlt(hDC,
+		(int)vecPos.x - (int)tFrame.iOffsetX - iScrollX * (int)bAllowScroll,
+		(int)vecPos.y - (int)tFrame.iOffsetY - iScrollY * (int)bAllowScroll,
+		tFrame.iFrameWidth, tFrame.iFrameHeight,
+		hMemDC,			// 비트맵 이미지를 담고 있는 DC
+		(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth, 0,
+		tFrame.iFrameWidth, tFrame.iFrameHeight,
+		RGB(255, 255, 255)); // 제거하고자 하는 색상
+}
+
 void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll)
 {
 	// Strip 형태의 PNG를 표시하는데 쓰인다.
@@ -103,8 +120,6 @@ void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVecto
 
 	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
 	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
-	//g.SetSmoothingMode(Gdp::SmoothingModeAntiAlias);
-	g.SetInterpolationMode(Gdp::InterpolationModeNearestNeighbor);
 
 	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
 	g.DrawImage(
@@ -131,8 +146,6 @@ void CBmpMgr::Draw_PNG_StripScale(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, C
 
 	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
 	g.ScaleTransform(vecSize.x, vecSize.y);
-	//g.SetSmoothingMode(Gdp::SmoothingModeAntiAlias);
-	g.SetInterpolationMode(Gdp::InterpolationModeNearestNeighbor);
 
 	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
 	g.DrawImage(
@@ -141,6 +154,50 @@ void CBmpMgr::Draw_PNG_StripScale(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, C
 		(float)((tFrame.iMotion * tFrame.iFrameHeight)),
 		(float)tFrame.iFrameWidth, (float)tFrame.iFrameHeight,
 		Gdp::UnitPixel
+	);
+}
+
+void CBmpMgr::Draw_PNG_StripAlpha(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<int> vecDir, float fOpacity, bool bAllowScroll)
+{
+	// Strip 형태의 PNG를 표시하는데 쓰인다.
+	// 단일용 PNG는 따로 관리한다.
+
+	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(pImgKey);
+	if (!pBitMap) return;
+	Gdp::Bitmap* pImage = pBitMap->Get_Image();
+	Gdp::Graphics g(hDC);
+
+	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
+	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
+
+	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
+	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
+
+	Gdp::ColorMatrix colorMatrix = { 
+		1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, fOpacity, 0.0f,
+		0.0f, 0.0f, 0.0f, 0.0f, 1.0f 
+	};
+
+	Gdp::ImageAttributes attr;
+	attr.SetColorMatrix(&colorMatrix, Gdp::ColorMatrixFlagsDefault, Gdp::ColorAdjustTypeBitmap);
+
+	Gdp::Rect rc = {
+		-(tFrame.iOffsetX), -(tFrame.iOffsetY), 
+		tFrame.iFrameWidth, tFrame.iFrameHeight
+	};
+	
+	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+	g.DrawImage(
+		pImage, rc,
+		(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1,
+		(tFrame.iMotion * tFrame.iFrameHeight),
+		tFrame.iFrameWidth, 
+		tFrame.iFrameHeight,
+		Gdp::UnitPixel, 
+		&attr
 	);
 }
 
@@ -153,7 +210,6 @@ void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, 
 	if (!pBitMap) return;
 	Gdp::Bitmap* pImage = pBitMap->Get_Image();
 	Gdp::Graphics g(hDC);
-	g.SetInterpolationMode(Gdp::InterpolationModeBicubic);
 
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
@@ -226,6 +282,6 @@ void CBmpMgr::Draw_Text_Circle_Vec3(HDC hDC, CVector3<float> vecPos, int iSize, 
 	Ellipse(hDC, 
 		(int)vecPos.x - iSize - (int)fScrollX * (int)bAllowScroll, 
 		(int)vecPos.y - (int)vecPos.z - iSize - (int)fScrollY * (int)bAllowScroll, 
-		(int)vecPos.x + iSize - fScrollX * (float)bAllowScroll,
-		(int)vecPos.y - (int)vecPos.z + iSize - fScrollY * (float)bAllowScroll);
+		(int)vecPos.x + iSize - (int)fScrollX * (int)bAllowScroll,
+		(int)vecPos.y - (int)vecPos.z + iSize - (int)fScrollY * (int)bAllowScroll);
 }

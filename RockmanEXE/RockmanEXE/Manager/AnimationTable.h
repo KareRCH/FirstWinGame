@@ -136,11 +136,18 @@ public:
 			return FAnimData();
 
 		// 애니메이션 카테고리가 있을 때
-		auto iter = m_mapTable.find(sName);
+		auto iter = find_if(m_mapTable.begin(), m_mapTable.end(),
+			[&sName](auto& Pair) {
+				return (!lstrcmp(sName, Pair.first));
+			});
+
 		if (iter != m_mapTable.end())
 		{
 			auto& mapAnim = (*iter).second;
-			auto iterAnim = mapAnim.find(sAnimName);
+			auto iterAnim = find_if(mapAnim.begin(), mapAnim.end(),
+				[&sAnimName](auto& Pair) {
+					return (!lstrcmp(sAnimName, Pair.first));
+				});
 
 			// 애니메이션이 있을 때
 			if (iterAnim != mapAnim.end())
@@ -158,14 +165,21 @@ public:
 		if (m_mapTable.empty())
 			return FAnimData();
 
+		auto iter = find_if(m_mapTable.begin(), m_mapTable.end(), 
+			[&pairFrame](auto& Pair) {
+			return (!lstrcmp(pairFrame.first, Pair.first));
+			});
+
 		// 애니메이션 카테고리가 있을 때
-		auto iter = m_mapTable.find(pairFrame.first);
 		if (iter != m_mapTable.end())
 		{
 			auto& mapAnim = (*iter).second;
-			auto iterAnim = mapAnim.find(sAnimName);
+			auto iterAnim = find_if(mapAnim.begin(), mapAnim.end(),
+				[&sAnimName](auto& Pair) {
+					return (!lstrcmp(sAnimName, Pair.first));
+				});
 
-			// 애니메이션이 있을 때
+			// 카테고리에 대한 애니메이션이 있을 때
 			if (iterAnim != mapAnim.end())
 			{
 				auto& AnimData = (*iterAnim).second;

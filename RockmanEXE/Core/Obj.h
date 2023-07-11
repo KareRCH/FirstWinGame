@@ -87,6 +87,7 @@ protected:
 	bool		m_bDead;			// 오브젝트 삭제용
 	bool		m_bPause;			// 오브젝트 활동정지
 	bool		m_bIsVisible;		// 오브젝트 렌더 여부
+	float		m_fOpacity;			// 오브젝트 불투명도
 
 	int			m_iRenderDepth;		// 렌더 깊이 (숫자가 클 수록 더 빠른 순서로 렌더링 됨)
 
@@ -103,5 +104,8 @@ public:
 public:
 	CObj* Get_Owner() { return m_pOwner; }
 	void Set_Owner(CObj* value) { m_pOwner = value; }
+
+	float Get_Opacity() { return m_fOpacity; }
+	void Set_Opacity(float value) { m_fOpacity = value; }
 };
 

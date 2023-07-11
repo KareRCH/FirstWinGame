@@ -2,10 +2,12 @@
 
 #include "KeyMgr.h"
 #include "SoundMgr.h"
+#include "SceneMgr.h"
 
 #include "Navi/Navi_Rockman.h"
 #include <Virus/Virus_Mettaur.h>
 #include "Battle/BattleUnit_Factory.h"
+#include <BmpMgr.h>
 
 
 
@@ -13,6 +15,14 @@ CBattleMng* CBattleMng::m_pInstance = nullptr;
 
 void CBattleMng::Initialize()
 {
+
+#pragma region 이미지
+	TCHAR sText[100];
+	const TCHAR* sCharacterDir = L"./RockmanEXE/Resource/battle/ui/";
+	lstrcpy(sText, sCharacterDir);
+	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"hp_numset.png"), L"NBT_Hp_Numset");
+#pragma endregion
+
 #pragma region 상태 머신
 	m_fnState_Map.emplace(STATE::READY_FOR_GAME, &CBattleMng::ReadyForGame);
 	m_fnState_Map.emplace(STATE::CHIP_SELECT, &CBattleMng::ChipSelect);
@@ -77,7 +87,7 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 				CPanel* pCreated = CPanelFactory::Create((col < (BATTLE_PANEL_COL / 2)) ? TEAM_ALPHA : TEAM_BETA, t,
 					(col < (BATTLE_PANEL_COL / 2)) ? CPanel::PNL_RED : CPanel::PNL_BLUE, 
 					(CPanel::PNL_BRIGHTNESS)max((int)CPanel::DARK - row, 0),
-					(CPanel::PNL_STATE)(rand() % 14)
+					(CPanel::PNL_STATE)(0)
 					);
 				m_vvPanel_List[row].push_back(pCreated);
 				m_BattleObjList.push_back(pCreated);
@@ -109,21 +119,21 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		vecCreatePos.y = m_vvPanel_List[1][4]->Get_VecPos().y;
 		CVirus* pEnemy1 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
 		m_EnemyList.push_back(pEnemy1);
-		pEnemy1->Set_Visible(false);
+		pEnemy1->Set_Opacity(0.f);
 
 		// 테스트 적
 		vecCreatePos.x = m_vvPanel_List[0][5]->Get_VecPos().x;
 		vecCreatePos.y = m_vvPanel_List[0][5]->Get_VecPos().y;
 		CVirus* pEnemy2 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
 		m_EnemyList.push_back(pEnemy2);
-		pEnemy2->Set_Visible(false);
+		pEnemy2->Set_Opacity(0.f);
 
 		//// 테스트 적
 		vecCreatePos.x = m_vvPanel_List[2][3]->Get_VecPos().x;
 		vecCreatePos.y = m_vvPanel_List[2][3]->Get_VecPos().y;
 		CVirus* pEnemy3 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
 		m_EnemyList.push_back(pEnemy3);
-		pEnemy3->Set_Visible(false);
+		pEnemy3->Set_Opacity(0.f);
 
 		for (auto& rObj : m_BattleObjList)
 		{
@@ -136,23 +146,25 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 	if (!m_EnemyList.empty())
 	{
 		auto iter = m_EnemyList.begin();
-		if (m_fEnemy_Appear_Delay.Update(fDeltaTime))
+		m_fEnemy_Appear_Delay.Reset();
+
+		for (; iter != m_EnemyList.end(); ++iter)
 		{
-			m_fEnemy_Appear_Delay.Reset();
-
-			for (; iter != m_EnemyList.end(); ++iter)
+			if ((*iter)->Get_Opacity() < 1.f)
 			{
-				if (!(*iter)->Get_Visible())
-				{
-					(*iter)->Set_Visible(true);
+				if ((*iter)->Get_Opacity() == 0.f)
 					CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"appear.wav"), SYSTEM_EFFECT, 1.f);
-					break;
-				}
-			}
 
-			if (iter == m_EnemyList.end())
-				m_bAll_Enemy_Created = true;
+				(*iter)->Set_Opacity((*iter)->Get_Opacity() + 0.025f);
+				if ((*iter)->Get_Opacity() > 1.f)
+					(*iter)->Set_Opacity(1.f);
+				
+				break;
+			}
 		}
+
+		if (iter == m_EnemyList.end())
+			m_bAll_Enemy_Created = true;
 	}
 
 	// 전부 소환함
@@ -274,11 +286,13 @@ void CBattleMng::BattleResult(float fDeltaTime)
 		CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"enemy_deleted.mp3"), 1.f);
 	}
 
-	if (m_fBattleEnd_Delay.Update(fDeltaTime))
+	if (m_tState.Can_Update())
 	{
-		m_tState.Set_State(STATE::BATTLE_END);
+		if (m_fBattleEnd_Delay.Update(fDeltaTime))
+		{
+			m_tState.Set_State(STATE::BATTLE_END);
+		}
 	}
-
 
 	if (m_tState.IsState_Exit())
 	{
@@ -291,10 +305,16 @@ void CBattleMng::BattleEnd(float fDeltaTime)
 	// 모든걸 종료하고 원래 있던 곳으로 돌아간다.
 	if (m_tState.IsState_Entered())
 	{
-
+		m_fBattleEnd_Delay.Reset();
 	}
 
-
+	if (m_tState.Can_Update())
+	{
+		if (m_fBattleEnd_Delay.Update(fDeltaTime))
+		{
+			CSceneMgr::Get_Instance()->Scene_Change(SC_WORLD1);
+		}
+	}
 
 	if (m_tState.IsState_Exit())
 	{

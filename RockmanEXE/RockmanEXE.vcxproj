@@ -161,6 +161,7 @@
     <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h" />
     <ClInclude Include="RockmanEXE\Overworld\Tile.h" />
     <ClInclude Include="RockmanEXE\Overworld\TileMgr.h" />
+    <ClInclude Include="RockmanEXE\Player\PlayerData.h" />
     <ClInclude Include="RockmanEXE\Player\Player_QuaterView.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_Central_Area.h" />
     <ClInclude Include="RockmanEXE\Scene\Scene_Edit.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp" />
     <ClCompile Include="RockmanEXE\Overworld\Tile.cpp" />
     <ClCompile Include="RockmanEXE\Overworld\TileMgr.cpp" />
+    <ClCompile Include="RockmanEXE\Player\PlayerData.cpp" />
     <ClCompile Include="RockmanEXE\Player\Player_QuaterView.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_Central_Area.cpp" />
     <ClCompile Include="RockmanEXE\Scene\Scene_Edit.cpp" />

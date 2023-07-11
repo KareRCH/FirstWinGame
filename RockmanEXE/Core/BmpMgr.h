@@ -17,11 +17,12 @@ public:
 	HDC			Find_Img(const TCHAR* pImgKey);
 	CBitMap*	Find_CBitMap(const TCHAR* pImgKey);
 
+	void		Draw_BMP_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, bool bAllowScroll = true);
+
 	void		Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
-
 	void		Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<int> vecDir, bool bAllowScroll = true);
-
 	void		Draw_PNG_StripScale(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<float> vecSize, bool bAllowScroll = true);
+	void		Draw_PNG_StripAlpha(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVector3<float> vecPos, CVector2<int> vecDir, float fOpacity, bool bAllowScroll = true);
 
 	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll = true);
 	void		Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, int srcx, int srcy, bool bAllowScroll = true);

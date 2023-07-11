@@ -109,7 +109,7 @@ public:
 
 #pragma region 내적, 외적, 길이, 정규화
 
-	CVector2<T> Dot(CVector2& _Src) const
+	T Dot(CVector2<T> _Src) const
 	{
 		return (x * _Src.x + y * _Src.y);
 	}
@@ -124,7 +124,7 @@ public:
 		return (static_cast<float>(x * _Src.x) + static_cast<float>(y * _Src.y));
 	}
 
-	CVector2<T> Cross(CVector2& _Src) const
+	T Cross(CVector2& _Src) const
 	{
 		return (x * _Src.y - y * _Src.x);
 	}
@@ -139,7 +139,7 @@ public:
 		return (static_cast<float>(x * _Src.y) - static_cast<float>(y * _Src.x));
 	}
 
-	T Length(CVector2& _Src) const
+	T Length(CVector2<T>& _Src) const
 	{
 		return static_cast<T>(sqrt(x * _Src.y - y * _Src.x));
 	}

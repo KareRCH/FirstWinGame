@@ -104,7 +104,7 @@ public:
 
 private: // 게임 결과 관련
 	bool			m_bBusting_Success = false;					// 게임 종료 후 버스팅 성공 유무
-	DELAY<float>	m_fBattleEnd_Delay = DELAY<float>(1.f);		// 턴이 끝나고 결과 출력 딜레이
+	DELAY<float>	m_fBattleEnd_Delay = DELAY<float>(2.f);		// 턴이 끝나고 결과 출력 딜레이
 
 private:
 	void ReadyForGame(float fDeltaTime);

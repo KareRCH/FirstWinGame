@@ -87,6 +87,8 @@ void CObjMgr::Late_Update(float fDeltaTime)
 
 			if (m_ObjList[i].empty())
 				break;
+
+			m_RenderList.push_back(iter);
 		}
 
 	}
@@ -97,16 +99,22 @@ void CObjMgr::Late_Update(float fDeltaTime)
 
 void CObjMgr::Render(HDC hDC)
 {
+	if (m_RenderList.empty())
+		return;
 
-	for (size_t i = 0; i < OBJID_END; ++i)
+	m_RenderList.sort([](CObj* pDst, CObj* pSrc) {
+			if (pDst->Get_RenderDepth() < pSrc->Get_RenderDepth())
+				return true;
+			return pDst->Get_Info().fY < pSrc->Get_Info().fY;
+		});
+
+	for (auto& pObj : m_RenderList)
 	{
-		for (auto& iter : m_ObjList[i])
-		{
-			if (iter->Get_Visible())
-				iter->Render(hDC);
-		}
+		if (pObj->Get_Visible())
+			pObj->Render(hDC);
 	}
 
+	m_RenderList.clear();
 }
 
 void CObjMgr::Release()
