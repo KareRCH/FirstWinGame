@@ -44,6 +44,8 @@ void CBattleMng::Initialize()
 	m_LoadedChip_List.reserve(MAX_CHIP_COUNT);
 
 	CSoundMgr::Get_Instance()->Play_BGM(const_cast<TCHAR*>(L"loop_battle.mp3"), 1.f);
+
+	m_LoadedChip_List.reserve(8);
 }
 
 void CBattleMng::Release()
@@ -67,6 +69,34 @@ void CBattleMng::Render(HDC hDC)
 
 
 
+void CBattleMng::Transfer_EquipChip(vector<FChipData_ForBattle*>* vChipData)
+{
+	// 플레이어에게 칩 전달
+	if (m_pPlayer)
+	{
+		auto listChipData = m_pPlayer->Get_ChipData_List();
+		listChipData->clear();
+		for (auto pChip : *vChipData)
+		{
+			listChipData->push_back(*pChip);
+		}
+	}
+
+	for (auto pChip : *vChipData)
+	{
+		for (auto iter = m_LoadedChip_List.begin(); iter != m_LoadedChip_List.end();)
+		{
+			if (pChip == &(*iter))
+			{
+				iter = m_LoadedChip_List.erase(iter);
+				break;
+			}
+			else
+				++iter;
+		}
+	}
+}
+
 void CBattleMng::ReadyForGame(float fDeltaTime)
 {
 	// 배틀 시작시 플레이어의 데이터, 적의 데이터 등을 받아 생성하는 작업을 한다.
@@ -76,6 +106,7 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 	{
 		m_fEnemy_Appear_Delay.Reset();
 		m_fBattle_Pre_Delay.Reset();
+
 
 		// 판넬 생성
 		m_vvPanel_List.resize(BATTLE_PANEL_ROW);
@@ -98,29 +129,30 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 			}
 		}
 
+
 		// 플레이어 생성
 		CVector3<float> vecCreatePos;
 		vecCreatePos.x = m_vvPanel_List[1][1]->Get_VecPos().x;
 		vecCreatePos.y = m_vvPanel_List[1][1]->Get_VecPos().y;
 		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(TEAM_ALPHA, vecCreatePos, CVector2<int>(1, 1));
-
+		m_pPlayer = pCreated;
 
 
 		// [여기에 로드된 플레이어의 칩 카운트를 넣어주세요]
 		if (m_iLoadedChip_Count > MAX_CHIP_COUNT)
 			m_iLoadedChip_Count = MAX_CHIP_COUNT;
 
-		// 칩을 로드
+		// 플레이어 칩 폴더로부터 칩을 로드
 		Chip_LoadByFolder();
 
+		// 칩 셔플
 		Chip_Shuffle();
 
-		// 셔플된 칩 데이터중 Chip_Count만큼 벡터에 넣는다.
-		Chip_LoadCount();
-
+		// 엔카운트 데이터 로드 및, UI에 적 이름 전달
 		m_EnemyNameList.clear();
 		FEncountData_ForTable Encount = *CPlayerData::Get_Instance()->Get_EncountData();
 
+		// 적 생성
 		for (int i = 0; i < Encount.vEnemy.size(); ++i)
 		{
 			vecCreatePos.x = m_vvPanel_List[Encount.vEnemy[i].vecPanel.y][Encount.vEnemy[i].vecPanel.x]->Get_VecPos().x;
@@ -131,6 +163,7 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 			pEnemy->Set_Opacity(0.f);
 		}
 
+		// 모든 오브젝트 정지
 		for (auto& rObj : m_BattleObjList)
 		{
 			rObj->Set_Pause();
@@ -185,6 +218,9 @@ void CBattleMng::ChipSelect(float fDeltaTime)
 		{
 			rObj->Set_Pause();
 		}
+
+		// 셔플된 칩 데이터중 Chip_Count만큼 벡터에 넣는다.
+		Chip_LoadCount();
 
 		m_fTurn_Gauge.Reset();
 
@@ -409,20 +445,16 @@ void CBattleMng::Chip_Shuffle()
 
 void CBattleMng::Chip_LoadCount()
 {
-	m_LoadedChip_List.clear();
 	for (int i = 0; i < m_iLoadedChip_Count; ++i)
 	{
 		// 로드중 리스트가 동나면 종료
 		if (m_ChipData_List.size() - 1 < i)
+			break;
+		// 로드중 리스트가 최대 로드칩 개수를 넘어가지 못하게 함
+		if (m_LoadedChip_List.size() >= m_iLoadedChip_Count)
 			break;
 
 		m_LoadedChip_List.push_back(m_ChipData_List.front());
 		m_ChipData_List.pop_front();
 	}
 }
-
-void CBattleMng::Chip_Equip()
-{
-	// 칩 데이터를 넘겨주며 ChipData_List에서 빼준다.
-}
-

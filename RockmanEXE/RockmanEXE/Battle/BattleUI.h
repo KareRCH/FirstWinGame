@@ -107,17 +107,19 @@ public:
 	void Set_State_Custom(STATE_CUSTOM eState) { m_tState_Custom.Set_State(eState); }
 
 private:
-	vector<pair<FChipData_ForBattle, CHIP_SELECT>>		m_LoadedChip_List;			// 로드된 칩, bool은 선택되었는지
+	vector<pair<FChipData_ForBattle*, CHIP_SELECT>>		m_LoadedChip_List;			// 로드된 칩, bool은 선택되었는지
 	vector<FChipData_ForBattle*>						m_EquipChip_List;			// 장착 칩
 	const int											m_iMax_EquipChip = 5;		// 최대 장작가능 칩 개수
 	int													m_iCursorChip = 0;			// 현재 선택중인 칩
 
 public:
+	vector<pair<FChipData_ForBattle*, CHIP_SELECT>>* Get_LoadeChip_List() { return &m_LoadedChip_List; }
 	void Set_LoadedChip_List(vector<FChipData_ForBattle>* value) 
 	{
-		for (auto item : *value)
+		m_LoadedChip_List.clear();
+		for (auto& Item : *value)
 		{
-			m_LoadedChip_List.push_back(pair<FChipData_ForBattle, CHIP_SELECT>(item, CHIP_SELECT::ABLE));
+			m_LoadedChip_List.push_back(pair<FChipData_ForBattle*, CHIP_SELECT>(&Item, CHIP_SELECT::ABLE));
 		}
 	}
 

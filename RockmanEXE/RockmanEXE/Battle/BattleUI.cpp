@@ -194,9 +194,6 @@ void CBattleUI::Render(HDC hDC)
 			tFrame.iFrameWidth = 40; tFrame.iFrameHeight = 14;
 			CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"NBT_UI_Enemy_Info", tInfo, tFrame, false);
 
-			int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
-			int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
-
 			SetTextColor(hDC, DWORD(0x00000000));
 
 			WCHAR text[40];
@@ -231,7 +228,7 @@ void CBattleUI::Render(HDC hDC)
 					tInfo.fY = m_tInfo.fY + 109.f + (float)i * 23.f;
 					tFrame.iFrameWidth = 14; tFrame.iFrameHeight = 14;
 					wstringstream ssInt;
-					ssInt << m_LoadedChip_List[i * 5 + j].first.iID + 1;
+					ssInt << m_LoadedChip_List[i * 5 + j].first->iID + 1;
 					wstring swString2 = (swString + ssInt.str());
 
 					CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, false);
@@ -268,7 +265,7 @@ void CBattleUI::Render(HDC hDC)
 			tFrame.iFrameWidth = (int)m_tChipPortray_Info.fCX;
 			tFrame.iFrameHeight = (int)m_tChipPortray_Info.fCY;
 			wstringstream ssInt;
-			ssInt << m_LoadedChip_List[m_iCursorChip].first.iID + 1;
+			ssInt << m_LoadedChip_List[m_iCursorChip].first->iID + 1;
 			wstring swString2 = (swString + ssInt.str());
 
 			CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 0, 0, false);
@@ -524,20 +521,23 @@ void CBattleUI::State_Update(float fDeltaTime)
 			// 선택 키를 눌렀을 때
 			else if (CKeyMgr::Get_Instance()->Key_Down('A'))
 			{
-				// 선택되지 않았을 때 추가 가능, 사이즈 넘어가지 않으면 추가가능
-				if (CHIP_SELECT::ABLE == m_LoadedChip_List[m_iCursorChip].second)
+				if (!m_LoadedChip_List.empty())
 				{
-					// 슬롯이 남아있을 때
-					if (m_iMax_EquipChip > m_EquipChip_List.size())
+					// 선택되지 않았을 때 추가 가능, 사이즈 넘어가지 않으면 추가가능
+					if (CHIP_SELECT::ABLE == m_LoadedChip_List[m_iCursorChip].second)
 					{
-						m_LoadedChip_List[m_iCursorChip].second = CHIP_SELECT::SELECTED;
-						m_EquipChip_List.push_back(&m_LoadedChip_List[m_iCursorChip].first);
-						CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_select.wav"), SYSTEM_EFFECT, 1.f);
+						// 슬롯이 남아있을 때
+						if (m_iMax_EquipChip > m_EquipChip_List.size())
+						{
+							m_LoadedChip_List[m_iCursorChip].second = CHIP_SELECT::SELECTED;
+							m_EquipChip_List.push_back(m_LoadedChip_List[m_iCursorChip].first);
+							CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_select.wav"), SYSTEM_EFFECT, 1.f);
+						}
 					}
-				}
-				else if (CHIP_SELECT::SELECTED == m_LoadedChip_List[m_iCursorChip].second)
-				{
-					CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_error.wav"), SYSTEM_EFFECT, 1.f);
+					else if (CHIP_SELECT::SELECTED == m_LoadedChip_List[m_iCursorChip].second)
+					{
+						CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_error.wav"), SYSTEM_EFFECT, 1.f);
+					}
 				}
 			}
 			else if (CKeyMgr::Get_Instance()->Key_Down('S'))
@@ -546,8 +546,8 @@ void CBattleUI::State_Update(float fDeltaTime)
 				if (!m_EquipChip_List.empty())
 				{
 					auto iter = find_if(m_LoadedChip_List.begin(), m_LoadedChip_List.end(),
-						[this](pair<FChipData_ForBattle, CHIP_SELECT>& pairChip) {
-							return (&pairChip.first == m_EquipChip_List.back());
+						[this](pair<FChipData_ForBattle*, CHIP_SELECT>& pairChip) {
+							return (pairChip.first == m_EquipChip_List.back());
 						});
 
 					if (iter != m_LoadedChip_List.end())
@@ -577,6 +577,7 @@ void CBattleUI::State_Update(float fDeltaTime)
 		
 		if (m_tState.Can_Update())
 		{
+			// 칩 선택으로 이동
 			if (CKeyMgr::Get_Instance()->Key_Down(VK_LEFT))
 			{
 				m_iCursorChip = 4;
@@ -588,11 +589,31 @@ void CBattleUI::State_Update(float fDeltaTime)
 				CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_choose.wav"), SYSTEM_EFFECT, 1.f);
 				tState.Set_State(STATE_CURSOR::CHIP);
 			}
+			// 칩 장착
 			else if (CKeyMgr::Get_Instance()->Key_Down('A'))
 			{
 				m_tState.Reserve_State(STATE::CLOSING);
 				tState.Set_State(STATE_CURSOR::NONE);
 				CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_confirm.wav"), SYSTEM_EFFECT, 1.f);
+
+				// 칩을 배틀 매니저에 전달 -> 배틀 매니저에서 플레이어에게 칩을 장착시켜줌
+				CBattleMng::Get_Instance()->Transfer_EquipChip(&m_EquipChip_List);
+				// 직후 장착 칩 리스트 초기화 및 연결된 LoadedChip_List에서 제거
+				for (auto Chip : m_EquipChip_List)
+				{
+					for (auto iter = m_LoadedChip_List.begin(); iter != m_LoadedChip_List.end();)
+					{
+						if (Chip == (*iter).first)
+						{
+							iter = m_LoadedChip_List.erase(iter);
+							break;
+						}
+						else
+							++iter;
+					}
+				}
+				// UI의 장착 칩 초기화
+				m_EquipChip_List.clear();
 			}
 		}
 

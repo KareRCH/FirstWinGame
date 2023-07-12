@@ -106,6 +106,16 @@ void CScene_Central_Area::Render(HDC hDC)
 	CObjMgr::Get_Instance()->Render(hDC);
 
 	
+
+	WCHAR text[40];
+	SetTextColor(hDC, DWORD(0x00222222));
+	_stprintf_s(text, L"%s", L"센트랄 에리어 1");
+	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 2 + 8, ROCKMAN_EXECY - 16+2, text, lstrlen(text));
+
+	SetTextColor(hDC, DWORD(0x00BBBBBB));
+
+	_stprintf_s(text, L"%s", L"센트랄 에리어 1");
+	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 8, ROCKMAN_EXECY - 16, text, lstrlen(text));
 }
 
 void CScene_Central_Area::Release()

@@ -41,7 +41,7 @@ void CMainGame::Initialize()
 
 	CSoundMgr::Get_Instance()->Initialize();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
-	CSceneMgr::Get_Instance()->Scene_Change(SC_WORLD1);
+	CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();

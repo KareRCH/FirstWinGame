@@ -417,9 +417,6 @@
     <ClInclude Include="RockmanEXE\Scene\Scene_Edit.h">
       <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
     </ClInclude>
-    <ClInclude Include="RockmanEXE\Player\PlayerData.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="RockmanEXE\Virus\Virus_Gunner.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\02. Gunner</Filter>
     </ClInclude>
@@ -437,6 +434,9 @@
     </ClInclude>
     <ClInclude Include="RockmanEXE\Overworld\Seller_QuaterView.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Player\PlayerData.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\05. Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -566,9 +566,6 @@
     <ClCompile Include="RockmanEXE\Scene\Scene_Edit.cpp">
       <Filter>소스 파일\01. RockmanEXE\03. Scene\03. Edit</Filter>
     </ClCompile>
-    <ClCompile Include="RockmanEXE\Player\PlayerData.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="RockmanEXE\Virus\Virus_Gunner.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\02. Gunner</Filter>
     </ClCompile>
@@ -586,6 +583,9 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Overworld\Seller_QuaterView.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Player\PlayerData.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\05. Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

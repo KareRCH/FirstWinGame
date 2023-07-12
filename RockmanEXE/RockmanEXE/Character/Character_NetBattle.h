@@ -4,6 +4,7 @@
 #include "ITeamAgent.h"
 
 #include "ObjMgr.h"
+#include "Manager/ChipDataTable.h"
 
 #define GRAVITY_NETBATTLE 9.8f * 1.3f;
 
@@ -197,6 +198,14 @@ public:
 
 	bool		Get_Appearance() { return m_bAppearance; }
 	void		Set_Appearance(bool value) { m_bAppearance = value; }
+#pragma endregion
+
+#pragma region Ĩ
+protected:
+	list<FChipData_ForBattle> m_ChipData_List;
+public:
+	list<FChipData_ForBattle>* Get_ChipData_List() { return &m_ChipData_List; }
+
 #pragma endregion
 
 
