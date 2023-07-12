@@ -118,15 +118,16 @@ void CBmpMgr::Draw_PNG_Strip(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, CVecto
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(float(int(vecPos.x - fScrollX * (float)bAllowScroll)), 
+		float(int(vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll)));
 	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
 
 	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
 	g.DrawImage(
-		pImage, (float)(-(tFrame.iOffsetX)), (float)(-(tFrame.iOffsetY)),
-		(float)((tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1),
-		(float)((tFrame.iMotion * tFrame.iFrameHeight)),
-		(float)tFrame.iFrameWidth, (float)tFrame.iFrameHeight,
+		pImage, (-(tFrame.iOffsetX)), (-(tFrame.iOffsetY)),
+		((tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1),
+		((tFrame.iMotion * tFrame.iFrameHeight)),
+		tFrame.iFrameWidth, tFrame.iFrameHeight,
 		Gdp::UnitPixel
 	);
 }
@@ -144,7 +145,8 @@ void CBmpMgr::Draw_PNG_StripScale(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, C
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(float(int(vecPos.x - fScrollX * (float)bAllowScroll)),
+		float(int(vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll)));
 	g.ScaleTransform(vecSize.x, vecSize.y);
 
 	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
@@ -170,35 +172,50 @@ void CBmpMgr::Draw_PNG_StripAlpha(HDC hDC, const TCHAR* pImgKey, FRAME tFrame, C
 	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	g.TranslateTransform(vecPos.x - fScrollX * (float)bAllowScroll, vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll);
+	g.TranslateTransform(float(int(vecPos.x - fScrollX * (float)bAllowScroll)),
+		float(int(vecPos.y - vecPos.z - fScrollY * (float)bAllowScroll)));
 	g.ScaleTransform((float)vecDir.x, (float)vecDir.y);
 
-	Gdp::ColorMatrix colorMatrix = { 
-		1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, fOpacity, 0.0f,
-		0.0f, 0.0f, 0.0f, 0.0f, 1.0f 
-	};
+	if (fOpacity < 1.f)
+	{
+		Gdp::ColorMatrix colorMatrix = {
+			1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, fOpacity, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f, 1.0f
+		};
 
-	Gdp::ImageAttributes attr;
-	attr.SetColorMatrix(&colorMatrix, Gdp::ColorMatrixFlagsDefault, Gdp::ColorAdjustTypeBitmap);
+		Gdp::ImageAttributes attr;
+		attr.SetColorMatrix(&colorMatrix, Gdp::ColorMatrixFlagsDefault, Gdp::ColorAdjustTypeBitmap);
 
-	Gdp::Rect rc = {
-		-(tFrame.iOffsetX), -(tFrame.iOffsetY), 
-		tFrame.iFrameWidth, tFrame.iFrameHeight
-	};
-	
-	// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
-	g.DrawImage(
-		pImage, rc,
-		(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1,
-		(tFrame.iMotion * tFrame.iFrameHeight),
-		tFrame.iFrameWidth, 
-		tFrame.iFrameHeight,
-		Gdp::UnitPixel, 
-		&attr
-	);
+		Gdp::Rect rc = {
+			-(tFrame.iOffsetX), -(tFrame.iOffsetY),
+			tFrame.iFrameWidth, tFrame.iFrameHeight
+		};
+
+		// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+		g.DrawImage(
+			pImage, rc,
+			(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1,
+			(tFrame.iMotion * tFrame.iFrameHeight),
+			tFrame.iFrameWidth,
+			tFrame.iFrameHeight,
+			Gdp::UnitPixel,
+			&attr
+		);
+	}
+	else
+	{
+		// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+		g.DrawImage(
+			pImage, -(tFrame.iOffsetX), -(tFrame.iOffsetY),
+			(tFrame.iFrameStart + tFrame.iFrameCur) * tFrame.iFrameWidth - 1,
+			tFrame.iMotion * tFrame.iFrameHeight,
+			tFrame.iFrameWidth, tFrame.iFrameHeight,
+			Gdp::UnitPixel
+		);
+	}
 }
 
 void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, bool bAllowScroll)

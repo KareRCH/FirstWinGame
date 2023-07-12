@@ -120,5 +120,11 @@ public:
 			m_LoadedChip_List.push_back(pair<FChipData_ForBattle, CHIP_SELECT>(item, CHIP_SELECT::ABLE));
 		}
 	}
+
+private:
+	int		m_iPlayerHP = 0;	// 플레이어 현재 HP 표시
+
+public:
+	void Set_PlayerHP(int value) { m_iPlayerHP = value; }
 };
 

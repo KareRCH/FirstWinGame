@@ -8,6 +8,10 @@
 #include <Virus/Virus_Mettaur.h>
 #include "Battle/BattleUnit_Factory.h"
 #include <BmpMgr.h>
+#include "Scene/Scene_Net_Area.h"
+#include "Player/PlayerData.h"
+#include "Data/EncountDataTable.h"
+#include <Data/EnemyDataTable.h>
 
 
 
@@ -107,33 +111,25 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 			m_iLoadedChip_Count = MAX_CHIP_COUNT;
 
 		// 칩을 로드
-		Test_LoadChip();
+		Chip_LoadByFolder();
 
 		Chip_Shuffle();
 
 		// 셔플된 칩 데이터중 Chip_Count만큼 벡터에 넣는다.
 		Chip_LoadCount();
 
-		// 테스트 적
-		vecCreatePos.x = m_vvPanel_List[1][4]->Get_VecPos().x;
-		vecCreatePos.y = m_vvPanel_List[1][4]->Get_VecPos().y;
-		CVirus* pEnemy1 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
-		m_EnemyList.push_back(pEnemy1);
-		pEnemy1->Set_Opacity(0.f);
+		m_EnemyNameList.clear();
+		FEncountData_ForTable Encount = *CPlayerData::Get_Instance()->Get_EncountData();
 
-		// 테스트 적
-		vecCreatePos.x = m_vvPanel_List[0][5]->Get_VecPos().x;
-		vecCreatePos.y = m_vvPanel_List[0][5]->Get_VecPos().y;
-		CVirus* pEnemy2 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
-		m_EnemyList.push_back(pEnemy2);
-		pEnemy2->Set_Opacity(0.f);
-
-		//// 테스트 적
-		vecCreatePos.x = m_vvPanel_List[2][3]->Get_VecPos().x;
-		vecCreatePos.y = m_vvPanel_List[2][3]->Get_VecPos().y;
-		CVirus* pEnemy3 = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
-		m_EnemyList.push_back(pEnemy3);
-		pEnemy3->Set_Opacity(0.f);
+		for (int i = 0; i < Encount.vEnemy.size(); ++i)
+		{
+			vecCreatePos.x = m_vvPanel_List[Encount.vEnemy[i].vecPanel.y][Encount.vEnemy[i].vecPanel.x]->Get_VecPos().x;
+			vecCreatePos.y = m_vvPanel_List[Encount.vEnemy[i].vecPanel.y][Encount.vEnemy[i].vecPanel.x]->Get_VecPos().y;
+			m_EnemyNameList.push_back(CEnemyDataTable::Get_Instance()->Get_EnemyData(0).sName);
+			CCharacter_NetBattle* pEnemy = CBattleUnit_Factory<CVirus_Mettaur>::Create(TEAM_BETA, vecCreatePos, CVector2<int>(-1, 1));
+			m_EnemyList.push_back(pEnemy);
+			pEnemy->Set_Opacity(0.f);
+		}
 
 		for (auto& rObj : m_BattleObjList)
 		{
@@ -372,6 +368,27 @@ void CBattleMng::Test_CreateChip(int iID, int iDamage, EATTRIBUTE eAttribute, EC
 	m_ChipData_List.push_back(tChipData);
 }
 
+void CBattleMng::Chip_LoadByFolder()
+{
+	vector<FChipData_ForFolder>* pFolder = CPlayerData::Get_Instance()->Get_FolderDataList();
+	if (pFolder->empty())
+		return;
+
+	for (int i = 0; i < pFolder->size(); ++i)
+	{
+		FChipData_ForBattle tChipData;
+		FChipData_ForFolder tFolderData = (*pFolder)[i];
+
+		tChipData.iID = tFolderData.iID;
+		tChipData.iDamage = tFolderData.iDamage;
+		tChipData.eAttribute = tFolderData.eAttribute;
+		tChipData.eCode = tFolderData.eCode;
+
+		m_ChipData_List.push_back(tChipData);
+	}
+}
+
+
 void CBattleMng::Chip_Shuffle()
 {
 	// 칩 데이터 셔플
@@ -408,3 +425,4 @@ void CBattleMng::Chip_Equip()
 {
 	// 칩 데이터를 넘겨주며 ChipData_List에서 빼준다.
 }
+

@@ -13,6 +13,7 @@
 
 
 
+
 void CScene_NetBattle::Initialize()
 {
 	CBattleMng::Get_Instance();

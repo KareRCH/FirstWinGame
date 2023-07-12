@@ -78,38 +78,29 @@ void CBattleUI::Initialize()
 		m_tOK_Info.fCY = 20.f;
 	}
 
-	TCHAR sText[100];
-	const TCHAR* sDir = L"./RockmanEXE/Resource/battle/ui/";
+	wstring sText = L"./RockmanEXE/Resource/battle/ui/";
 	// 기본
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ui_enemy_info.png"), L"NBT_UI_Enemy_Info");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ui_hp_bg.png"), L"NBT_UI_Hp");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"ui_pet.png"), L"NBT_UI_Pet");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"card_senddata.png"), L"NBT_UI_Send_Data");
-	
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"ui_enemy_info.png").c_str(), L"NBT_UI_Enemy_Info");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"ui_hp_bg.png").c_str(), L"NBT_UI_Hp");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"ui_pet.png").c_str(), L"NBT_UI_Pet");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"card_senddata.png").c_str(), L"NBT_UI_Send_Data");
 	// 커스텀바
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"custom.png"), L"NBT_UI_Custom_Bar");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"custom_bar_white.png"), L"NBT_UI_Custom_White");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"custom_bar_green.png"), L"NBT_UI_Custom_Green");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"custom.png").c_str(), L"NBT_UI_Custom_Bar");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"custom_bar_white.png").c_str(), L"NBT_UI_Custom_White");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"custom_bar_green.png").c_str(), L"NBT_UI_Custom_Green");
+	// 커서									   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"card_cursor_big.png").c_str(), L"NBT_UI_Cursor_Big");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"card_cursor_small.png").c_str(), L"NBT_UI_Cursor_Small");
+	// 메시지 UI							   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"battle_start.png").c_str(), L"NBT_UI_Battle_Start");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"enemy_deleted.png").c_str(), L"NBT_UI_Enemy_Deleted");
+	// 숫자 셋
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"gradient_numbers.png").c_str(), L"NBT_UI_Gradient_Num");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"hp_numset.png").c_str(), L"NBT_UI_Hp_Num");
 
-	// 커서
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"card_cursor_big.png"), L"NBT_UI_Cursor_Big");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"card_cursor_small.png"), L"NBT_UI_Cursor_Small");
 
-	// 메시지 UI
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"battle_start.png"), L"NBT_UI_Battle_Start");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"enemy_deleted.png"), L"NBT_UI_Enemy_Deleted");
-
+	Add_Frame(ANIM_KEY::CURSOR, L"NBT_UI_Cursor_Small");
+	CAnimationTable::Get_Instance()->Load_AnimData(L"1", m_mapFrame[ANIM_KEY::CURSOR]);
 
 	m_tState.Set_State(STATE::CLOSED);
 	m_tState_Cross.Set_State(STATE_CROSS::CLOSED);
@@ -117,9 +108,6 @@ void CBattleUI::Initialize()
 	m_tState_Custom.Set_State(STATE_CUSTOM::INVISIBLE);
 	m_tState_BattleStart.Set_State(STATE_BATTLE_START::INVISIBLE);
 	m_tState_BattlEnd.Set_State(STATE_BATTLE_END::INVISIBLE);
-
-	Add_Frame(ANIM_KEY::CURSOR, L"NBT_UI_Cursor_Small");
-	CAnimationTable::Get_Instance()->Load_AnimData(L"1", m_mapFrame[ANIM_KEY::CURSOR]);
 }
 
 void CBattleUI::Release()
@@ -178,14 +166,52 @@ void CBattleUI::Render(HDC hDC)
 		tInfo.fX = max(m_tInfo.fX + 124.f, 2.f); tInfo.fY = 2.f;
 		tFrame.iFrameWidth = 64; tFrame.iFrameHeight = 11;
 		CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"NBT_UI_Hp", tInfo, tFrame, false);
+		
+		tInfo.fX += 40.f; tInfo.fY += 3.f;
+		int i = m_iPlayerHP;
+		while(i > 0)
+		{
+			int iMod = i % 10;
+			i /= 10;
+
+			tInfo.fX -= 8.f;
+			tFrame.iFrameCur = iMod;
+			tFrame.iFrameWidth = 10; tFrame.iFrameHeight = 12;
+			tFrame.iOffsetX = 2; tFrame.iOffsetY = 1;
+			CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, L"NBT_UI_Gradient_Num", tInfo, tFrame, false);
+		}
+
+		tFrame.iOffsetX = 0; tFrame.iOffsetY = 0;
 	}
 	
 	// 적 이름 정보
 	if (m_bInitBattle)
 	{
-		tInfo.fX = (float)ROCKMAN_EXECX - 40.f; tInfo.fY = 16.f;
-		tFrame.iFrameWidth = 40; tFrame.iFrameHeight = 14;
-		CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"NBT_UI_Enemy_Info", tInfo, tFrame, false);
+		vector<wstring>* pNameList = CBattleMng::Get_Instance()->Get_EnemyNameList();
+		for (int i = 0; i < pNameList->size(); ++i)
+		{
+			tInfo.fX = (float)ROCKMAN_EXECX - 40.f; tInfo.fY = 16.f + 26.f * (float)i;
+			tFrame.iFrameWidth = 40; tFrame.iFrameHeight = 14;
+			CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"NBT_UI_Enemy_Info", tInfo, tFrame, false);
+
+			int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
+			int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
+
+			SetTextColor(hDC, DWORD(0x00000000));
+
+			WCHAR text[40];
+			_stprintf_s(text, L"%s", (*pNameList)[i].c_str());
+			TextOutW(hDC, (int)tInfo.fX - 10, (int)tInfo.fY - 4, text, lstrlen(text));
+
+			//COLORREF textColor = RGB(255, 0, 0); // 빨간색 텍스트 색상
+			//int alpha = 10; // 투명도 값 (0~255 범위)
+			//// 투명도 값을 적용한 텍스트 색상 계산
+			//COLORREF transparentColor = (alpha << 24) | (textColor & 0x00FFFFFF);
+			SetTextColor(hDC, DWORD(0x00FFFFFF));
+
+			_stprintf_s(text, L"%s", (*pNameList)[i].c_str());
+			TextOutW(hDC, (int)tInfo.fX - 12, (int)tInfo.fY - 6, text, lstrlen(text));
+		}
 	}
 
 	// 로드된 칩 아이콘
@@ -224,7 +250,7 @@ void CBattleUI::Render(HDC hDC)
 			tInfo.fY = m_tInfo.fY + m_tChipEquip_Info.fY + (float)i * 16.f;
 			tFrame.iFrameWidth = 14; tFrame.iFrameHeight = 14;
 			wstringstream ssInt;
-			ssInt << m_LoadedChip_List[i].first.iID + 1;
+			ssInt << m_EquipChip_List[i]->iID + 1;
 			wstring swString2 = (swString + ssInt.str());
 
 			CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, false);
@@ -520,7 +546,7 @@ void CBattleUI::State_Update(float fDeltaTime)
 				if (!m_EquipChip_List.empty())
 				{
 					auto iter = find_if(m_LoadedChip_List.begin(), m_LoadedChip_List.end(),
-						[&](pair<FChipData_ForBattle, CHIP_SELECT>& pairChip) {
+						[this](pair<FChipData_ForBattle, CHIP_SELECT>& pairChip) {
 							return (&pairChip.first == m_EquipChip_List.back());
 						});
 

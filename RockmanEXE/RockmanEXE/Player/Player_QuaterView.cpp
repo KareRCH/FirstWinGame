@@ -6,6 +6,8 @@
 #include <VecCollisionMgr.h>
 #include <Overworld/Tile.h>
 #include <Overworld/TileMgr.h>
+#include "PlayerData.h"
+#include <SoundMgr.h>
 
 void CPlayer_QuaterView::Initialize(void)
 {
@@ -14,117 +16,70 @@ void CPlayer_QuaterView::Initialize(void)
 	// 현재 좌표 박스로 조정하기
 	m_vecBox = CVector3<float>(4.f, 4.f, 16.f);
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
-	m_vecPos.z += (m_vecBox.z - m_vecBoxPos.z);
+	m_vecPos.z = (m_vecBox.z - m_vecBoxPos.z);
 
 	m_vecDirection = CVector2<int>(0, -1);
 	m_vecSpeed = CVector3<float>(3.f, 1.5f, 0.f);
+	m_vecAccel = CVector3<float>(0.f, 0.f, -12.f);
 
 #pragma region 이미지
-	TCHAR sText[100];
-	const TCHAR* sDir = L"./RockmanEXE/Resource/overworld/player/rockman/";
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_0.png"), L"OVW_Rockman_Stand_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_1.png"), L"OVW_Rockman_Stand_1");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_2.png"), L"OVW_Rockman_Stand_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_3.png"), L"OVW_Rockman_Stand_3");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_4.png"), L"OVW_Rockman_Stand_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_5.png"), L"OVW_Rockman_Stand_5");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_6.png"), L"OVW_Rockman_Stand_6");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"stand_7.png"), L"OVW_Rockman_Stand_7");
+	wstring sText = L"./RockmanEXE/Resource/overworld/player/rockman/";
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_0.png").c_str(), L"OVW_Rockman_Stand_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_1.png").c_str(), L"OVW_Rockman_Stand_1");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_2.png").c_str(), L"OVW_Rockman_Stand_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_3.png").c_str(), L"OVW_Rockman_Stand_3");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_4.png").c_str(), L"OVW_Rockman_Stand_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_5.png").c_str(), L"OVW_Rockman_Stand_5");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_6.png").c_str(), L"OVW_Rockman_Stand_6");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"stand_7.png").c_str(), L"OVW_Rockman_Stand_7");
 
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_0.png"), L"OVW_Rockman_Run_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_1.png"), L"OVW_Rockman_Run_1");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_2.png"), L"OVW_Rockman_Run_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_3.png"), L"OVW_Rockman_Run_3");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_4.png"), L"OVW_Rockman_Run_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_5.png"), L"OVW_Rockman_Run_5");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_6.png"), L"OVW_Rockman_Run_6");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"run_7.png"), L"OVW_Rockman_Run_7");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"get.png"), L"OVW_Rockman_Get");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_0.png"), L"OVW_Rockman_Flash1_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_1.png"), L"OVW_Rockman_Flash1_1");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_2.png"), L"OVW_Rockman_Flash1_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_3.png"), L"OVW_Rockman_Flash1_3");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_4.png"), L"OVW_Rockman_Flash1_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_5.png"), L"OVW_Rockman_Flash1_5");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_6.png"), L"OVW_Rockman_Flash1_6");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash1_7.png"), L"OVW_Rockman_Flash1_7");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_0.png"), L"OVW_Rockman_Flash1_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_1.png"), L"OVW_Rockman_Flash1_1");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_2.png"), L"OVW_Rockman_Flash1_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_3.png"), L"OVW_Rockman_Flash1_3");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_4.png"), L"OVW_Rockman_Flash1_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_5.png"), L"OVW_Rockman_Flash1_5");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_6.png"), L"OVW_Rockman_Flash1_6");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"flash2_7.png"), L"OVW_Rockman_Flash1_7");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"battle_0.png"), L"OVW_Rockman_Battle_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"battle_2.png"), L"OVW_Rockman_Battle_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"battle_4.png"), L"OVW_Rockman_Battle_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"battle_6.png"), L"OVW_Rockman_Battle_6");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"warped.png"), L"OVW_Rockman_Warped");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"defend_0.png"), L"OVW_Rockman_Defend_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"defend_2.png"), L"OVW_Rockman_Defend_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"defend_4.png"), L"OVW_Rockman_Defend_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"defend_6.png"), L"OVW_Rockman_Defend_6");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"burn.png"), L"OVW_Rockman_Burn");
-
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_0.png"), L"OVW_Rockman_Shoot_0");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_2.png"), L"OVW_Rockman_Shoot_2");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_4.png"), L"OVW_Rockman_Shoot_4");
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"shoot_6.png"), L"OVW_Rockman_Shoot_6");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_0.png").c_str(), L"OVW_Rockman_Run_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_1.png").c_str(), L"OVW_Rockman_Run_1");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_2.png").c_str(), L"OVW_Rockman_Run_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_3.png").c_str(), L"OVW_Rockman_Run_3");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_4.png").c_str(), L"OVW_Rockman_Run_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_5.png").c_str(), L"OVW_Rockman_Run_5");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_6.png").c_str(), L"OVW_Rockman_Run_6");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"run_7.png").c_str(), L"OVW_Rockman_Run_7");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"get.png").c_str(), L"OVW_Rockman_Get");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_0.png").c_str(), L"OVW_Rockman_Flash1_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_1.png").c_str(), L"OVW_Rockman_Flash1_1");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_2.png").c_str(), L"OVW_Rockman_Flash1_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_3.png").c_str(), L"OVW_Rockman_Flash1_3");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_4.png").c_str(), L"OVW_Rockman_Flash1_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_5.png").c_str(), L"OVW_Rockman_Flash1_5");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_6.png").c_str(), L"OVW_Rockman_Flash1_6");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash1_7.png").c_str(), L"OVW_Rockman_Flash1_7");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_0.png").c_str(), L"OVW_Rockman_Flash1_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_1.png").c_str(), L"OVW_Rockman_Flash1_1");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_2.png").c_str(), L"OVW_Rockman_Flash1_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_3.png").c_str(), L"OVW_Rockman_Flash1_3");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_4.png").c_str(), L"OVW_Rockman_Flash1_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_5.png").c_str(), L"OVW_Rockman_Flash1_5");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_6.png").c_str(), L"OVW_Rockman_Flash1_6");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"flash2_7.png").c_str(), L"OVW_Rockman_Flash1_7");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"battle_0.png").c_str(), L"OVW_Rockman_Battle_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"battle_2.png").c_str(), L"OVW_Rockman_Battle_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"battle_4.png").c_str(), L"OVW_Rockman_Battle_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"battle_6.png").c_str(), L"OVW_Rockman_Battle_6");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"warped.png").c_str(), L"OVW_Rockman_Warped");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"defend_0.png").c_str(), L"OVW_Rockman_Defend_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"defend_2.png").c_str(), L"OVW_Rockman_Defend_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"defend_4.png").c_str(), L"OVW_Rockman_Defend_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"defend_6.png").c_str(), L"OVW_Rockman_Defend_6");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"burn.png").c_str(), L"OVW_Rockman_Burn");
+											   
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"shoot_0.png").c_str(), L"OVW_Rockman_Shoot_0");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"shoot_2.png").c_str(), L"OVW_Rockman_Shoot_2");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"shoot_4.png").c_str(), L"OVW_Rockman_Shoot_4");
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"shoot_6.png").c_str(), L"OVW_Rockman_Shoot_6");
 #pragma endregion
 
 	m_sDirection = L"4";
@@ -150,14 +105,21 @@ int CPlayer_QuaterView::Update(float fDeltaTime)
 {
 	State_Update(fDeltaTime);
 
+	Gravity(fDeltaTime);
 	CObj::Move_Frame();
 	for_each(m_mapActionKey.begin(), m_mapActionKey.end(), CMapAction_Updator<ACTION_KEY>());	// 액션키 초기화
 
+	CCharacter_QuaterView::Info_Update();
 	return 0;
 }
 
 void CPlayer_QuaterView::Late_Update(float fDeltaTime)
 {
+	if (m_bIsOnGround)
+		m_vecSpeed = CVector3<float>(3.f, 1.5f, m_vecSpeed.z);
+	else
+		m_vecSpeed = CVector3<float>(1.5f, 0.75f, m_vecSpeed.z);
+
 	auto tVecPos = m_vecPos;
 	Move();
 
@@ -174,7 +136,7 @@ void CPlayer_QuaterView::Late_Update(float fDeltaTime)
 			}
 		}
 
-		if (bIsBlock)
+		if (bIsBlock && m_bIsOnGround)
 		{
 			m_vecPos = tVecPos;
 			// 막혀있을 때 진행방향에 따라 이동 방향을 바꿔주는 기능
@@ -295,7 +257,18 @@ void CPlayer_QuaterView::Late_Update(float fDeltaTime)
 		}
 	}
 	else
+	{
 		m_vecPos = tVecPos;
+	}
+
+	auto objList = CVecCollisionMgr::Collision_Box_Quater(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
+	if (!objList.empty())
+	{
+		m_vecPos = tVecPos;
+	}
+
+	CPlayerData::Get_Instance()->Set_PlayerPos(m_vecPos);
+	CPlayerData::Get_Instance()->Set_PlayerDir(m_vecDirection);
 }
 
 void CPlayer_QuaterView::Render(HDC hDC)
@@ -398,6 +371,17 @@ bool CPlayer_QuaterView::Input_Move()
 	return bIsPressed;
 }
 
+bool CPlayer_QuaterView::Input_Jump()
+{
+	if (m_bIsOnGround && CKeyMgr::Get_Instance()->Key_Pressing('S'))
+	{
+		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"toss_item.wav"), SOUND_EFFECT, 1.f);
+		m_vecSpeed.z = 3.f;
+	}
+
+	return false;
+}
+
 void CPlayer_QuaterView::Move()
 {
 	m_vecPos.x += (float)m_vecMoveDir.x * m_vecSpeed.x;
@@ -456,6 +440,7 @@ void CPlayer_QuaterView::Run(float fDeltaTime)
 		{
 			m_tState.Set_State(STATE::STAND);
 		}
+		Input_Jump();
 	}
 
 	// 탈출부

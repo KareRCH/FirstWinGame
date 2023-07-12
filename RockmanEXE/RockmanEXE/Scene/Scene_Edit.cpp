@@ -4,6 +4,7 @@
 #include "KeyMgr.h"
 #include "ScrollMgr.h"
 #include <BmpMgr.h>
+#include <Manager/AnimationTable.h>
 
 CScene_Edit::CScene_Edit()
 {
@@ -16,14 +17,15 @@ CScene_Edit::~CScene_Edit()
 
 void CScene_Edit::Initialize()
 {
-	TCHAR sText[100];
-	const TCHAR* sDir = L"./RockmanEXE/Resource/overworld/background/";
-	lstrcpy(sText, sDir);
-	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"central_area_1.png"), L"Central_Area");
-	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_dog_comp.png", L"BG_Dog_Comp");
+	wstring sText = L"./RockmanEXE/Resource/overworld/background/";
+	CBmpMgr::Get_Instance()->Insert_Bmp((sText + L"central_area_1.bmp").c_str(), L"BMP_Central_Area");
+	CBmpMgr::Get_Instance()->Insert_Bmp((sText + L"bg_central_area.bmp").c_str(), L"BMP_BG_Central_Area");
 
 	CTileMgr::Get_Instance()->Initialize();
 	CScrollMgr::Get_Instance()->Set_LockSize(1300, 900);
+
+	Add_Frame(L"BMP_BG_Central_Area");
+	CAnimationTable::Get_Instance()->Load_AnimData(L"1", *Get_Frame());
 }
 
 void CScene_Edit::Update(float fDeltaTime)
@@ -31,6 +33,8 @@ void CScene_Edit::Update(float fDeltaTime)
 	Key_Input();
 
 	CTileMgr::Get_Instance()->Update(fDeltaTime);
+
+	Move_Frame();
 }
 
 void CScene_Edit::Late_Update(float fDeltaTime)
@@ -48,11 +52,16 @@ void CScene_Edit::Render(HDC hDC)
 	float	iScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float	iScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
 
-	CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"BG_Dog_Comp", tInfo, tFrame, false);
+	for (int i = 0; i < 4; ++i)
+	{
+		for (int j = 0; j < 3; ++j)
+			CBmpMgr::Get_Instance()->Draw_BMP_Strip(hDC, Get_FrameKey(), Get_FrameData(),
+				CVector3<float>(128.f * (float)j, 64 * (float)i, 0.f), false);
+	}
 
 	tFrame.iFrameWidth = 1300;
 	tFrame.iFrameHeight = 900;
-	CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"Central_Area", tInfo, tFrame);
+	CBmpMgr::Get_Instance()->Draw_BMP_Strip(hDC, L"BMP_Central_Area", tFrame, CVector3<float>(0.f, 0.f, 0.f));
 
 	CTileMgr::Get_Instance()->Render(hDC);
 }

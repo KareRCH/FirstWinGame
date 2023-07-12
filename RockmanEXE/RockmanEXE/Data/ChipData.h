@@ -83,3 +83,38 @@ public:
 	// PA, 칩 조합에 사용됨
 	ECHIP_CODE				eCode;
 };
+
+class FChipData_ForFolder final
+{
+public:
+	FChipData_ForFolder()
+		: iID(), sName(), sDescription(), iDamage(), eAttribute(), eCode(), iCapacity()
+	{}
+	~FChipData_ForFolder() {}
+public:
+	int						iID;			// 데이터 테이블에서 칩의 데이터를 불러오기 위한 수단
+	const TCHAR*			sName;			// 이름정보에 대한 포인터
+	const TCHAR*			sDescription;	// 설명에 대한 포인터
+	int						iDamage;		// 칩의 대미지
+	EATTRIBUTE				eAttribute;		// 칩의 속성
+	ECHIP_CODE				eCode;			// PA, 칩 조합에 사용됨
+	int						iCapacity;		// 칩의 용량
+};
+
+class FChipData_ForPack final
+{
+public:
+	FChipData_ForPack()
+		: iID(), sName(), sDescription(), iDamage(), eAttribute(), eCode(), iCapacity(), iQuantity()
+	{}
+	~FChipData_ForPack() {}
+public:
+	int						iID;			// 데이터 테이블에서 칩의 데이터를 불러오기 위한 수단
+	const TCHAR*			sName;			// 이름정보에 대한 포인터
+	const TCHAR*			sDescription;	// 설명에 대한 포인터
+	int						iDamage;		// 칩의 대미지
+	EATTRIBUTE				eAttribute;		// 칩의 속성
+	ECHIP_CODE				eCode;			// PA, 칩 조합에 사용됨
+	int						iCapacity;		// 칩의 용량
+	int						iQuantity;		// 해당 칩과 코드에 대한 소지 개수
+};

@@ -22,12 +22,14 @@ public:
 #pragma region 인풋 관련
 private:
 	bool Input_Move();
+	bool Input_Jump();
 #pragma endregion
 
 
 #pragma region 물리 관련
 private:
 	void Move();
+
 #pragma endregion
 
 #pragma region 스테이터스 관련

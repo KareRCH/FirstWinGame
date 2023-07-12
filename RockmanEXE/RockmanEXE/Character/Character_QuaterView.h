@@ -26,6 +26,12 @@ public:
 		CObjMgr::Get_Instance()->Add_Object(UNIT, this);
 	}
 
+	void Info_Update()
+	{
+		m_tInfo.fX = m_vecPos.x;
+		m_tInfo.fY = m_vecPos.y;
+	}
+
 protected: // 범용 내부 변수
 	vector<ULONGLONG>			m_ulTimers;				// CPU 기반으로 정해진 시간을 체킹하는 타이머
 	vector<GAUGE<float>>		m_fTimers;				// DeltaTime 기반 타이머 
@@ -82,6 +88,26 @@ public:
 		vecBoxArea.bottom = m_vecPos.z + m_vecBoxPos.z - m_vecBox.z;
 
 		return vecBoxArea;
+	}
+
+	// 넷 배틀 캐릭터에게 적용되는 중력 규칙
+	void Gravity(float fDeltaTime)
+	{
+		m_vecSpeed.z += m_vecAccel.z * fDeltaTime;
+
+		float	fNextZ;
+		fNextZ = m_vecPos.z - (m_vecBox.z - m_vecBoxPos.z) + m_vecSpeed.z;
+		if (m_bLimit_Z && (fNextZ < 0.f))
+		{
+			m_vecPos.z = (m_vecBox.z - m_vecBoxPos.z);
+			m_vecSpeed.z = 0;
+			m_bIsOnGround = true;
+		}
+		else
+		{
+			m_vecPos.z += m_vecSpeed.z;
+			m_bIsOnGround = false;
+		}
 	}
 
 	// 넷 배틀 캐릭터에게 적용되는 이동 규칙.

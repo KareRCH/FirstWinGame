@@ -1473,13 +1473,13 @@ void CChipDataTable::Initialize()
 
 	Create_ChipData(
 		L"카피데미지", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::CURSOR,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
 		L"라이프싱크로", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::CURSOR,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
 	);
@@ -1489,31 +1489,31 @@ void CChipDataTable::Initialize()
 
 	Create_ChipData(
 		L"어택 +10", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::PLUS,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR1, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
 		L"어택 +30", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::PLUS,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR2, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
 		L"네비 +20", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::PLUS,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
 		L"컬러포인트", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::PLUS,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
 	);
 	Create_ChipData(
 		L"더블포인트", L"",
-		0, EATTRIBUTE::NONE,
+		0, EATTRIBUTE::PLUS,
 		array<ECHIP_CODE, 5>() = { ECHIP_CODE::NONE, ECHIP_CODE::NONE, ECHIP_CODE::NONE },
 		ECHIP_RARITY::STAR3, ECHIP_CLASS::STANDARD
 	);
@@ -1524,7 +1524,6 @@ void CChipDataTable::Initialize()
 #pragma region 메가 클래스 칩
 
 #pragma endregion
-
 
 #pragma region 기가 클래스 칩
 

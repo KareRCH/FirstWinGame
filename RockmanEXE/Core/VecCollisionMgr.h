@@ -19,6 +19,7 @@ private:
 public: // 전체 리스트를 통해 충돌 판정을 하는 함수
 	// Src로 부터 판정을 원하는 대상에 대한 CObj 리스트에 대해 충돌 판정을 한다.
 	static list<CObj*> Collision_Box(list<CObj*>* Dst, CObj* Src);
+	static list<CObj*> Collision_Box_Quater(list<CObj*>* Dst, CObj* Src);
 	static list<CObj*> Collision_Box_Tile(vector<CObj*>* Dst, CObj* Src);	// 타일 전용
 };
 

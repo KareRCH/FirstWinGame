@@ -14,7 +14,9 @@
 #include "Manager/AnimationTable.h"
 #include "Manager/ChipDataTable.h"
 #include "Player/PlayerData.h"
+#include "Manager/BattleMng.h"
 #include "ITeamAgent.h"
+#include <Data/EnemyDataTable.h>
 
 CMainGame::CMainGame() : m_hDC(nullptr), m_ulTime(GetTickCount64()), m_iFPS(0), m_gdiplusToken()
 {
@@ -39,7 +41,7 @@ void CMainGame::Initialize()
 
 	CSoundMgr::Get_Instance()->Initialize();
 	CBmpMgr::Get_Instance()->Insert_Bmp(L"../Image/Back.bmp", L"Back");
-	CSceneMgr::Get_Instance()->Scene_Change(SC_MENU);
+	CSceneMgr::Get_Instance()->Scene_Change(SC_WORLD1);
 
 	CAnimationTable::Get_Instance();
 	CChipDataTable::Get_Instance();
@@ -92,9 +94,7 @@ void CMainGame::Render()
 	SetBkMode(hMemDC, TRANSPARENT);
 
 	// 투명도가 적용된 텍스트 색상 설정
-	SelectObject(hMemDC, g_hFonts[2]);
-	
-	
+	SelectObject(hMemDC, g_hFonts[0]);
 
 	CSceneMgr::Get_Instance()->Render(hMemDC);
 
@@ -132,7 +132,6 @@ void CMainGame::Render()
 	//	Gdp::UnitPixel
 	//);
 
-	
 	// 종횡 유지
 	StretchBlt(
 		m_hDC,				// 복사 받을 DC(최종적으로 그림을 그릴 DC공간)
@@ -144,17 +143,23 @@ void CMainGame::Render()
 }
 
 void CMainGame::Release()
-{	
-
-	CSoundMgr::Destroy_Instance();
-	CBmpMgr::Destroy_Instance();
+{
 	CScrollMgr::Destroy_Instance();
 	CKeyMgr::Destroy_Instance();
 	CSceneMgr::Destroy_Instance();
+
 	CAnimationTable::Destroy_Instance();
 	CChipDataTable::Destroy_Instance();
+	CEncountDataTable::Destroy_Instance();
 	CPlayerData::Destroy_Instance();
+	CEnemyDataTable::Destroy_Instance();
+
+	CBattleMng::Destroy_Instance();
+	CBattleUI::Destroy_Instance();
 	CObjMgr::Destroy_Instance();
+	CObjMgr::Destroy_Instance();
+	CSoundMgr::Destroy_Instance();
+	CBmpMgr::Destroy_Instance();
 
 	Gdp::GdiplusShutdown(m_gdiplusToken);
 	ReleaseDC(g_hWnd, m_hDC);	

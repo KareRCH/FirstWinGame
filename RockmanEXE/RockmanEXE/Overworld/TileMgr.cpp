@@ -51,7 +51,8 @@ void CTileMgr::Late_Update(float fDeltaTime)
 
 void CTileMgr::Render(HDC hDC)
 {
-	/*int iCullX = (int)abs((CScrollMgr::Get_Instance()->Get_ScollX()) / TILECX);
+	return;
+	int iCullX = (int)abs((CScrollMgr::Get_Instance()->Get_ScollX()) / TILECX);
 	int iCullY = (int)abs((CScrollMgr::Get_Instance()->Get_ScollY()) / TILECY);
 
 	int	iMaxX = iCullX + (ROCKMAN_EXECX / TILECX) + 2;
@@ -68,7 +69,7 @@ void CTileMgr::Render(HDC hDC)
 
 			m_vecTile[iIndex]->Render(hDC);
 		}
-	}*/
+	}
 
 	//POINT	pt;
 	//GetCursorPos(&pt);
@@ -117,8 +118,8 @@ void CTileMgr::Picking_Tile(POINT pt, int _iDrawID, int _iOption)
 	pt.x = LONG((float)pt.x * ((float)ROCKMAN_EXECX / (float)rc.right));
 	pt.y = LONG((float)pt.y * ((float)ROCKMAN_EXECY / (float)rc.bottom));
 
-	pt.x += (int)CScrollMgr::Get_Instance()->Get_ScollX() - (int)m_tPos.fX;
-	pt.y += (int)CScrollMgr::Get_Instance()->Get_ScollY() - (int)m_tPos.fY;
+	pt.x += (int)CScrollMgr::Get_Instance()->Get_ScollX() - (int)m_tPos.fX + (TILECX >> 1);
+	pt.y += (int)CScrollMgr::Get_Instance()->Get_ScollY() - (int)m_tPos.fY - (TILECY >> 1);
 
 	int		x = (pt.x / (TILECX >> 1) - pt.y / (TILECY >> 1)) * (TILECX >> 1) / TILECX;
 	int		y = (pt.y / (TILECY >> 1) + pt.x / (TILECX >> 1)) * (TILECY >> 1) / TILECY;
@@ -136,7 +137,7 @@ void CTileMgr::Reset()
 {
 	for (auto& item : m_vecTile)
 	{
-		dynamic_cast<CTile*>(item)->Set_ID(0, 0);
+		dynamic_cast<CTile*>(item)->Set_ID(1, 0);
 	}
 }
 
@@ -149,6 +150,7 @@ void CTileMgr::Save_Tile()
 
 	int		iDrawID = 0, iOption = 0;
 	DWORD	dwByte = 0;
+	INFO	tInfo = {};
 
 	// 원점 저장
 	WriteFile(hFile, &m_tPos, sizeof(INFO), &dwByte, NULL);
@@ -159,7 +161,10 @@ void CTileMgr::Save_Tile()
 		iDrawID = dynamic_cast<CTile*>(iter)->Get_DrawID();
 		iOption = dynamic_cast<CTile*>(iter)->Get_Option();
 
-		WriteFile(hFile, &(iter->Get_Info()), sizeof(INFO), &dwByte, NULL);
+		CVector3<float> vecPos = dynamic_cast<CTile*>(iter)->Get_VecPos();
+		tInfo.fX = vecPos.x;
+		tInfo.fY = vecPos.y;
+		WriteFile(hFile, &(tInfo), sizeof(INFO), &dwByte, NULL);
 		WriteFile(hFile, &iDrawID, sizeof(int), &dwByte, NULL);
 		WriteFile(hFile, &iOption, sizeof(int), &dwByte, NULL);
 	}

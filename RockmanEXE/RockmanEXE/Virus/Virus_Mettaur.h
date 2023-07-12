@@ -55,6 +55,7 @@ public: // 목표 상태머신(AI)
 	enum class STATE_OBJ { IDLE, CHASE, ATTACK, HIDE, WAITING, JUMP };
 private: 
 	STATE_SET<STATE_OBJ, void(CVirus_Mettaur*, float)> m_tState_Obj;
+	DELAY<float>	m_fAction_Delay = DELAY<float>(1.f);
 
 	void Obj_Idle(float fDeltaTime);
 	void Obj_Chase(float fDeltaTime);

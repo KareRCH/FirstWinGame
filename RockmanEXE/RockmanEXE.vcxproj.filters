@@ -220,6 +220,27 @@
     <Filter Include="소스 파일\01. RockmanEXE\01. Manager\05. Player">
       <UniqueIdentifier>{66c5aaf1-9f27-4f49-9ee6-7dee724f8b9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\03. UI">
+      <UniqueIdentifier>{f7f4cea0-60dd-4503-a521-9341c562ad42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\02. EnemyDataTable">
+      <UniqueIdentifier>{9b8e2f59-5c71-4aec-be79-c7e6c118b6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\03. ItemDataTable">
+      <UniqueIdentifier>{e12b5bc3-e915-4b4a-9032-8502c8da9a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\04. ObjectDataTable">
+      <UniqueIdentifier>{5785eed3-5625-43e4-b33b-9d30202219ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\01. Manager\03. DataTable\05. EncountDataTable">
+      <UniqueIdentifier>{b4551f05-7ff4-4858-a47d-9e47acf91c94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\02. Gunner">
+      <UniqueIdentifier>{0a8cec5b-c800-4508-81e5-8e78d75ee611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller">
+      <UniqueIdentifier>{aedd101f-ff34-48a1-98cf-70a162143965}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -399,6 +420,24 @@
     <ClInclude Include="RockmanEXE\Player\PlayerData.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="RockmanEXE\Virus\Virus_Gunner.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\02. Gunner</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Data\EncountDataTable.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\05. EncountDataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Data\EnemyDataTable.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\02. EnemyDataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Data\ItemDataTable.h">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\03. ItemDataTable</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Scene\Scene_Net_Area.h">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\02. Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Overworld\Seller_QuaterView.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -529,6 +568,24 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Player\PlayerData.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Virus\Virus_Gunner.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\02. Virus\02. Gunner</Filter>
+    </ClCompile>
+    <ClCompile Include="EncountDataTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\05. EncountDataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Data\EnemyDataTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\02. EnemyDataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Data\ItemDataTable.cpp">
+      <Filter>소스 파일\01. RockmanEXE\01. Manager\03. DataTable\03. ItemDataTable</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Scene\Scene_Net_Area.cpp">
+      <Filter>소스 파일\01. RockmanEXE\03. Scene\02. Overworld</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Overworld\Seller_QuaterView.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -107,10 +107,7 @@ void CVirus_Mettaur::Late_Update(float fDeltaTime)
 
 void CVirus_Mettaur::Render(HDC hDC)
 {
-	if (m_fOpacity >= 1.f)
-		CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection);
-	else
-		CBmpMgr::Get_Instance()->Draw_PNG_StripAlpha(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection, m_fOpacity);
+	CBmpMgr::Get_Instance()->Draw_PNG_StripAlpha(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection, m_fOpacity);
 	//CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
@@ -173,13 +170,12 @@ void CVirus_Mettaur::Prepare_Atk(float fDeltaTime)
 		CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
 	}
 
-	// 실행
+	if (m_tState_Act.Can_Update())
 	{
+		// 실행
 
-	}
 
-	// 조건
-	{
+		// 조건
 		if (Get_Frame(0).IsFrameEnd())
 			m_tState_Act.Set_State(STATE_ACT::ATTACK);
 	}
@@ -343,18 +339,22 @@ void CVirus_Mettaur::Obj_Idle(float fDeltaTime)
 {
 	if (m_tState_Obj.IsState_Entered())
 	{
-
+		m_fAction_Delay.Reset();
 	}
 
-	// 실행
+	if (m_tState_Obj.Can_Update())
 	{
-		
-	}
+		// 실행
+		{
 
-	// 조건
-	{
-		// 공격 상태로 변경
-		m_tState_Obj.Set_State(STATE_OBJ::ATTACK);
+		}
+
+		// 조건
+		if (m_fAction_Delay.Update(fDeltaTime))
+		{
+			// 공격 상태로 변경
+			m_tState_Obj.Set_State(STATE_OBJ::ATTACK);
+		}
 	}
 
 	if (m_tState_Obj.IsState_Exit())
@@ -374,15 +374,13 @@ void CVirus_Mettaur::Obj_Attack(float fDeltaTime)
 
 	}
 
-	// 실행
+	if (m_tState_Obj.Can_Update())
 	{
 		// 공격 행동
 		m_mapActionKey[ACTION_KEY::ATTACK].Act();
-	}
 
-	// 조건
-	{
-		if (m_tState_Act.IsOnState(STATE_ACT::ATTACK) && Get_Frame(0).IsFrameEnd())
+		// 조건
+		if (m_tState_Act.IsOnState(STATE_ACT::ATTACK))
 			m_tState_Obj.Set_State(STATE_OBJ::IDLE);
 	}
 

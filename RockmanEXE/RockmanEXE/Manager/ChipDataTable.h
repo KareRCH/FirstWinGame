@@ -4,6 +4,10 @@
 
 #include "Data/ChipData.h"
 
+/*
+* int 인덱스 검색 지원
+*/
+
 class CChipDataTable final
 {
 private:
@@ -42,9 +46,9 @@ public:
 	}
 
 private:
-	map<const TCHAR*, FChipData_ForTable*> m_StandardTable_Map;
-	map<const TCHAR*, FChipData_ForTable*> m_MegaTable_Map;
-	map<const TCHAR*, FChipData_ForTable*> m_GigaTable_Map;
+	map<int, FChipData_ForTable*> m_StandardTable_Map;
+	map<int, FChipData_ForTable*> m_MegaTable_Map;
+	map<int, FChipData_ForTable*> m_GigaTable_Map;
 
 	void Create_ChipData(const TCHAR* sName, const TCHAR* sDescription,
 						int iDamage, EATTRIBUTE eAttribute, 
@@ -58,13 +62,13 @@ private:
 			switch (eClass)
 			{
 			case ECHIP_CLASS::STANDARD:
-				m_StandardTable_Map.emplace(sName, pNewData);
+				m_StandardTable_Map.emplace(iID_Count, pNewData);
 				break;
 			case ECHIP_CLASS::MEGA:
-				m_MegaTable_Map.emplace(sName, pNewData);
+				m_MegaTable_Map.emplace(iID_Count, pNewData);
 				break;
 			case ECHIP_CLASS::GIGA:
-				m_GigaTable_Map.emplace(sName, pNewData);
+				m_GigaTable_Map.emplace(iID_Count, pNewData);
 				break;
 			}
 			
@@ -83,5 +87,28 @@ private:
 
 private:
 	void Load_ChipImage();
+
+public:
+	FChipData_ForFolder Get_ChipData_ForFolder(int iID)
+	{
+		auto iter = find_if(m_StandardTable_Map.begin(), m_StandardTable_Map.end(), [&iID](auto& Pair) {
+			return (Pair.first == iID);
+			});
+
+		if (iter != m_StandardTable_Map.end())
+		{
+			FChipData_ForFolder tChip;
+
+			tChip.iID = (*iter).second->iID;
+			tChip.iDamage = (*iter).second->iDamage;
+			tChip.sName = (*iter).second->sName;
+			tChip.sDescription = (*iter).second->sDescription;
+			tChip.eAttribute = (*iter).second->eAttribute;
+
+			return tChip;
+		}
+
+		return FChipData_ForFolder();
+	}
 };
 

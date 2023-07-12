@@ -98,6 +98,8 @@ void CNavi_Rockman::Initialize(void)
 	m_tState_Blink.Set_State(STATE_BLINK::NONE);
 	m_tState_Blink.Add_Func(STATE_BLINK::NONE, &CNavi_Rockman::Blink_None);
 	m_tState_Blink.Add_Func(STATE_BLINK::BLINK, &CNavi_Rockman::Blink_Blink);
+
+	CBattleUI::Get_Instance()->Set_PlayerHP(m_iHP.Cur);
 }
 
 int CNavi_Rockman::Update(float fDeltaTime)
@@ -137,22 +139,21 @@ void CNavi_Rockman::Late_Update(float fDeltaTime)
 	}
 
 	CCharacter_NetBattle::Info_Update();
+
+	CBattleUI::Get_Instance()->Set_PlayerHP(m_iHP.Cur);
 }
 
 void CNavi_Rockman::Render(HDC hDC)
 {
-	if (m_fOpacity >= 1.f)
-		CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection);
-	else
-		CBmpMgr::Get_Instance()->Draw_PNG_StripAlpha(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection, m_fOpacity);
+	CBmpMgr::Get_Instance()->Draw_PNG_StripAlpha(hDC, Get_FrameKey(0), Get_Frame(0), m_vecPos, m_vecDirection, m_fOpacity);
 	//CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
 
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
 
-	WCHAR text[100];
+	/*WCHAR text[100];
 	_stprintf_s(text, L"%i", m_iHP.Cur);
-	TextOutW(hDC, (int)m_vecPos.x - iScrollX, (int)m_vecPos.y - (int)m_vecPos.z - iScrollY, text, lstrlen(text));
+	TextOutW(hDC, (int)m_vecPos.x - iScrollX, (int)m_vecPos.y - (int)m_vecPos.z - iScrollY, text, lstrlen(text));*/
 }
 
 void CNavi_Rockman::Release(void)
@@ -326,7 +327,7 @@ void CNavi_Rockman::Jump(float fDeltaTime)
 
 		if (m_bIsOnGround)
 		{
-			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"jump_lite.wav"), SYSTEM_EFFECT, 1.f);
+			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"toss_item.wav"), SOUND_EFFECT, 1.f);
 			m_vecSpeed.z = 5.f;
 		}
 	}

@@ -119,6 +119,7 @@ private:
 private:
 	list<CCharacter_NetBattle*>		m_BattleObjList;
 	list<CCharacter_NetBattle*>		m_EnemyList;
+	vector<wstring>					m_EnemyNameList;
 	CBattleUI*						m_pBattleUI = nullptr;
 
 	bool m_bAll_Enemy_Created = false;
@@ -140,10 +141,17 @@ public:
 			m_EnemyList.erase(iter);
 	}
 
+	vector<wstring>* Get_EnemyNameList()
+	{
+		return &m_EnemyNameList;
+	}
+
+
 private:
 	// 테스트용 칩 로드 함수
 	void Test_LoadChip();
 	void Test_CreateChip(int iID, int iDamage, EATTRIBUTE eAttribute, ECHIP_CODE eCode);
+	void Chip_LoadByFolder();
 	void Chip_Shuffle();
 	void Chip_LoadCount();
 	void Chip_Equip();

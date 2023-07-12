@@ -886,6 +886,28 @@ void CAnimationTable::Initialize()
 		2, 1, 130, 66
 	);
 #pragma endregion
+#pragma region NPC
+	Create_Animation(
+		L"OVW_Seller_Stand_1", L"1",
+		0, 0, 1, 0.5f,
+		22, 30, 46, 46
+	);
+	Create_Animation(
+		L"OVW_Seller_Stand_3", L"1",
+		0, 0, 1, 0.5f,
+		22, 30, 46, 46
+	);
+	Create_Animation(
+		L"OVW_Seller_Stand_5", L"1",
+		0, 0, 1, 0.5f,
+		22, 30, 46, 46
+	);
+	Create_Animation(
+		L"OVW_Seller_Stand_7", L"1",
+		0, 0, 1, 0.5f,
+		22, 30, 46, 46
+	);
+#pragma endregion
 
 
 }
