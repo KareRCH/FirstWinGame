@@ -282,6 +282,57 @@ void CBmpMgr::Draw_PNG(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, 
 	);
 }
 
+void CBmpMgr::Draw_PNG_Alpha(HDC hDC, const TCHAR* pImgKey, INFO tInfo, FRAME tFrame, int srcx, int srcy, float fOpacity, bool bAllowScroll)
+{
+	CBitMap* pBitMap = CBmpMgr::Get_Instance()->Find_CBitMap(pImgKey);
+	if (!pBitMap) return;
+	Gdp::Bitmap* pImage = pBitMap->Get_Image();
+	Gdp::Graphics g(hDC);
+
+	float fScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
+	float fScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
+
+	g.TranslateTransform(float(int(tInfo.fX - fScrollX * (float)bAllowScroll)),
+		float(int(tInfo.fY - fScrollY * (float)bAllowScroll)));
+
+	if (fOpacity < 1.f)
+	{
+		Gdp::ColorMatrix colorMatrix = {
+			1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, fOpacity, 0.0f,
+			0.0f, 0.0f, 0.0f, 0.0f, 1.0f
+		};
+
+		Gdp::ImageAttributes attr;
+		attr.SetColorMatrix(&colorMatrix, Gdp::ColorMatrixFlagsDefault, Gdp::ColorAdjustTypeBitmap);
+
+		Gdp::Rect rc = {
+			-(tFrame.iOffsetX), -(tFrame.iOffsetY),
+			tFrame.iFrameWidth, tFrame.iFrameHeight
+		};
+
+		// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+		g.DrawImage(
+			pImage, rc,
+			srcx, srcy,
+			tFrame.iFrameWidth, tFrame.iFrameHeight,
+			Gdp::UnitPixel,
+			&attr
+		);
+	}
+	else
+	{
+		// 쉽샵 버그 땜에 복잡한 식으로 잡은 모습이다.
+		g.DrawImage(
+			pImage, -(tFrame.iOffsetX), -(tFrame.iOffsetY),
+			srcx, srcy, tFrame.iFrameWidth, tFrame.iFrameHeight,
+			Gdp::UnitPixel
+		);
+	}
+}
+
 void CBmpMgr::Draw_Test_Circle(HDC hDC, INFO tInfo, int iSize)
 {
 	MoveToEx(hDC, (int)tInfo.fX, (int)tInfo.fY, NULL);

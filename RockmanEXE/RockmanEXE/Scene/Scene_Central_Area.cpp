@@ -15,6 +15,7 @@
 #include <Manager/AnimationTable.h>
 #include "Player/PlayerData.h"
 #include <Overworld/Seller_QuaterView.h>
+#include "Overworld/SteelCube_QuaterView.h"
 
 void CScene_Central_Area::Initialize()
 {
@@ -33,6 +34,7 @@ void CScene_Central_Area::Initialize()
 		CQuaterViewUnit_Factory<CPlayer_QuaterView>::Create(CPlayerData::Get_Instance()->Get_PlayerPos(), 
 															CPlayerData::Get_Instance()->Get_PlayerDir());
 	CQuaterViewUnit_Factory<CSeller_QuaterView>::Create(CVector3<float>(1033.f, 291.f, 0.f), CVector2<int>(-1, -1));
+	CQuaterViewUnit_Factory<CSteelCube_QuaterView>::Create(CVector3<float>(937.f, 345.f, 0.f), CVector2<int>(1, 1));
 
 	CScrollMgr::Get_Instance()->Set_Scroll(0.f, 0.f);
 	CScrollMgr::Get_Instance()->Set_LockSize(1300, 900);
@@ -110,7 +112,7 @@ void CScene_Central_Area::Render(HDC hDC)
 	WCHAR text[40];
 	SetTextColor(hDC, DWORD(0x00222222));
 	_stprintf_s(text, L"%s", L"센트랄 에리어 1");
-	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 2 + 8, ROCKMAN_EXECY - 16+2, text, lstrlen(text));
+	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 1 + 8, ROCKMAN_EXECY - 16+1, text, lstrlen(text));
 
 	SetTextColor(hDC, DWORD(0x00BBBBBB));
 

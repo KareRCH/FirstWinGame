@@ -51,15 +51,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_ROCKMANEXE));
 
     MSG msg;
-
+    
     AddFontResourceW(L"./Resource/font/neodgm.ttf");
     AddFontResourceW(L"./Resource/font/PF스타더스트.ttf");
+    AddFontResourceW(L"./Resource/font/KROE0553.TTF");
     g_hFonts.push_back(CreateFontW(16, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
         VARIABLE_PITCH | FF_ROMAN, TEXT("Neo둥근모")));
     g_hFonts.push_back(CreateFontW(32, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
         VARIABLE_PITCH | FF_ROMAN, TEXT("Neo둥근모")));
     g_hFonts.push_back(CreateFontW(16, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
         VARIABLE_PITCH | FF_ROMAN, TEXT("PF스타더스트")));
+    g_hFonts.push_back(CreateFontW(9, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+        VARIABLE_PITCH | FF_ROMAN, TEXT("PF스타더스트")));
+    g_hFonts.push_back(CreateFontW(8, 0, 0, 0, 0, 0, 0, 0, HANGEUL_CHARSET, 0, 0, 0,
+        VARIABLE_PITCH | FF_ROMAN, TEXT("KROE0553")));
     //SendMessage(g_hWnd, WM_SETFONT, (WPARAM)g_hFonts[0], MAKELPARAM(TRUE, 0));
     
 
@@ -124,6 +129,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     RemoveFontResource(L"./Resource/font/neodgm.ttf");
     RemoveFontResource(L"./Resource/font/PF스타더스트.ttf");
+    RemoveFontResource(L"./Resource/font/PFKROE0553.ttf");
 
 #ifdef _DEBUG
 #if _TEST_CONSOLE

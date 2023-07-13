@@ -908,6 +908,13 @@ void CAnimationTable::Initialize()
 		22, 30, 46, 46
 	);
 #pragma endregion
+#pragma region OBJ
+	Create_Animation(
+		L"OVW_Steel_Cube", L"1",
+		0, 0, 4, 0.5f,
+		27, 34, 53, 57
+	);
+#pragma endregion
 
 
 }

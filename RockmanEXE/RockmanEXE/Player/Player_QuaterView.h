@@ -23,6 +23,7 @@ public:
 private:
 	bool Input_Move();
 	bool Input_Jump();
+	bool Input_Communication();
 #pragma endregion
 
 

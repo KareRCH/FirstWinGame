@@ -161,8 +161,11 @@
     <ClInclude Include="RockmanEXE\Data\EncountDataTable.h" />
     <ClInclude Include="RockmanEXE\Data\EnemyDataTable.h" />
     <ClInclude Include="RockmanEXE\Data\ItemDataTable.h" />
+    <ClInclude Include="RockmanEXE\Overworld\SteelCube_QuaterView.h" />
+    <ClInclude Include="RockmanEXE\Overworld\Overworld_MenuUI.h" />
     <ClInclude Include="RockmanEXE\Overworld\QuaterViewUnit_Factory.h" />
     <ClInclude Include="RockmanEXE\Overworld\Seller_QuaterView.h" />
+    <ClInclude Include="RockmanEXE\Overworld\TextBox.h" />
     <ClInclude Include="RockmanEXE\Overworld\Tile.h" />
     <ClInclude Include="RockmanEXE\Overworld\TileMgr.h" />
     <ClInclude Include="RockmanEXE\Player\PlayerData.h" />
@@ -233,7 +236,10 @@
     <ClCompile Include="RockmanEXE\Manager\ChipDataTable.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi.cpp" />
     <ClCompile Include="RockmanEXE\Navi\Navi_Rockman.cpp" />
+    <ClCompile Include="RockmanEXE\Overworld\Overworld_MenuUI.cpp" />
     <ClCompile Include="RockmanEXE\Overworld\Seller_QuaterView.cpp" />
+    <ClCompile Include="RockmanEXE\Overworld\SteelCube_QuaterView.cpp" />
+    <ClCompile Include="RockmanEXE\Overworld\TextBox.cpp" />
     <ClCompile Include="RockmanEXE\Overworld\Tile.cpp" />
     <ClCompile Include="RockmanEXE\Overworld\TileMgr.cpp" />
     <ClCompile Include="RockmanEXE\Player\PlayerData.cpp" />

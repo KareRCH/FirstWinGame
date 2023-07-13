@@ -232,9 +232,57 @@ void CBattleUI::Render(HDC hDC)
 					wstring swString2 = (swString + ssInt.str());
 
 					CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, false);
+
+					SetTextColor(hDC, DWORD(0x00DDDDDD));
+					SelectObject(hDC, g_hFonts[4]);
+
+					wstring sCode = L"";
+
+					int iCode = (int)m_LoadedChip_List[i * 5 + j].first->eCode + 64;
+					if (iCode - 64 != (int)ECHIP_CODE::WILD_CARD)
+					{
+						sCode = TCHAR(iCode);
+					}
+					else
+						sCode = L"*";
+
+					WCHAR text[40];
+					_stprintf_s(text, L"%s", sCode.c_str());
+					TextOutW(hDC, (int)tInfo.fX + 4, (int)tInfo.fY +14, text, lstrlen(text));
+
+					
+				}
+				else if (m_LoadedChip_List[i * 5 + j].second == CHIP_SELECT::DISABLED)
+				{
+					tInfo.fX = m_tInfo.fX + 9.f + (float)j * 16.f;
+					tInfo.fY = m_tInfo.fY + 109.f + (float)i * 23.f;
+					tFrame.iFrameWidth = 14; tFrame.iFrameHeight = 14;
+					wstringstream ssInt;
+					ssInt << m_LoadedChip_List[i * 5 + j].first->iID + 1;
+					wstring swString2 = (swString + ssInt.str());
+
+					CBmpMgr::Get_Instance()->Draw_PNG_Alpha(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, 0.3f, false);
+
+					SetTextColor(hDC, DWORD(0x00DDDDDD));
+					SelectObject(hDC, g_hFonts[4]);
+
+					wstring sCode = L"";
+
+					int iCode = (int)m_LoadedChip_List[i * 5 + j].first->eCode + 64;
+					if (iCode - 64 != (int)ECHIP_CODE::WILD_CARD)
+					{
+						sCode = TCHAR(iCode);
+					}
+					else
+						sCode = L"*";
+
+					WCHAR text[40];
+					_stprintf_s(text, L"%s", sCode.c_str());
+					TextOutW(hDC, (int)tInfo.fX + 4, (int)tInfo.fY + 14, text, lstrlen(text));
 				}
 			}
 		}
+		SelectObject(hDC, g_hFonts[0]);
 	}
 
 	// 장비할 칩 아이콘
@@ -269,6 +317,40 @@ void CBattleUI::Render(HDC hDC)
 			wstring swString2 = (swString + ssInt.str());
 
 			CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 0, 0, false);
+
+			SetTextColor(hDC, DWORD(0x00EEEEEE));
+			SelectObject(hDC, g_hFonts[0]);
+
+			// 칩 코드
+			wstring sCode = L"";
+			int iCode = (int)m_LoadedChip_List[m_iCursorChip].first->eCode + 64;
+			if (iCode - 64 != (int)ECHIP_CODE::WILD_CARD)
+			{
+				sCode = TCHAR(iCode);
+			}
+			else
+				sCode = L"*";
+
+			
+			WCHAR text[40];
+			_stprintf_s(text, L"%s", sCode.c_str());
+			TextOutW(hDC, (int)tInfo.fX, (int)tInfo.fY + 48, text, lstrlen(text));
+
+
+			// 칩 공격력
+			sCode = L"";
+			ssInt.str(L"");
+			ssInt << m_LoadedChip_List[m_iCursorChip].first->iDamage;
+
+			_stprintf_s(text, L"%s", (sCode + ssInt.str()).c_str());
+			TextOutW(hDC, (int)tInfo.fX + 54 - 8 * lstrlen(text), (int)tInfo.fY + 48, text, lstrlen(text));
+
+			// 칩 이름
+			sCode = CChipDataTable::Get_Instance()->Get_ChipData_ForFolder(
+				m_LoadedChip_List[m_iCursorChip].first->iID
+			).sName;
+			_stprintf_s(text, L"%s", (sCode).c_str());
+			TextOutW(hDC, (int)tInfo.fX - 8, (int)tInfo.fY - 16, text, lstrlen(text));
 		}
 	}
 
@@ -529,12 +611,37 @@ void CBattleUI::State_Update(float fDeltaTime)
 						// 슬롯이 남아있을 때
 						if (m_iMax_EquipChip > m_EquipChip_List.size())
 						{
-							m_LoadedChip_List[m_iCursorChip].second = CHIP_SELECT::SELECTED;
-							m_EquipChip_List.push_back(m_LoadedChip_List[m_iCursorChip].first);
-							CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_select.wav"), SYSTEM_EFFECT, 1.f);
+							if (m_LoadedChip_List[m_iCursorChip].second == CHIP_SELECT::ABLE)
+							{
+								m_LoadedChip_List[m_iCursorChip].second = CHIP_SELECT::SELECTED;
+								m_EquipChip_List.push_back(m_LoadedChip_List[m_iCursorChip].first);
+								CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_select.wav"), SYSTEM_EFFECT, 1.f);
+
+								// 선택 후 선택되지 않은 칩들에 대해 코드와 ID 비교후 비활성화
+								// 맨 앞의 ID와 같거나 코드가 같아야 선택이 가능, WILD_CARD는 해당 없음
+								auto iID = m_EquipChip_List.back()->iID;
+								auto eCode = m_EquipChip_List.back()->eCode;
+								for (auto& Pair : m_LoadedChip_List)
+								{
+									// 애스터리스크는 조건에 필요없음
+									if (eCode == ECHIP_CODE::WILD_CARD)
+										break;
+									// 애스터리스크면 비활성화하지 않음
+									if (Pair.first->eCode == ECHIP_CODE::WILD_CARD)
+										continue;
+
+									if (Pair.second == CHIP_SELECT::ABLE)
+									{
+										if (Pair.first->eCode != eCode && Pair.first->iID != iID)
+										{
+											Pair.second = CHIP_SELECT::DISABLED;
+										}
+									}
+								}
+							}
 						}
 					}
-					else if (CHIP_SELECT::SELECTED == m_LoadedChip_List[m_iCursorChip].second)
+					else
 					{
 						CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_error.wav"), SYSTEM_EFFECT, 1.f);
 					}
@@ -555,6 +662,27 @@ void CBattleUI::State_Update(float fDeltaTime)
 						m_EquipChip_List.pop_back();
 						(*iter).second = CHIP_SELECT::ABLE;
 						CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_cancel.wav"), SYSTEM_EFFECT, 1.f);
+
+						// 선택 후 선택되지 않은 칩들에 대해 코드와 ID 비교후 비활성화
+						// 맨 앞의 ID와 같거나 코드가 같아야 선택이 가능, WILD_CARD는 해당 없음
+						for (auto& Pair : m_LoadedChip_List)
+						{
+							if (Pair.second == CHIP_SELECT::DISABLED)
+							{
+								auto iter = find_if(m_EquipChip_List.begin(), m_EquipChip_List.end(),
+									[&Pair](auto& pChipData) {
+										return (Pair.first->eCode != pChipData->eCode
+										&& Pair.first->iID != pChipData->iID);
+									});
+
+								if (iter == m_EquipChip_List.end())
+								{
+									Pair.second = CHIP_SELECT::ABLE;
+								}
+							}
+						}
+
+						
 					}
 				}
 			}

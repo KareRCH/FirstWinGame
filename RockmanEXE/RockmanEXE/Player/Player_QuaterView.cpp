@@ -3,11 +3,13 @@
 #include "KeyMgr.h"
 #include "BmpMgr.h"
 #include "Manager/AnimationTable.h"
+#include <SoundMgr.h>
+
 #include <VecCollisionMgr.h>
 #include <Overworld/Tile.h>
 #include <Overworld/TileMgr.h>
 #include "PlayerData.h"
-#include <SoundMgr.h>
+
 
 void CPlayer_QuaterView::Initialize(void)
 {
@@ -261,7 +263,7 @@ void CPlayer_QuaterView::Late_Update(float fDeltaTime)
 		m_vecPos = tVecPos;
 	}
 
-	auto objList = CVecCollisionMgr::Collision_Box_Quater(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
+	auto objList = CVecCollisionMgr::Collision_PointToRhombus_Quater(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
 	if (!objList.empty())
 	{
 		m_vecPos = tVecPos;
@@ -293,6 +295,9 @@ void CPlayer_QuaterView::Collide(CObj* _pDst)
 
 bool CPlayer_QuaterView::Input_Move()
 {
+	if (m_bCommunication)
+		return false;
+
 	bool bIsPressed = false;
 	m_vecMoveDir = CVector2<int>::Zero();
 	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
@@ -373,10 +378,37 @@ bool CPlayer_QuaterView::Input_Move()
 
 bool CPlayer_QuaterView::Input_Jump()
 {
+	if (m_bCommunication)
+		return false;
+
 	if (m_bIsOnGround && CKeyMgr::Get_Instance()->Key_Pressing('S'))
 	{
 		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"toss_item.wav"), SOUND_EFFECT, 1.f);
 		m_vecSpeed.z = 3.f;
+	}
+
+	return false;
+}
+
+bool CPlayer_QuaterView::Input_Communication()
+{
+	if (CKeyMgr::Get_Instance()->Key_Down('A'))
+	{
+		auto tVecPos = m_vecPos;
+		m_vecPos.x += (float)m_vecDirection.x * 5.f;
+		m_vecPos.y -= (float)m_vecDirection.y * 2.5f;
+
+		auto objList = CVecCollisionMgr::Collision_PointToRhombus_Quater(CObjMgr::Get_Instance()->Get_ObjList(UNIT), this);
+		if (!objList.empty())
+		{
+			CCharacter_QuaterView* pChr = dynamic_cast<CCharacter_QuaterView*>(objList.front());
+
+			pChr->Commnication();
+
+			m_bCommunication = true;
+		}
+
+		m_vecPos = tVecPos;
 	}
 
 	return false;
@@ -404,6 +436,8 @@ void CPlayer_QuaterView::Stand(float fDeltaTime)
 	// ½ÇÇàºÎ
 	if (m_tState.Can_Update())
 	{
+		Input_Communication();
+
 		m_sAnimName = L"OVW_Rockman_Stand_" + m_sDirection;
 		Set_FrameKey(0, m_sAnimName.c_str());
 		CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0], true);

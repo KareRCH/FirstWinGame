@@ -61,6 +61,12 @@ private:
 	// [플레이어가 위치하는 씬 정보]
 	SCENEID m_eScene = SC_WORLD1;
 
+	// HP, 돈
+	GAUGE<int>		m_iHP = GAUGE<int>(100);
+	int				m_iMoney = 3000;
+
+
+
 private: // 엔카운트 데이터
 	FEncountData_ForTable m_EncountData;
 

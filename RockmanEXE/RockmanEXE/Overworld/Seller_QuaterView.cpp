@@ -1,4 +1,5 @@
 #include "Seller_QuaterView.h"
+
 #include <BmpMgr.h>
 #include <Manager/AnimationTable.h>
 
@@ -7,7 +8,7 @@ void CSeller_QuaterView::Initialize(void)
 	CCharacter_QuaterView::Initialize_QuaterChr();
 
 	// 현재 좌표 박스로 조정하기
-	m_vecBox = CVector3<float>(4.f, 4.f, 16.f);
+	m_vecBox = CVector3<float>(8.f, 8.f, 16.f);
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecPos.z = (m_vecBox.z - m_vecBoxPos.z);
 
