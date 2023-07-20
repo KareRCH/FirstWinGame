@@ -135,6 +135,7 @@ protected:	// 상태 관련
 	CVector2<int>		m_vecDirection;			// 주로 좌우 방향에 사용됩니다. y의 용도는 아직 없음.
 	CVector2<int>		m_vecMoveDir;			// 움직이는 방향을 설정할 때 사용됩니다.
 	bool m_bCommunication = false;
+	CCharacter_QuaterView* m_pCommunicator = nullptr;
 
 public:
 	CVector2<int> Get_Direction() { return m_vecDirection; }
@@ -146,7 +147,8 @@ public:
 	void Set_MoveDirection(int x, int y) { m_vecMoveDir.x = x; m_vecMoveDir.y = y; }
 
 	// 말을 걸때 실행할 함수
-	virtual void Commnication() {}
+	virtual void Commnication(CCharacter_QuaterView* pCommunicator) PURE;
+	virtual void Listen_Communication_End() PURE;
 #pragma endregion
 
 

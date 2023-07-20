@@ -74,5 +74,11 @@ private:
 	void		Defend(float fDeltaTime);
 #pragma endregion
 
+
+	// CCharacter_QuaterView을(를) 통해 상속됨
+	virtual void Commnication(CCharacter_QuaterView* pCommunicator) override;
+
+	virtual void Listen_Communication_End() override;
+
 };
 

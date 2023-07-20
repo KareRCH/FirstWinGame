@@ -35,7 +35,7 @@ void CAnimationTable::Initialize()
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal_Sword", L"1",
-		0, 0, 1, 0.25f,
+		0, 0, 4, 0.8f,
 		32, 32, 64, 64
 	);
 	Create_Animation(
@@ -50,7 +50,7 @@ void CAnimationTable::Initialize()
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal_Shoot_Cannon", L"1",
-		0, 0, 12, 0.5f,
+		0, 0, 8, 0.8f,
 		32, 32, 64, 64
 	);
 	Create_Animation(
@@ -70,7 +70,7 @@ void CAnimationTable::Initialize()
 	);
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal_Shoot_1", L"1",
-		0, 0, 1, 0.25f,
+		0, 0, 4, 0.85f,
 		32, 32, 64, 64
 	);
 	Create_Animation(
@@ -101,6 +101,16 @@ void CAnimationTable::Initialize()
 	Create_Animation(
 		L"NBT_Rockman_EXE_Normal_Crouch", L"1",
 		0, 0, 1, 0.25f,
+		32, 32, 64, 64
+	);
+	Create_Animation(
+		L"NBT_Rockman_EXE_Normal_Jump", L"1",
+		0, 0, 2, 0.9f,
+		32, 32, 64, 64
+	);
+	Create_Animation(
+		L"NBT_Rockman_EXE_Normal_Landing", L"1",
+		0, 0, 2, 0.8f,
 		32, 32, 64, 64
 	);
 #pragma endregion
@@ -862,6 +872,21 @@ void CAnimationTable::Initialize()
 		0, 0, 2, 0.25f,
 		0, 0, 25, 25
 	);
+	Create_Animation(
+		L"UI_TextBox_Opening", L"1",
+		0, 0, 3, 1.f,
+		0, 0, 256, 64
+	);
+	Create_Animation(
+		L"UI_TextBox_Opend", L"1",
+		0, 0, 1, 0.8f,
+		0, 0, 256, 64
+	);
+	Create_Animation(
+		L"UI_TextBox_Closing", L"1",
+		0, 0, 3, 1.f,
+		0, 0, 256, 64
+	);
 #pragma endregion
 #pragma region 타이틀
 	Create_Animation(
@@ -913,6 +938,73 @@ void CAnimationTable::Initialize()
 		L"OVW_Steel_Cube", L"1",
 		0, 0, 4, 0.5f,
 		27, 34, 53, 57
+	);
+#pragma endregion
+
+#pragma region VFX_Battle
+	Create_Animation(
+		L"NBT_Buster_Hit", L"1",
+		0, 0, 4, 1.f,
+		32, 32, 64, 64
+	);
+	Create_Animation(
+		L"NBT_ChargeBuster_Hit", L"1",
+		0, 0, 6, 0.9f,
+		20, 20, 40, 40
+	); 
+	Create_Animation(
+		L"VFX_Explosion_Vector", L"1",
+		0, 0, 6, 0.9f,
+		25, 34, 50, 50
+	);
+	Create_Animation(
+		L"VFX_Explosion_Normal", L"1",
+		0, 0, 6, 0.9f,
+		26, 29, 52, 52
+	);
+
+	Create_Animation(
+		L"NBT_Spell_Sword", L"1",
+		0, 0, 3, 0.75f,
+		20, 37, 74, 74
+	);
+	Create_Animation(
+		L"NBT_Spell_Wide_Sword", L"1",
+		0, 0, 3, 0.75f,
+		20, 37, 74, 74
+	);
+	Create_Animation(
+		L"NBT_Spell_Long_Sword", L"1",
+		0, 0, 3, 0.75f,
+		20, 37, 74, 74
+	);
+#pragma endregion
+
+#pragma region 초상
+	Create_Animation(
+		L"PTR_Lan", L"1",
+		0, 0, 1, 0.0f,
+		0, 0, 39, 47
+	);
+	Create_Animation(
+		L"PTR_Rockman", L"1",
+		0, 0, 1, 0.0f,
+		0, 0, 39, 47
+	);
+	Create_Animation(
+		L"PTR_Normal", L"1",
+		0, 0, 1, 0.0f,
+		0, 0, 39, 47
+	);
+	Create_Animation(
+		L"PTR_Famous", L"1",
+		0, 0, 1, 0.0f,
+		0, 0, 39, 47
+	);
+	Create_Animation(
+		L"PTR_Blastman", L"1",
+		0, 0, 1, 0.0f,
+		0, 0, 39, 47
 	);
 #pragma endregion
 

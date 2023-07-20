@@ -50,6 +50,7 @@ public:
 	void		Scroll_Lock();
 
 private:
+	GAUGE<float>			m_fShaking = GAUGE<float>(2.f, true);
 	static CScrollMgr*		m_pInstance;
 
 	float					m_fScrollX;
@@ -63,6 +64,6 @@ private:
 
 public:
 	void	Set_LockOn_Obj(CObj* value) { m_pLockOn_Obj = value;  }
-
+	void	Set_Shaking() { m_fShaking.Reset(); }
 };
 

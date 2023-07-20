@@ -14,5 +14,9 @@ public:
 	virtual void Render(HDC hDC)					override;
 	virtual void Release(void)						override;
 	virtual void Collide(CObj* _pDst)				override;
+
+public:
+	virtual void Commnication(CCharacter_QuaterView* pCommunicator) override;
+	virtual void Listen_Communication_End() override;
 };
 

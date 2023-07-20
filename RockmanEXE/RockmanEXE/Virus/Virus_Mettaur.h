@@ -36,9 +36,11 @@ private: // 가상 조작키
 
 
 public:	// 행동 상태머신
-	enum class STATE_ACT { IDLE, PRE_ATTACK, ATTACK, HIDING, HID, SHOWING, JUMP, LANDING };
+	enum class STATE_ACT { IDLE, PRE_ATTACK, ATTACK, HIDING, HID, SHOWING, JUMP, LANDING, DEAD };
 private: 
 	STATE_SET<STATE_ACT, void(CVirus_Mettaur*, float)> m_tState_Act;
+	DELAY<float>		m_fDead_Delay = DELAY<float>(1.f);
+	DELAY<float>		m_fExplosion_Delay = DELAY<float>(0.2f);
 
 	void Idle(float fDeltaTime);
 	void Prepare_Atk(float fDeltaTime);
@@ -48,14 +50,14 @@ private:
 	void Showing(float fDeltaTime);
 	void Jump(float fDeltaTime);
 	void Landing(float fDeltaTime);
-
+	void Dead(float fDeltaTime);
 
 
 public: // 목표 상태머신(AI)
 	enum class STATE_OBJ { IDLE, CHASE, ATTACK, HIDE, WAITING, JUMP };
 private: 
 	STATE_SET<STATE_OBJ, void(CVirus_Mettaur*, float)> m_tState_Obj;
-	DELAY<float>	m_fAction_Delay = DELAY<float>(1.f);
+	DELAY<float>	m_fAction_Delay = DELAY<float>(1.5f);
 
 	void Obj_Idle(float fDeltaTime);
 	void Obj_Chase(float fDeltaTime);
@@ -77,4 +79,7 @@ private:
 	void Apr_Disappear(float fDeltaTime);
 	void Apr_Visible(float fDeltaTime);
 
+
+private:
+	CCharacter_NetBattle* m_pTarget = nullptr;
 };

@@ -56,4 +56,10 @@ void CScrollMgr::Scroll_Lock()
 	if (m_fScrollY > m_iLockY - ROCKMAN_EXECY)
 		m_fScrollY = (float)(m_iLockY - ROCKMAN_EXECY);
 
+
+	if (!m_fShaking.Update(0.06f))
+	{
+		m_fScrollX = float((rand() % 10)) - 5.f;
+		m_fScrollY = float((rand() % 10)) - 5.f;
+	}
 }

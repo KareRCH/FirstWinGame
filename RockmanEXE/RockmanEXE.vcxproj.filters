@@ -247,6 +247,45 @@
     <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\03. Object\01. SteelCube">
       <UniqueIdentifier>{730f0322-fa17-406e-b99d-2c7539d81f6a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\04. VFX">
+      <UniqueIdentifier>{917344f0-6d9d-48d8-9d86-8e9216b57e98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\04. VFX\01. BusterHit">
+      <UniqueIdentifier>{42a110ce-1363-448d-9c70-a00f7d0f69d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\04. VFX\02. ChargeShotHit">
+      <UniqueIdentifier>{bf809ce8-7a42-4604-a6af-bbf3ecf48ed4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\04. VFX\03. Explosion_Vector">
+      <UniqueIdentifier>{b0764a70-2936-4253-8ad5-c374e6572676}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\04. VFX\04. Explosion_Normal">
+      <UniqueIdentifier>{655e77ce-4efb-4b5a-9bc1-450489071e92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\02. AirShot">
+      <UniqueIdentifier>{e88a9ce7-4b78-4844-b61b-071c881eeaed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\03. Sword">
+      <UniqueIdentifier>{33d14791-8a5f-4ed6-82dc-9c8835d64888}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\04. WideSword">
+      <UniqueIdentifier>{87949860-46ca-493f-a223-c7a49b20d867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\05. LongSword">
+      <UniqueIdentifier>{8e74ea98-97f4-4e86-b49c-89efc2acf1c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\06. Valcan">
+      <UniqueIdentifier>{97530579-2cee-42b7-8333-c74adb0f97d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\07. MiniBomb">
+      <UniqueIdentifier>{a7f660d1-ff56-45b1-80a5-692fe7b868e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\05. PostRender">
+      <UniqueIdentifier>{bd3f482e-ebb1-4425-a4dc-7eb501ac2c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\01. Blastman">
+      <UniqueIdentifier>{304703a6-4cf9-4d77-a387-088db831fe43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -453,6 +492,45 @@
     <ClInclude Include="RockmanEXE\Overworld\TextBox.h">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\03. UI</Filter>
     </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\VisualFX.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_ChargeBuster.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\02. ChargeBuster</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\Vfx_BusterHit.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\01. BusterHit</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\Vfx_ChargeShotHit.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\02. ChargeShotHit</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\Vfx_ExplosionVector.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\03. Explosion_Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_AirShot.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\02. AirShot</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_WideSword.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\04. WideSword</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_Sword.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\03. Sword</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Spell\Spell_LongSword.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\05. LongSword</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\PostRender_FadeInOut.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\05. PostRender</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\VFX\Vfx_ExplosionNormal.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\04. Explosion_Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Overworld\ChipShop.h">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
+    </ClInclude>
+    <ClInclude Include="RockmanEXE\Navi\Navi_Blastman.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Obj.cpp">
@@ -610,6 +688,45 @@
     </ClCompile>
     <ClCompile Include="RockmanEXE\Overworld\TextBox.cpp">
       <Filter>소스 파일\01. RockmanEXE\02. Obj\03. UI</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\VisualFX.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_ChargeBuster.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\00. Rockman\Spell\02. ChargeBuster</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\Vfx_BusterHit.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\01. BusterHit</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\Vfx_ChargeShotHit.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\02. ChargeShotHit</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\Vfx_ExplosionVector.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\03. Explosion_Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_AirShot.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\02. AirShot</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_WideSword.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\04. WideSword</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_Sword.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\03. Sword</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Spell\Spell_LongSword.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\02. NetBattle\01. Navi\Spell\05. LongSword</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\PostRender_FadeInOut.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\05. PostRender</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\VFX\Vfx_ExplosionNormal.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\04. VFX\04. Explosion_Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Overworld\ChipShop.cpp">
+      <Filter>소스 파일\01. RockmanEXE\02. Obj\01. Character\01. Overworld\02. Seller</Filter>
+    </ClCompile>
+    <ClCompile Include="RockmanEXE\Navi\Navi_Blastman.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

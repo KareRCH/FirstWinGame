@@ -202,10 +202,16 @@ public:
 
 #pragma region Ĩ
 protected:
-	list<FChipData_ForBattle> m_ChipData_List;
+	list<FChipData_ForBattle>	m_ChipData_List;
+	FChipData_ForBattle			m_UseChipData;
 public:
 	list<FChipData_ForBattle>* Get_ChipData_List() { return &m_ChipData_List; }
 
+	FChipData_ForBattle* Get_UseChipData() { return &m_UseChipData; }
+
+
+protected:
+	
 #pragma endregion
 
 

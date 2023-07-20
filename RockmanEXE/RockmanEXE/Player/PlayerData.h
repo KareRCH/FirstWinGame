@@ -53,6 +53,8 @@ public:
 	void FolderChip_Create(int iID, ECHIP_CODE eCode);
 	vector<FChipData_ForFolder>* Get_FolderDataList() { return &m_Folder_List; }
 
+	list<FChipData_ForPack>* Get_PackDataList() { return &m_Pack_List; }
+
 private:
 	// [플레이어 위치]
 	CVector3<float>	m_vecPlayerPos;
@@ -62,13 +64,20 @@ private:
 	SCENEID m_eScene = SC_WORLD1;
 
 	// HP, 돈
-	GAUGE<int>		m_iHP = GAUGE<int>(100);
+	GAUGE<int>		m_iHP = GAUGE<int>(100, true);
 	int				m_iMoney = 3000;
 
+public:
+	GAUGE<int> Get_HP() { return m_iHP; }
+	int Get_CurHP() { return m_iHP.Cur; }
+	void Set_CurHP(int value) { m_iHP.Cur = value; }
 
+	void Set_PlayerMoeny(int value) { m_iMoney = value; }
+	int Get_PlayerMoney() { return m_iMoney; }
 
 private: // 엔카운트 데이터
 	FEncountData_ForTable m_EncountData;
+	GAUGE<float>		m_fEncountGauge = GAUGE<float>(10.f);
 
 public:
 	void Set_PlayerPos(CVector3<float> value) { m_vecPlayerPos = value; }
@@ -82,5 +91,8 @@ public:
 
 	void Set_EncountData(FEncountData_ForTable value) { m_EncountData = value; }
 	FEncountData_ForTable* Get_EncountData() { return &m_EncountData; }
+
+	void Update_EncountGauge(float value) { m_fEncountGauge.Update(value); }
+	GAUGE<float>* Get_EncountGauge() { return &m_fEncountGauge; }
 };
 

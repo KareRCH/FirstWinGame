@@ -33,6 +33,8 @@ public:
 
 	void Parse_Frame(FRAME& tFrame)
 	{
+		tFrame.bLoop = true;
+		tFrame.bStop = false;
 		tFrame.iMotion = iMotionY;
 		tFrame.iFrameEnd = iMotionSize - 1;
 		tFrame.iFrameStart = iMotionX;
@@ -49,6 +51,8 @@ public:
 
 	void Parse_Frame_Maintain(FRAME& tFrame)
 	{
+		tFrame.bLoop = true;
+		tFrame.bStop = false;
 		tFrame.iMotion = iMotionY;
 		tFrame.iFrameEnd = iMotionSize - 1;
 		tFrame.iFrameStart = iMotionX;

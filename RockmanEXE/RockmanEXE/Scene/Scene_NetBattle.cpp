@@ -23,6 +23,7 @@ void CScene_NetBattle::Initialize()
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_back.png", L"BG_Back_1");
 
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_central_comp.png", L"BG_Central_Area");
+	
 
 	Add_Frame(L"BG_Central_Area");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", *Get_Frame());
@@ -64,16 +65,6 @@ void CScene_NetBattle::Render(HDC hDC)
 
 	float	iScrollX = CScrollMgr::Get_Instance()->Get_ScollX();
 	float	iScrollY = CScrollMgr::Get_Instance()->Get_ScollY();
-
-	/*if (CKeyMgr::Get_Instance()->Key_Pressing(VK_RIGHT))
-		CScrollMgr::Get_Instance()->Set_ScrollX(-5.f);
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_LEFT))
-		CScrollMgr::Get_Instance()->Set_ScrollX(5.f);
-
-	if (CKeyMgr::Get_Instance()->Key_Pressing(VK_DOWN))
-		CScrollMgr::Get_Instance()->Set_ScrollY(-5.f);
-	else if (CKeyMgr::Get_Instance()->Key_Pressing(VK_UP))
-		CScrollMgr::Get_Instance()->Set_ScrollY(5.f);*/
 
 	CScrollMgr::Get_Instance()->Scroll_Lock();
 

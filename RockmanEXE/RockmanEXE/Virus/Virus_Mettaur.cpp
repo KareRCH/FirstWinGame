@@ -5,6 +5,9 @@
 #include "ScrollMgr.h"
 
 #include "Spell/Spell_Shockwave.h"
+#include <Battle/BattleUnit_Factory.h>
+#include <VFX/Vfx_ExplosionVector.h>
+#include <VFX/Vfx_ExplosionNormal.h>
 
 CVirus_Mettaur::CVirus_Mettaur()
 {
@@ -52,6 +55,7 @@ void CVirus_Mettaur::Initialize(void)
 	m_tState_Act.Add_Func(STATE_ACT::SHOWING, &CVirus_Mettaur::Showing);
 	m_tState_Act.Add_Func(STATE_ACT::JUMP, &CVirus_Mettaur::Jump);
 	m_tState_Act.Add_Func(STATE_ACT::LANDING, &CVirus_Mettaur::Landing);
+	m_tState_Act.Add_Func(STATE_ACT::DEAD, &CVirus_Mettaur::Dead);
 #pragma endregion
 
 #pragma region 목표 상태머신 등록
@@ -86,8 +90,8 @@ void CVirus_Mettaur::Initialize(void)
 
 int CVirus_Mettaur::Update(float fDeltaTime)
 {
-	m_tState_Act.Get_StateFunc()(this, fDeltaTime);	// AI
-	m_tState_Obj.Get_StateFunc()(this, fDeltaTime);	// 행동
+	m_tState_Obj.Get_StateFunc()(this, fDeltaTime);	// AI
+	m_tState_Act.Get_StateFunc()(this, fDeltaTime);	// 행동
 	//m_tState_Apr.Get_StateFunc()(this, fDeltaTime);	// 등장
 
 	m_mapActionKey.Update();	// 액션키 초기화
@@ -113,9 +117,37 @@ void CVirus_Mettaur::Render(HDC hDC)
 	int iScrollX = (int)CScrollMgr::Get_Instance()->Get_ScollX();
 	int iScrollY = (int)CScrollMgr::Get_Instance()->Get_ScollY();
 
-	WCHAR text[100];
-	_stprintf_s(text, L"%i", m_iHP.Cur);
-	TextOutW(hDC, (int)m_vecPos.x - iScrollX, (int)m_vecPos.y - (int)m_vecPos.z - iScrollY, text, lstrlen(text));
+	INFO tInfo = {};
+	FRAME tFrame = {};
+	
+	tInfo.fY = m_vecPos.y + 4.f;
+	int i = m_iHP.Cur;
+	int iDigit = 0;
+	while (i > 0)
+	{
+		int iMod = i % 10;
+		i /= 10;
+		++iDigit;
+		if (i == 0)
+			break;
+	}
+
+	i = m_iHP.Cur;
+	tInfo.fX = m_vecPos.x + float(int((float)iDigit * 0.5f * 9.f));
+	while (i > 0)
+	{
+		int iMod = i % 10;
+		i /= 10;
+
+		tInfo.fX -= 9.f;
+		tFrame.iFrameCur = iMod;
+		tFrame.iFrameWidth = 12; tFrame.iFrameHeight = 12;
+		tFrame.iOffsetX = 2; tFrame.iOffsetY = 1;
+		CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, L"NBT_UI_Hp_Num", tInfo, tFrame, false);
+
+		if (i == 0)
+			break;
+	}
 }
 
 void CVirus_Mettaur::Release(void)
@@ -131,7 +163,10 @@ void CVirus_Mettaur::Collide(CObj* _pDst)
 		&& ERELATION_STATE::HOSTILE == ITeamAgent::Check_Relation(pChr, this))
 	{
 		if (m_iHP.Cur <= 0)
-			Set_Dead();
+		{
+			m_tState_Act.Set_State(STATE_ACT::DEAD);
+			m_bInvincible = true;
+		}
 	}
 }
 
@@ -192,14 +227,12 @@ void CVirus_Mettaur::Attack(float fDeltaTime)
 	{
 		Set_FrameKey(0, L"NBT_Mettaur_Attack");
 		CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);
-		m_mapActionKey[ACTION_KEY::ATTACKED].Act();
 	}
 
 	// 실행
 	{
-		if (Get_Frame(0).iFrameCur == 6 && m_mapActionKey[ACTION_KEY::ATTACKED].IsOnAct())
+		if (Get_Frame(0).IsFrameTick(6))
 		{
-			m_mapActionKey[ACTION_KEY::ATTACKED].Update();
 			auto vecTemp = m_vecPos;
 			vecTemp.x += (float)m_vecDirection.x * 39.f;
 			CSpell_Shockwave_Factory::Create((TEAM_ID)Get_TeamID(), vecTemp, m_vecDirection, 5.f, 1.f, 10);
@@ -328,6 +361,33 @@ void CVirus_Mettaur::Landing(float fDeltaTime)
 	}
 }
 
+void CVirus_Mettaur::Dead(float fDeltaTime)
+{
+	if (m_tState_Act.IsState_Entered())
+	{
+		Get_Frame(0).Set_Stop();
+	}
+
+	if (m_tState_Act.Can_Update())
+	{
+		if (m_fExplosion_Delay.Update(fDeltaTime, true))
+		{
+			CBattleUnit_Factory<CVfx_ExplosionNormal>::Create(TEAM_GAMMA, 
+				(m_vecPos + CVector3<float>(float((rand() % 16) - 8), float((rand() % 16) - 8), 0.f)), CVector2<int>(1, 1));
+		}
+
+		if (m_fDead_Delay.Update(fDeltaTime))
+		{
+			Set_Dead();
+		}
+	}
+
+	if (m_tState_Act.IsState_Exit())
+	{
+
+	}
+}
+
 
 
 /*
@@ -353,7 +413,7 @@ void CVirus_Mettaur::Obj_Idle(float fDeltaTime)
 		if (m_fAction_Delay.Update(fDeltaTime))
 		{
 			// 공격 상태로 변경
-			m_tState_Obj.Set_State(STATE_OBJ::ATTACK);
+			m_tState_Obj.Set_State(STATE_OBJ::CHASE);
 		}
 	}
 
@@ -365,23 +425,46 @@ void CVirus_Mettaur::Obj_Idle(float fDeltaTime)
 
 void CVirus_Mettaur::Obj_Chase(float fDeltaTime)
 {
+	if (m_tState_Obj.IsState_Entered())
+	{
+		m_fAction_Delay.Reset();
+
+		
+	}
+
+	if (m_tState_Obj.Can_Update())
+	{
+		// 조건
+		//if (m_fAction_Delay.Update(fDeltaTime))
+		{
+				m_tState_Obj.Set_State(STATE_OBJ::ATTACK);
+		}
+	}
+
+	if (m_tState_Obj.IsState_Exit())
+	{
+
+	}
 }
 
 void CVirus_Mettaur::Obj_Attack(float fDeltaTime)
 {
 	if (m_tState_Obj.IsState_Entered())
 	{
-
+		m_fAction_Delay.Reset();
 	}
 
 	if (m_tState_Obj.Can_Update())
 	{
 		// 공격 행동
-		m_mapActionKey[ACTION_KEY::ATTACK].Act();
+		if (m_tState_Act.IsOnState(STATE_ACT::IDLE))
+			m_mapActionKey[ACTION_KEY::ATTACK].Act();
 
 		// 조건
-		if (m_tState_Act.IsOnState(STATE_ACT::ATTACK))
+		if (m_tState_Act.IsOnState(STATE_ACT::ATTACK) && Get_Frame(0).IsFrameEnd())
+		{
 			m_tState_Obj.Set_State(STATE_OBJ::IDLE);
+		}
 	}
 
 	if (m_tState_Obj.IsState_Exit())

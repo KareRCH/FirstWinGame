@@ -20,7 +20,7 @@ void CSpell_Shockwave::Initialize(void)
 	const TCHAR* sCharacterDir = L"./RockmanEXE/Resource/battle/navi/spell/shockwave/";
 	lstrcpy(sText, sCharacterDir);
 	CBmpMgr::Get_Instance()->Insert_PNG(lstrcat(sText, L"vfx_shockwave.png"), L"NBT_Spell_Shockwave");
-	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"wave.wav"), SOUND_EFFECT, 1.f);
+	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"wave.wav"), SOUND_ENEMY, 1.f);
 
 	Set_FrameKey(0, L"NBT_Spell_Shockwave");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0]);

@@ -39,13 +39,13 @@ typedef struct tagInfo
 
 enum DIRECTION { LEFT, RIGHT, UP, DOWN, DIR_END };
 
-enum OBJID { SYSTEM, PANEL, TILE, PLAYER, BULLET, MONSTER, UNIT, SPELL, MOUSE, SHIELD, BUTTON, UI, OBJID_END };
+enum OBJID { SYSTEM, PANEL, TILE, PLAYER, BULLET, MONSTER, UNIT, SPELL, VFX, MOUSE, SHIELD, BUTTON, UI, OBJID_END };
 
 enum RENDERID { RENDER_BACKGROUND, RENDER_GAMEOBJECT, RENDER_EFFECT, RENDER_UI, RENDER_END };
 
 enum SCENEID { SC_LOGO, SC_MENU, SC_WORLD1, SC_EDIT, SC_STAGE, SC_END };
 
-enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SYSTEM_EFFECT, SOUND_EFFECT3, MAXCHANNEL };
+enum CHANNELID { SOUND_EFFECT, SOUND_BGM, SYSTEM_EFFECT, SOUND_PLAYER, SOUND_ENEMY, SOUND_VFX, MAXCHANNEL };
 
 enum CHANNEL_GROUP_ID { BGM_GROUP, SND1_GROUP, SND2_GROUP, MAX_CHANNEL_GROUP };
 
@@ -130,11 +130,12 @@ typedef struct tagLine
 // 이미지를 표시하기 위해 업그레이드 된 FRAME 구조체
 typedef struct tagFrame
 {
-	tagFrame() : bLoop(true), iFrameStart(), iFrameEnd(), iFrameCur(), iMotion(),
+	tagFrame() : bLoop(true), bStop(false), iFrameStart(), iFrameEnd(), iFrameCur(), iMotion(),
 		iFrameWidth(), iFrameHeight(), iOffsetX(), iOffsetY(), ulSpeed(), 
 		ulTime(GetTickCount64()), ulCurTime(GetTickCount64()), ulDelayTime(GetTickCount64()){}
 
 	bool			bLoop;
+	bool			bStop;
 
 	int				iFrameStart;	// 시작 프레임
 	int				iFrameEnd;		// 끝 프레임
@@ -152,6 +153,8 @@ typedef struct tagFrame
 	ULONGLONG		ulDelayTime;	// 딜레이 주는 시간
 
 	void Set_Loop(bool value) { bLoop = value; }
+	void Set_Stop() { bStop = true; }
+	void Set_Resume() { bStop = false; }
 	bool IsFrameEnd() { return (iFrameCur >= iFrameEnd); }
 	bool IsFrameTick(int value) { return ((iFrameCur == value) && (ulTime == ulCurTime)); }
 	bool IsFrameStart() { return (iFrameCur == 0); }
@@ -313,16 +316,21 @@ struct _DELAY
 {
 	static_assert(std::is_arithmetic<T>::value, "T는 원시 타입이어야만 합니다.");
 
-	T Max;
-	T Cur;
+public:
+	T Max, Cur;
+private:
+	T PrevCur;
 
-	_DELAY() : Max(T()), Cur(T()) {}
-	_DELAY(T _Max, bool bMax = false) : Max(_Max), Cur(T(T(bMax) * T(_Max))) {}
+
+public:
+	_DELAY() : Max(T()), Cur(T()), PrevCur(Cur) {}
+	_DELAY(T _Max, bool bMax = false) : Max(_Max), Cur(T(T(bMax) * T(_Max))), PrevCur(Cur){}
 	~_DELAY() {}
 
 	// 값 업데이트 및 맥스값 도달시 반환
 	bool Update(T increase, bool bAutoReset = false)
 	{
+		PrevCur = Cur;
 		Cur += increase;
 		if (Cur >= Max)
 		{
@@ -338,6 +346,7 @@ struct _DELAY
 
 	bool Update(T increase, T point, bool bAutoReset = false)
 	{
+		PrevCur = Cur;
 		Cur += increase;
 		if (Cur >= point)
 		{
@@ -362,6 +371,27 @@ struct _DELAY
 	{
 		Max = max;
 		Cur = T();
+	}
+
+	bool IsReach(T point)
+	{
+		return (Cur >= point);
+	}
+
+	// 증가값과 체크하고자 하는 값으로 한번만 지나갈 때를 체크합니다.
+	bool IsReach_Once(T point, T increase)
+	{
+		return (Cur >= point - increase * (T)0.5f && Cur < point + increase * (T)0.5f);
+	}
+
+	bool IsMax()
+	{
+		return (Cur >= Max);
+	}
+
+	bool IsMax_Once()
+	{
+		return (Cur >= Max && PrevCur != Cur);
 	}
 
 	float Get_Percent()
@@ -416,7 +446,7 @@ template<typename Key>
 class CMapAction_Updator
 {
 public:
-	void operator() (pair<Key, ACTION> Action)
+	void operator() (pair<const Key, ACTION>& Action)
 	{
 		Action.second.Update();
 	}

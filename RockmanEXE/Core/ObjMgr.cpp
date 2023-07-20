@@ -103,9 +103,7 @@ void CObjMgr::Render(HDC hDC)
 		return;
 
 	m_RenderList.sort([](CObj* pDst, CObj* pSrc) {
-			if (pDst->Get_RenderDepth() < pSrc->Get_RenderDepth())
-				return true;
-			return pDst->Get_Info().fY < pSrc->Get_Info().fY;
+			return ((pDst->Get_RenderDepth() <= pSrc->Get_RenderDepth()) && (pDst->Get_Info().fY < pSrc->Get_Info().fY));
 		});
 
 	for (auto& pObj : m_RenderList)

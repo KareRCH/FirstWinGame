@@ -99,7 +99,7 @@ protected:
 
 public:
 	vector<pair<const TCHAR*, FRAME>>& Get_FrameList() { return m_vFrame; }
-	int	Get_RenderDepth() { return m_iRenderDepth; }
+	int&	Get_RenderDepth() { return m_iRenderDepth; }
 
 public:
 	CObj* Get_Owner() { return m_pOwner; }

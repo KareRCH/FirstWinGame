@@ -8,6 +8,8 @@
 #include "SoundMgr.h"
 
 #include "Character/Character_NetBattle.h"
+#include "Battle/BattleUnit_Factory.h"
+#include "VFX/Vfx_BusterHit.h"
 
 void CSpell_Buster::Initialize(void)
 {
@@ -18,9 +20,7 @@ void CSpell_Buster::Initialize(void)
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecSpeed = CVector3<float>(39.f, 0.f, 0.f);
 
-	m_iAttack = 1;
-
-	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR *>(L"pew.wav"), SOUND_EFFECT, 1.f);
+	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR *>(L"pew.wav"), SOUND_VFX, 1.f);
 }
 
 int CSpell_Buster::Update(float fDeltaTime)
@@ -41,7 +41,7 @@ void CSpell_Buster::Late_Update(float fDeltaTime)
 
 void CSpell_Buster::Render(HDC hDC)
 {
-	CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
+	//CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos);
 }
 
 void CSpell_Buster::Release(void)
@@ -60,6 +60,8 @@ void CSpell_Buster::Collide(CObj* _pDst)
 			pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
 			pChr->Collide(this);
 			Set_Dead();
+
+			CBattleUnit_Factory<CVfx_BusterHit>::Create(TEAM_GAMMA, (m_vecPos + CVector3<float>(float(rand() % 4), float(rand() % 4), 0.f)), CVector2<int>(1, 1));
 		}
 	}
 }

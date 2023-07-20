@@ -20,17 +20,17 @@ void CPlayerData::Initialize()
 	FolderChip_Create(4, ECHIP_CODE::D);
 	FolderChip_Create(4, ECHIP_CODE::D);
 
-	FolderChip_Create(57, ECHIP_CODE::B);
-	FolderChip_Create(57, ECHIP_CODE::B);
-	FolderChip_Create(57, ECHIP_CODE::L);
-	FolderChip_Create(57, ECHIP_CODE::L);
+	FolderChip_Create(1, ECHIP_CODE::A);
+	FolderChip_Create(1, ECHIP_CODE::B);
+	FolderChip_Create(2, ECHIP_CODE::B);
+	FolderChip_Create(2, ECHIP_CODE::A);
 
 	FolderChip_Create(69, ECHIP_CODE::S);
 	FolderChip_Create(69, ECHIP_CODE::S);
-	FolderChip_Create(69, ECHIP_CODE::S);
-	FolderChip_Create(69, ECHIP_CODE::S);
 	FolderChip_Create(70, ECHIP_CODE::S);
 	FolderChip_Create(70, ECHIP_CODE::S);
+	FolderChip_Create(71, ECHIP_CODE::S);
+	FolderChip_Create(71, ECHIP_CODE::S);
 
 	FolderChip_Create(176, ECHIP_CODE::WILD_CARD);
 
@@ -39,8 +39,8 @@ void CPlayerData::Initialize()
 
 	FolderChip_Create(155, ECHIP_CODE::A);
 	FolderChip_Create(155, ECHIP_CODE::A);
-	FolderChip_Create(155, ECHIP_CODE::L);
-	FolderChip_Create(155, ECHIP_CODE::L);
+	FolderChip_Create(156, ECHIP_CODE::WILD_CARD);
+	FolderChip_Create(156, ECHIP_CODE::WILD_CARD);
 
 	FolderChip_Create(164, ECHIP_CODE::S);
 	FolderChip_Create(195, ECHIP_CODE::WILD_CARD);

@@ -24,6 +24,9 @@ void CScene_Central_Area::Initialize()
 	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/background/bg_central_comp.png", L"BG_Central_Area");
 	CBmpMgr::Get_Instance()->Insert_Bmp((sText + L"central_area_1.bmp").c_str(), L"BMP_Central_Area");
 	CBmpMgr::Get_Instance()->Insert_Bmp((sText + L"bg_central_area.bmp").c_str(), L"BMP_BG_Central_Area");
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/ui/ui_hp_bg.png", L"NBT_UI_Hp");
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/ui/hp_numset.png", L"NBT_UI_Hp_Num");
+	CBmpMgr::Get_Instance()->Insert_PNG(L"./RockmanEXE/Resource/battle/ui/gradient_numbers.png", L"NBT_UI_Gradient_Num");
 
 	Add_Frame(L"BMP_BG_Central_Area");
 	CAnimationTable::Get_Instance()->Load_AnimData(L"1", *Get_Frame());
@@ -55,13 +58,14 @@ void CScene_Central_Area::Update(float fDeltaTime)
 
 	CObjMgr::Get_Instance()->Update(fDeltaTime);
 
-	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
+	if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE) || CPlayerData::Get_Instance()->Get_EncountGauge()->IsMax())
 	{
 		CPlayerData::Get_Instance()->Set_EncountData(Get_RandomEncount());
 
 		CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"pre_battle.wav"), SYSTEM_EFFECT, 1.f);
 		for(int i = 0; i < OBJID::OBJID_END; ++i)
 			CObjMgr::Get_Instance()->Delete_ID((OBJID)i);
+		CPlayerData::Get_Instance()->Get_EncountGauge()->Reset();
 		CSceneMgr::Get_Instance()->Scene_Change(SC_STAGE);
 	}
 
@@ -107,16 +111,38 @@ void CScene_Central_Area::Render(HDC hDC)
 	// 오브젝트 그리기
 	CObjMgr::Get_Instance()->Render(hDC);
 
-	
+	{
+		tInfo.fX = 2.f; tInfo.fY = 2.f;
+		tFrame.iFrameWidth = 64; tFrame.iFrameHeight = 11;
+		CBmpMgr::Get_Instance()->Draw_PNG(hDC, L"NBT_UI_Hp", tInfo, tFrame, false);
+
+		tInfo.fX += 40.f; tInfo.fY += 3.f;
+		int i = CPlayerData::Get_Instance()->Get_CurHP();
+		while (i > 0)
+		{
+			int iMod = i % 10;
+			i /= 10;
+
+			tInfo.fX -= 8.f;
+			tFrame.iFrameCur = iMod;
+			tFrame.iFrameWidth = 10; tFrame.iFrameHeight = 12;
+			tFrame.iOffsetX = 2; tFrame.iOffsetY = 1;
+			CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, L"NBT_UI_Gradient_Num", tInfo, tFrame, false);
+		}
+
+		tFrame.iOffsetX = 0; tFrame.iOffsetY = 0;
+	}
+
+	SelectObject(hDC, g_hFonts[6]);
 
 	WCHAR text[40];
 	SetTextColor(hDC, DWORD(0x00222222));
-	_stprintf_s(text, L"%s", L"센트랄 에리어 1");
+	_stprintf_s(text, L"%s", L"쥬신 에리어");
 	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 1 + 8, ROCKMAN_EXECY - 16+1, text, lstrlen(text));
 
 	SetTextColor(hDC, DWORD(0x00BBBBBB));
 
-	_stprintf_s(text, L"%s", L"센트랄 에리어 1");
+	_stprintf_s(text, L"%s", L"쥬신 에리어");
 	TextOutW(hDC, ROCKMAN_EXECX - ((int)lstrlen(text)) * 16 + 8, ROCKMAN_EXECY - 16, text, lstrlen(text));
 }
 

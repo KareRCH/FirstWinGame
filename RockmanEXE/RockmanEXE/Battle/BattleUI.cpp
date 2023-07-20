@@ -97,6 +97,8 @@ void CBattleUI::Initialize()
 	// 숫자 셋
 	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"gradient_numbers.png").c_str(), L"NBT_UI_Gradient_Num");
 	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"hp_numset.png").c_str(), L"NBT_UI_Hp_Num");
+	// 속성
+	CBmpMgr::Get_Instance()->Insert_PNG((sText + L"attribute.png").c_str(), L"NBT_UI_Attribute");
 
 
 	Add_Frame(ANIM_KEY::CURSOR, L"NBT_UI_Cursor_Small");
@@ -169,7 +171,7 @@ void CBattleUI::Render(HDC hDC)
 		
 		tInfo.fX += 40.f; tInfo.fY += 3.f;
 		int i = m_iPlayerHP;
-		while(i > 0)
+		while(i >= 0)
 		{
 			int iMod = i % 10;
 			i /= 10;
@@ -179,6 +181,9 @@ void CBattleUI::Render(HDC hDC)
 			tFrame.iFrameWidth = 10; tFrame.iFrameHeight = 12;
 			tFrame.iOffsetX = 2; tFrame.iOffsetY = 1;
 			CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, L"NBT_UI_Gradient_Num", tInfo, tFrame, false);
+
+			if (i == 0)
+				break;
 		}
 
 		tFrame.iOffsetX = 0; tFrame.iOffsetY = 0;
@@ -234,7 +239,7 @@ void CBattleUI::Render(HDC hDC)
 					CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, false);
 
 					SetTextColor(hDC, DWORD(0x00DDDDDD));
-					SelectObject(hDC, g_hFonts[4]);
+					SelectObject(hDC, g_hFonts[5]);
 
 					wstring sCode = L"";
 
@@ -264,7 +269,7 @@ void CBattleUI::Render(HDC hDC)
 					CBmpMgr::Get_Instance()->Draw_PNG_Alpha(hDC, swString2.c_str(), tInfo, tFrame, 1, 1, 0.3f, false);
 
 					SetTextColor(hDC, DWORD(0x00DDDDDD));
-					SelectObject(hDC, g_hFonts[4]);
+					SelectObject(hDC, g_hFonts[5]);
 
 					wstring sCode = L"";
 
@@ -318,8 +323,55 @@ void CBattleUI::Render(HDC hDC)
 
 			CBmpMgr::Get_Instance()->Draw_PNG(hDC, swString2.c_str(), tInfo, tFrame, 0, 0, false);
 
+
+			// 칩 속성
+			int iAttribute = 0;
+			switch (m_LoadedChip_List[m_iCursorChip].first->eAttribute)
+			{
+			case EATTRIBUTE::NONE:
+				iAttribute = 10;
+				break;
+			case EATTRIBUTE::FIRE:
+				iAttribute = 0;
+				break;
+			case EATTRIBUTE::AQUA:
+				iAttribute = 1;
+				break;
+			case EATTRIBUTE::ELEC:
+				iAttribute = 2;
+				break;
+			case EATTRIBUTE::WOOD:
+				iAttribute = 3;
+				break;
+			case EATTRIBUTE::SWORD:
+				iAttribute = 4;
+				break;
+			case EATTRIBUTE::WIND:
+				iAttribute = 5;
+				break;
+			case EATTRIBUTE::CURSOR:
+				iAttribute = 6;
+				break;
+			case EATTRIBUTE::OBSTACLE:
+				iAttribute = 7;
+				break;
+			case EATTRIBUTE::PLUS:
+				iAttribute = 8;
+				break;
+			case EATTRIBUTE::BREAKING:
+				iAttribute = 9;
+				break;
+			}
+
+			INFO tAttribute_Info = {};
+			tAttribute_Info.fX = tInfo.fX + 11.f; tAttribute_Info.fY = tInfo.fY + 48.f;
+			tFrame.iFrameCur = iAttribute;
+			tFrame.iFrameWidth = 16; tFrame.iFrameHeight = 16;
+			CBmpMgr::Get_Instance()->Draw_PNG_Strip(hDC, L"NBT_UI_Attribute", tAttribute_Info, tFrame, false);
+
+
 			SetTextColor(hDC, DWORD(0x00EEEEEE));
-			SelectObject(hDC, g_hFonts[0]);
+			SelectObject(hDC, g_hFonts[6]);
 
 			// 칩 코드
 			wstring sCode = L"";
@@ -336,14 +388,16 @@ void CBattleUI::Render(HDC hDC)
 			_stprintf_s(text, L"%s", sCode.c_str());
 			TextOutW(hDC, (int)tInfo.fX, (int)tInfo.fY + 48, text, lstrlen(text));
 
-
 			// 칩 공격력
 			sCode = L"";
 			ssInt.str(L"");
 			ssInt << m_LoadedChip_List[m_iCursorChip].first->iDamage;
 
-			_stprintf_s(text, L"%s", (sCode + ssInt.str()).c_str());
-			TextOutW(hDC, (int)tInfo.fX + 54 - 8 * lstrlen(text), (int)tInfo.fY + 48, text, lstrlen(text));
+			if (m_LoadedChip_List[m_iCursorChip].first->iDamage > 0)
+			{
+				_stprintf_s(text, L"%s", (sCode + ssInt.str()).c_str());
+				TextOutW(hDC, (int)tInfo.fX + 54 - 8 * lstrlen(text), (int)tInfo.fY + 48, text, lstrlen(text));
+			}
 
 			// 칩 이름
 			sCode = CChipDataTable::Get_Instance()->Get_ChipData_ForFolder(
@@ -498,7 +552,7 @@ void CBattleUI::State_Update(float fDeltaTime)
 
 		if (m_tState.IsState_Exit())
 		{
-			CBattleMng::Get_Instance()->Set_State(CBattleMng::BATTLE_START);
+			CBattleMng::Get_Instance()->Set_State(CBattleMng::PRE_BATTLE);
 			m_tState_Custom.Set_State(STATE_CUSTOM::VISIBLE);
 			m_tState_BattleStart.Set_State(STATE_BATTLE_START::VISIBLE);
 		}
@@ -681,8 +735,6 @@ void CBattleUI::State_Update(float fDeltaTime)
 								}
 							}
 						}
-
-						
 					}
 				}
 			}
@@ -742,6 +794,43 @@ void CBattleUI::State_Update(float fDeltaTime)
 				}
 				// UI의 장착 칩 초기화
 				m_EquipChip_List.clear();
+			}
+			else if (CKeyMgr::Get_Instance()->Key_Down('S'))
+			{
+				// 취소
+				if (!m_EquipChip_List.empty())
+				{
+					auto iter = find_if(m_LoadedChip_List.begin(), m_LoadedChip_List.end(),
+						[this](pair<FChipData_ForBattle*, CHIP_SELECT>& pairChip) {
+							return (pairChip.first == m_EquipChip_List.back());
+						});
+
+					if (iter != m_LoadedChip_List.end())
+					{
+						m_EquipChip_List.pop_back();
+						(*iter).second = CHIP_SELECT::ABLE;
+						CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"card_cancel.wav"), SYSTEM_EFFECT, 1.f);
+
+						// 선택 후 선택되지 않은 칩들에 대해 코드와 ID 비교후 비활성화
+						// 맨 앞의 ID와 같거나 코드가 같아야 선택이 가능, WILD_CARD는 해당 없음
+						for (auto& Pair : m_LoadedChip_List)
+						{
+							if (Pair.second == CHIP_SELECT::DISABLED)
+							{
+								auto iter = find_if(m_EquipChip_List.begin(), m_EquipChip_List.end(),
+									[&Pair](auto& pChipData) {
+										return (Pair.first->eCode != pChipData->eCode
+											&& Pair.first->iID != pChipData->iID);
+									});
+
+								if (iter == m_EquipChip_List.end())
+								{
+									Pair.second = CHIP_SELECT::ABLE;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 

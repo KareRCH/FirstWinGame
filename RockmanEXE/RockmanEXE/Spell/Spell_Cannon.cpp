@@ -6,6 +6,9 @@
 #include "VecCollisionMgr.h"
 
 #include "Character/Character_NetBattle.h"
+#include "Battle/BattleUnit_Factory.h"
+#include <VFX/Vfx_ExplosionVector.h>
+#include <ScrollMgr.h>
 
 void CSpell_Cannon::Initialize(void)
 {
@@ -16,7 +19,7 @@ void CSpell_Cannon::Initialize(void)
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecSpeed = CVector3<float>(39.f, 0.f, 0.f);
 
-	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"cannon.wav"), SOUND_EFFECT, 1.f);
+	CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"cannon.wav"), SOUND_VFX, 1.f);
 }
 
 int CSpell_Cannon::Update(float fDeltaTime)
@@ -37,7 +40,7 @@ void CSpell_Cannon::Late_Update(float fDeltaTime)
 
 void CSpell_Cannon::Render(HDC hDC)
 {
-	CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos, 10);
+	//CBmpMgr::Get_Instance()->Draw_Text_Circle_Vec3(hDC, m_vecPos, 10);
 }
 
 void CSpell_Cannon::Release(void)
@@ -57,6 +60,9 @@ void CSpell_Cannon::Collide(CObj* _pDst)
 			pChr->Set_HP(pChr->Get_HP().Cur - m_iAttack);
 			pChr->Collide(this);
 			Set_Dead();
+
+			CScrollMgr::Get_Instance()->Set_Shaking();
+			CBattleUnit_Factory<CVfx_ExplosionVector>::Create(TEAM_GAMMA, (m_vecPos + CVector3<float>(float(rand() % 4), float(rand() % 4), 0.f)), CVector2<int>(1, 1));
 		}
 	}
 }

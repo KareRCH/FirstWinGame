@@ -2,13 +2,16 @@
 
 #include <BmpMgr.h>
 #include <Manager/AnimationTable.h>
+#include <AbstractFactory.h>
+#include "TextBox.h"
+#include "ChipShop.h"
 
 void CSeller_QuaterView::Initialize(void)
 {
 	CCharacter_QuaterView::Initialize_QuaterChr();
 
 	// 현재 좌표 박스로 조정하기
-	m_vecBox = CVector3<float>(8.f, 8.f, 16.f);
+	m_vecBox = CVector3<float>(10.f, 10.f, 16.f);
 	m_vecBoxPos = CVector3<float>(0.f, 0.f, 0.f);
 	m_vecPos.z = (m_vecBox.z - m_vecBoxPos.z);
 
@@ -56,4 +59,39 @@ void CSeller_QuaterView::Release(void)
 void CSeller_QuaterView::Collide(CObj* _pDst)
 {
 
+}
+
+void CSeller_QuaterView::Commnication(CCharacter_QuaterView* pCommunicator)
+{
+	CTextBox* pTextBox = CAbstractFactory<CTextBox>::Create();
+	PORTRAY_TEXT tString;
+	tString.Add_PortrayText(L"PTR_Normal", L"칩 상점인데 좀 보고 가시게 ");
+	pTextBox->Set_OriginText(tString);
+	m_pCommunicator = pCommunicator;
+	pTextBox->Set_Func_SendResult([this]() { this->Load_ChipShot(); });
+}
+
+void CSeller_QuaterView::Listen_Communication_End()
+{
+	if (m_pCommunicator)
+	{
+		m_pCommunicator->Listen_Communication_End();
+	}
+}
+
+void CSeller_QuaterView::Load_ChipShot()
+{
+	CChipShop* pChipShop = CAbstractFactory<CChipShop>::Create();
+	FChipData_ForShop tChip;
+	tChip.iID = 11;
+	tChip.eCode = ECHIP_CODE::WILD_CARD;
+	tChip.iCost = 1000;
+	pChipShop->Get_Chip_List()->push_back(tChip);
+
+	tChip.iID = 156;
+	tChip.eCode = ECHIP_CODE::WILD_CARD;
+	tChip.iCost = 1000;
+	pChipShop->Get_Chip_List()->push_back(tChip);
+
+	pChipShop->Set_Func_SendResult([this]() { this->Listen_Communication_End(); });
 }

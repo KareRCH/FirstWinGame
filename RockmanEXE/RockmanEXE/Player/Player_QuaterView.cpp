@@ -392,7 +392,7 @@ bool CPlayer_QuaterView::Input_Jump()
 
 bool CPlayer_QuaterView::Input_Communication()
 {
-	if (CKeyMgr::Get_Instance()->Key_Down('A'))
+	if (!m_bCommunication && CKeyMgr::Get_Instance()->Key_Down('A'))
 	{
 		auto tVecPos = m_vecPos;
 		m_vecPos.x += (float)m_vecDirection.x * 5.f;
@@ -403,7 +403,7 @@ bool CPlayer_QuaterView::Input_Communication()
 		{
 			CCharacter_QuaterView* pChr = dynamic_cast<CCharacter_QuaterView*>(objList.front());
 
-			pChr->Commnication();
+			pChr->Commnication(this);
 
 			m_bCommunication = true;
 		}
@@ -436,11 +436,11 @@ void CPlayer_QuaterView::Stand(float fDeltaTime)
 	// ½ÇÇàºÎ
 	if (m_tState.Can_Update())
 	{
-		Input_Communication();
-
 		m_sAnimName = L"OVW_Rockman_Stand_" + m_sDirection;
 		Set_FrameKey(0, m_sAnimName.c_str());
 		CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0], true);
+
+		Input_Communication();
 
 		if (Input_Move())
 		{
@@ -469,6 +469,10 @@ void CPlayer_QuaterView::Run(float fDeltaTime)
 		m_sAnimName = L"OVW_Rockman_Run_" + m_sDirection;
 		Set_FrameKey(0, m_sAnimName.c_str());
 		CAnimationTable::Get_Instance()->Load_AnimData(L"1", Get_FrameList()[0], true);
+
+		CPlayerData::Get_Instance()->Get_EncountGauge()->Update(fDeltaTime * float(rand() % 175) * 0.01f);
+
+		Input_Communication();
 
 		if (!Input_Move())
 		{
@@ -592,4 +596,14 @@ void CPlayer_QuaterView::Defend(float fDeltaTime)
 	{
 
 	}
+}
+
+void CPlayer_QuaterView::Commnication(CCharacter_QuaterView* pCommunicator)
+{
+
+}
+
+void CPlayer_QuaterView::Listen_Communication_End()
+{
+	m_bCommunication = false;
 }

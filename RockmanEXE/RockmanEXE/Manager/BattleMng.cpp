@@ -136,6 +136,9 @@ void CBattleMng::ReadyForGame(float fDeltaTime)
 		vecCreatePos.y = m_vvPanel_List[1][1]->Get_VecPos().y;
 		CNavi_Rockman* pCreated = CBattleUnit_Factory<CNavi_Rockman>::Create(TEAM_ALPHA, vecCreatePos, CVector2<int>(1, 1));
 		m_pPlayer = pCreated;
+		m_pPlayer->Set_ResetHP(CPlayerData::Get_Instance()->Get_HP().Max);
+		m_pPlayer->Set_HP(CPlayerData::Get_Instance()->Get_CurHP());
+		CBattleUI::Get_Instance()->Set_PlayerHP(m_pPlayer->Get_HP().Cur);
 
 
 		// [여기에 로드된 플레이어의 칩 카운트를 넣어주세요]
@@ -243,7 +246,28 @@ void CBattleMng::PreBattle(float fDeltaTime)
 
 	}
 
-	m_tState.Set_State(STATE::BATTLE_START);
+	if (m_tState.Can_Update())
+	{
+		auto pListChip = m_pPlayer->Get_ChipData_List();
+		auto iterPrev = pListChip->end();
+		// 장착된 칩 데이터
+		for (auto iter = pListChip->begin(); iter != pListChip->end();)
+		{
+			// 어택 + 10
+			if ((*iter).iID == 195 && iterPrev != pListChip->end() &&
+				(*iterPrev).iID != 155 && (*iterPrev).iID != 195)
+			{
+				(*iterPrev).iDamage += (*iter).iDamage;
+				iter = pListChip->erase(iter);
+			}
+			else
+			{
+				iterPrev = iter++;
+			}
+		}
+
+		m_tState.Set_State(STATE::BATTLE_START);
+	}
 
 	if (m_tState.IsState_Exit())
 	{
@@ -281,17 +305,14 @@ void CBattleMng::BattleProcess(float fDeltaTime)
 		{
 			rObj->Set_Resume();
 		}
-
-		m_bTurnGauge_Sound = true;
 	}
 
 	
  	if (m_fTurn_Gauge.Update(fDeltaTime))
 	{
-		if (m_bTurnGauge_Sound)
+		if (m_fTurn_Gauge.IsMax_Once())
 		{
 			CSoundMgr::Get_Instance()->Play_Sound(const_cast<TCHAR*>(L"custom_bar_full.wav"), SYSTEM_EFFECT, 1.f);
-			m_bTurnGauge_Sound = false;
 		}
 		if (CKeyMgr::Get_Instance()->Key_Down(VK_SPACE))
 			m_tState.Set_State(STATE::CHIP_SELECT);
